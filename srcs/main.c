@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 15:59:07 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/15 18:14:50 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/15 22:20:04 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@
 #include <readline/history.h>
 #include <termios.h>
 
-void	signal_c(void)
+void	signal_c(int signal)
 {
-	write(1, "MochaShell$ \n", 15);
+	if (signal == SIGINT)
+		write(1, "MochaShell$ \n", 15);
 	// 현재까지 입력된 문자열을 str로 바꿔주는 함력
 	// 프롬포트를 입력하지 않고 새로운 프롬포트 출력할 때, 프롬포트 비워주기
 	rl_replace_line("", 1);
