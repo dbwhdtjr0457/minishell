@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 15:59:07 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/15 22:20:04 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/15 22:52:56 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,9 @@ void	signal_setting(void)
 
 int	main(int ac, char **av, char **envp)
 {
-	char	*line;
-	struct termios term;
+	char			*line;
+	struct termios	term;
+	t_token			*parsed;
 
 	tcgetattr(STDIN_FILENO, &term);
 	term.c_lflag &= ~(ECHOCTL);
@@ -62,6 +63,8 @@ int	main(int ac, char **av, char **envp)
 		else
 		{
 			add_history(line);
+			parsed = parsing(line);
+			(void)parsed;
 			free(line);
 		}
 	}

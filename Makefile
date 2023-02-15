@@ -10,13 +10,14 @@ OBJ_FLAGS 		=	-I ${HOME}/.brew/opt/readline/include
 LIBFT			=	./libft/libft.a
 
 SRCS_DIR		=	./srcs
-SRCS_FILES		=	main.c
+SRCS_FILES		=	main.c \
+					parse.c
 SRCS			=	$(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
 OBJS			=	$(SRCS:.c=.o)
 
 $(NAME):		$(OBJS)
-				make -C ./libft
+				make bonus -C ./libft
 				$(CC) $(CFLAGS) $(COMFILE_FLAGS) -o $(NAME) $(OBJS) $(LIBFT)
 
 %.o: %.c
