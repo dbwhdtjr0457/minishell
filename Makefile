@@ -1,23 +1,26 @@
 NAME			=	minishell
 
+CC				=	cc
+RM				=	rm -f
+CFLAGS			=	-Wall -Wextra -Werror
+
+COMFILE_FLAGS 	=	-l readline -L ${HOME}/.brew/opt/readline/lib
+OBJ_FLAGS 		=	-I ${HOME}/.brew/opt/readline/include
+
+LIBFT			=	./libft/libft.a
+
 SRCS_DIR		=	./srcs
 SRCS_FILES		=	main.c
 SRCS			=	$(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
-LIBFT			=	./libft/libft.a
-
 OBJS			=	$(SRCS:.c=.o)
-
-CC				=	cc
-
-RM				=	rm -f
-
-CFLAGS			=	-Wall -Wextra -Werror
-
 
 $(NAME):		$(OBJS)
 				make -C ./libft
-				$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
+				$(CC) $(CFLAGS) $(COMFILE_FLAGS) -o $(NAME) $(OBJS) $(LIBFT)
+
+%.o: %.c
+				$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
 
 all:			$(NAME)
 
