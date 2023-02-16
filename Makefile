@@ -1,5 +1,14 @@
 NAME			=	minishell
 
+CC				=	cc
+RM				=	rm -f
+CFLAGS			=	-Wall -Wextra -Werror
+
+COMFILE_FLAGS 	=	-l readline -L ${HOME}/.brew/opt/readline/lib
+OBJ_FLAGS 		=	-I ${HOME}/.brew/opt/readline/include
+
+LIBFT			=	./libft/libft.a
+
 SRCS_DIR		=	./srcs
 SRCS_FILES		=	main.c \
 					parse.c \
@@ -10,21 +19,12 @@ LIBFT			=	./libft/libft.a
 
 OBJS			=	$(SRCS:.c=.o)
 
-CC				=	cc
-RM				=	rm -f
-CFLAGS			=	-Wall -Wextra -Werror
-
-COMFILE_FLAGS 	=	-l readline -L ${HOME}/.brew/opt/readline/lib
-OBJ_FLAGS 		=	-I ${HOME}/.brew/opt/readline/include
-
-LIBFT			=	./libft/libft.a
+%.o: %.c
+				$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
 
 $(NAME):		$(OBJS)
 				make bonus -C ./libft
 				$(CC) $(CFLAGS) $(COMFILE_FLAGS) -o $(NAME) $(OBJS) $(LIBFT)
-
-%.o: %.c
-				$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
 
 all:			$(NAME)
 

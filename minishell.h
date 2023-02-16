@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/16 14:13:11 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/16 14:20:02 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <sys/ioctl.h>
 # include <dirent.h>
 # include <errno.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <termios.h>
 # include <term.h>
 
