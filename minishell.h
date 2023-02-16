@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/16 03:57:39 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/16 14:20:02 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <sys/ioctl.h>
 # include <dirent.h>
 # include <errno.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <termios.h>
 # include <term.h>
 
@@ -39,5 +41,24 @@ typedef struct s_env
 
 // make_env.c
 void			make_env(t_list **env, char **envp);
+
+# define WORD_TOKEN		1
+# define CMD_TOKEN 		2
+# define OPT_TOKEN		3
+# define ARG_TOKEN		4
+# define PIPE_TOKEN		5
+# define REDIR_TOKEN	6
+# define SPACE_TOKEN	7
+# define QUOTE_TOKEN	8
+# define DOLLAR_TOKEN	9
+
+typedef struct s_token{
+	int				type;
+	char			context;
+	struct s_token	*next;
+}	t_token;
+
+// parse.c
+t_token	*parsing(char *line);
 
 #endif
