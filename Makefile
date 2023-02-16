@@ -11,8 +11,9 @@ LIBFT			=	./libft/libft.a
 
 SRCS_DIR		=	./srcs
 SRCS_FILES		=	main.c \
-					parse.c \
-					make_env.c
+					free.c \
+					make_env.c \
+					parse.c
 SRCS			=	$(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
 LIBFT			=	./libft/libft.a

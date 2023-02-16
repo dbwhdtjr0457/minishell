@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/16 14:22:46 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/16 15:08:23 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	signal_setting(void)
 	signal(SIGINT, signal_c);
 	signal(SIGQUIT, SIG_IGN);
 }
+
 void	ft_lstprint(void *content)
 {
 	char	**tmp;
@@ -47,13 +48,13 @@ int	main(int ac, char **av, char **envp)
 	char			*line;
 	struct termios	term;
 	t_token			*parsed;
-	//t_list			*env;
+	t_list			*env;
 
 	tcgetattr(STDIN_FILENO, &term);
 	term.c_lflag &= ~(ECHOCTL);
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 	signal_setting();
-	//make_env(&env, envp);
+	make_env(&env, envp);
 	while (1)
 	{
 		line = readline("MochaShell$ ");
@@ -77,6 +78,5 @@ int	main(int ac, char **av, char **envp)
 	}
 	(void)ac;
 	(void)av;
-	(void)envp;
 	return (0);
 }

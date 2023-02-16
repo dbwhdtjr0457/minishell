@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/16 14:20:02 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/16 15:04:45 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,6 @@
 
 # define PROMPT "minishell$ "
 
-typedef struct s_env
-{
-	char		*key;
-	char		*value;
-}				t_env;
-
-// make_env.c
-void			make_env(t_list **env, char **envp);
-
 # define WORD_TOKEN		1
 # define CMD_TOKEN 		2
 # define OPT_TOKEN		3
@@ -52,11 +43,23 @@ void			make_env(t_list **env, char **envp);
 # define QUOTE_TOKEN	8
 # define DOLLAR_TOKEN	9
 
+typedef struct s_env
+{
+	char		*key;
+	char		*value;
+}	t_env;
+
 typedef struct s_token{
 	int				type;
 	char			context;
 	struct s_token	*next;
 }	t_token;
+
+// free.c
+void	free_split(char **split);
+
+// make_env.c
+void	make_env(t_list **env, char **envp);
 
 // parse.c
 t_token	*parsing(char *line);
