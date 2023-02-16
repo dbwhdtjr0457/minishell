@@ -1,7 +1,8 @@
 NAME			=	minishell
 
 SRCS_DIR		=	./srcs
-SRCS_FILES		=	main.c
+SRCS_FILES		=	main.c \
+					make_env.c
 SRCS			=	$(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
 LIBFT			=	./libft/libft.a
@@ -16,8 +17,8 @@ CFLAGS			=	-Wall -Wextra -Werror
 
 
 $(NAME):		$(OBJS)
-				make -C ./libft
-				$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
+				make bonus -C ./libft
+				$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -L./libft -lft
 
 all:			$(NAME)
 
