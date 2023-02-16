@@ -3,15 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
+<<<<<<< HEAD
 /*   Created: 2023/02/15 15:59:07 by jihylim           #+#    #+#             */
 /*   Updated: 2023/02/15 22:52:56 by jihylim          ###   ########.fr       */
+=======
+/*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
+/*   Updated: 2023/02/16 04:45:32 by joyoo            ###   ########.fr       */
+>>>>>>> 70f091ac049de10a5ddd1086d63bb337f3e08dbf
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+<<<<<<< HEAD
 // 이거 없으면 readline 불러올 때 error: unknown type name 'FILE' 발생
 #include <stdio.h>
 #include <readline/readline.h>
@@ -36,17 +42,30 @@ void	signal_setting(void)
 	signal(SIGINT, signal_c);
 	signal(SIGQUIT, SIG_IGN);
 }
+void	ft_lstprint(void *content)
+{
+	char	**tmp;
+
+	tmp = (char **)content;
+	write(1, tmp[0], ft_strlen(tmp[0]));
+	write(1, "=", 1);
+	write(1, tmp[1], ft_strlen(tmp[1]));
+	write(1, "\n", 1);
+}
 
 int	main(int ac, char **av, char **envp)
 {
+
 	char			*line;
 	struct termios	term;
 	t_token			*parsed;
+	t_list	*env;
 
 	tcgetattr(STDIN_FILENO, &term);
 	term.c_lflag &= ~(ECHOCTL);
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 	signal_setting();
+	make_env(&env, envp);
 	while (1)
 	{
 		line = readline("MochaShell$ ");

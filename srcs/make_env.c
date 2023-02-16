@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
+/*   make_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/14 14:55:22 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/16 04:37:05 by joyoo            ###   ########.fr       */
+/*   Created: 2023/02/16 03:55:09 by joyoo             #+#    #+#             */
+/*   Updated: 2023/02/16 04:46:12 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	make_env(t_list **env, char **envp)
 {
-	if (!*lst)
-		*lst = new;
-	else
-		ft_lstlast(*lst)->next = new;
+	int		i;
+	char	**tmp;
+
+	i = 0;
+	while (envp[i])
+	{
+		tmp = ft_split(envp[i], '=');
+		ft_lstadd_back(env, ft_lstnew(tmp));
+		i++;
+	}
 }
