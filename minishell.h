@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/16 15:04:45 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/16 21:13:29 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,18 @@
 
 # define PROMPT "minishell$ "
 
-# define WORD_TOKEN		1
-# define CMD_TOKEN 		2
-# define OPT_TOKEN		3
-# define ARG_TOKEN		4
-# define PIPE_TOKEN		5
-# define REDIR_TOKEN	6
-# define SPACE_TOKEN	7
-# define QUOTE_TOKEN	8
-# define DOLLAR_TOKEN	9
+enum e_token{
+	QUOTE_DOUBLE = 0,
+	QUOTE_SINGLE,
+	REDIR_LL,
+	REDIR_L,
+	REDIR_RR,
+	REDIR_R,
+	PIPE_TOKEN,
+	SPACE_TOKEN,
+	DOLLAR_TOKEN,
+	WORD_TOKEN
+};
 
 typedef struct s_env
 {
@@ -51,8 +54,7 @@ typedef struct s_env
 
 typedef struct s_token{
 	int				type;
-	char			context;
-	struct s_token	*next;
+	char			**context;
 }	t_token;
 
 // free.c
@@ -62,6 +64,6 @@ void	free_split(char **split);
 void	make_env(t_list **env, char **envp);
 
 // parse.c
-t_token	*parsing(char *line);
+t_list	*parsing(char *line);
 
 #endif
