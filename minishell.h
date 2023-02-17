@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/16 21:13:29 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/17 14:21:01 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define PROMPT "minishell$ "
 
 enum e_token{
-	QUOTE_DOUBLE = 0,
+	QUOTE_DOUBLE = 1,
 	QUOTE_SINGLE,
 	REDIR_LL,
 	REDIR_L,
