@@ -4,7 +4,7 @@ CC				=	cc
 RM				=	rm -f
 CFLAGS			=	-Wall -Wextra -Werror
 
-COMFILE_FLAGS 	=	-l readline -L ${HOME}/.brew/opt/readline/lib
+COMFILE_FLAGS 		=	-l readline -L ${HOME}/.brew/opt/readline/lib
 OBJ_FLAGS 		=	-I ${HOME}/.brew/opt/readline/include
 
 LIBFT			=	./libft/libft.a

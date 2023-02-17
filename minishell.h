@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/17 14:21:01 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/17 16:33:12 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,16 @@ void	make_env(t_list **env, char **envp);
 
 // parse.c
 t_list	*parsing(char *line);
+
+//builtin.c
+int		ft_echo(t_list *parsed);
+int		ft_cd(t_list *parsed, t_list **env);
+
+//minishell.c
+int		minishell(t_list *parsed, t_list **env);
+
+// get_set_env.c
+char	*get_env(t_list *env, char *key);
+int		set_env(t_list **env, char *key, char *value);
 
 #endif
