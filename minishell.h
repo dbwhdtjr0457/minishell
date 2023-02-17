@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/17 16:33:12 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/17 23:31:07 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ enum e_token{
 	PIPE_TOKEN,
 	SPACE_TOKEN,
 	DOLLAR_TOKEN,
+	SLASH_TOKEN,
 	WORD_TOKEN
 };
 
@@ -54,7 +55,7 @@ typedef struct s_env
 
 typedef struct s_token{
 	int				type;
-	char			**context;
+	char			*context;
 }	t_token;
 
 // free.c
