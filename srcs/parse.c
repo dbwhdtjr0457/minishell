@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/16 21:34:41 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/17 16:21:16 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,10 @@ int	is_word(char c)
 void	lexer(const char *line, int *arr)
 {
 	int	i;
-	int	j;
 
 	i = 0;
 	while (line[i])
 	{
-		j = 0;
 		if (line[i] == '\"')
 			arr[i] = QUOTE_DOUBLE;
 		else if(line[i] == '\'')
