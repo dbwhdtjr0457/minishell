@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/17 16:23:45 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/18 16:01:15 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	signal_setting(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	ft_lstprint(void *content)
+void	ft_lstprint_input(void *content)
 {
 	t_token	*token;
 	int		i;
@@ -46,39 +46,51 @@ void	ft_lstprint(void *content)
 	}
 }
 
+void	ft_lstprint_env(void *content)
+{
+	char **tmp;
+
+	tmp = (char **)content;
+	printf("%s=%s\n", tmp[0], tmp[1]);
+}
+
 t_list	*test_parsing(void)
 {
 	t_list	*test;
 	t_token	*token;
 
 	test = 0;
-	token = (t_token *)malloc(sizeof(t_token));
-	token->type = REDIR_L;
-	token->context = ft_split("<", ' ');
-	ft_lstadd_back(&test, ft_lstnew(token));
+	// token = (t_token *)malloc(sizeof(t_token));
+	// token->type = REDIR_L;
+	// token->context = ft_split("<", ' ');
+	// ft_lstadd_back(&test, ft_lstnew(token));
+	// token = (t_token *)malloc(sizeof(t_token));
+	// token->type = WORD_TOKEN;
+	// token->context = ft_split("infile", ' ');
+	// ft_lstadd_back(&test, ft_lstnew(token));
+	// token = (t_token *)malloc(sizeof(t_token));
+	// token->type = WORD_TOKEN;
+	// token->context = ft_split("cat", ' ');
+	// ft_lstadd_back(&test, ft_lstnew(token));
+	// token = (t_token *)malloc(sizeof(t_token));
+	// token->type = PIPE_TOKEN;
+	// token->context = ft_split("|", ' ');
+	// ft_lstadd_back(&test, ft_lstnew(token));
+	// token = (t_token *)malloc(sizeof(t_token));
+	// token->type = WORD_TOKEN;
+	// token->context = ft_split("ls -al", ' ');
+	// ft_lstadd_back(&test, ft_lstnew(token));
+	// token = (t_token *)malloc(sizeof(t_token));
+	// token->type = REDIR_R;
+	// token->context = ft_split(">", ' ');
+	// ft_lstadd_back(&test, ft_lstnew(token));
+	// token = (t_token *)malloc(sizeof(t_token));
+	// token->type = WORD_TOKEN;
+	// token->context = ft_split("outfile", ' ');
+	// ft_lstadd_back(&test, ft_lstnew(token));
 	token = (t_token *)malloc(sizeof(t_token));
 	token->type = WORD_TOKEN;
-	token->context = ft_split("infile", ' ');
-	ft_lstadd_back(&test, ft_lstnew(token));
-	token = (t_token *)malloc(sizeof(t_token));
-	token->type = WORD_TOKEN;
-	token->context = ft_split("cat", ' ');
-	ft_lstadd_back(&test, ft_lstnew(token));
-	token = (t_token *)malloc(sizeof(t_token));
-	token->type = PIPE_TOKEN;
-	token->context = ft_split("|", ' ');
-	ft_lstadd_back(&test, ft_lstnew(token));
-	token = (t_token *)malloc(sizeof(t_token));
-	token->type = WORD_TOKEN;
-	token->context = ft_split("ls -al", ' ');
-	ft_lstadd_back(&test, ft_lstnew(token));
-	token = (t_token *)malloc(sizeof(t_token));
-	token->type = REDIR_R;
-	token->context = ft_split(">", ' ');
-	ft_lstadd_back(&test, ft_lstnew(token));
-	token = (t_token *)malloc(sizeof(t_token));
-	token->type = WORD_TOKEN;
-	token->context = ft_split("outfile", ' ');
+	token->context = ft_split("pwd", ' ');
 	ft_lstadd_back(&test, ft_lstnew(token));
 	return (test);
 }
@@ -114,9 +126,11 @@ int	main(int ac, char **av, char **envp)
 			add_history(line);
 			parsed = parsing(line);
 			(void)parsed;
-			// parsed = test_parsing();
-			// ft_lstiter(parsed, ft_lstprint);
+			parsed = test_parsing();
+			// ft_lstiter(parsed, ft_lstprint_input);
+			execute(parsed, &env);
 			free(line);
+			ft_lstclear(&parsed, free);
 		}
 	}
 	(void)ac;

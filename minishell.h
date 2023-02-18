@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/17 14:41:07 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/18 15:18:42 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,14 @@ int		minishell(t_list *parsed, t_list **env);
 // get_set_env.c
 char	*get_env(t_list *env, char *key);
 int		set_env(t_list **env, char *key, char *value);
+
+// execute.c
+int		split_size(char **split);
+int		execute(t_list *parsed, t_list **env);
+
+// builtin_1.c
+int		ft_echo(t_list *parsed);
+int		ft_pwd(t_list *parsed);
+int		ft_env(t_list *parsed, t_list *env);
 
 #endif
