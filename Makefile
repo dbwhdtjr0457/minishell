@@ -12,6 +12,7 @@ LIBFT			=	./libft/libft.a
 SRCS_DIR		=	./srcs
 SRCS_FILES		=	main.c \
 					free.c \
+					lexer.c \
 					make_env.c \
 					execute.c \
 					builtin_1.c \
