@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 16:16:22 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/18 16:51:02 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	main(int ac, char **av, char **envp)
 		else
 		{
 			add_history(line);
-			parsed = parsing(line);
+			parsed = parsing(line, env);
 			(void)parsed;
 			// parsed = test_parsing();
 			// ft_lstiter(parsed, ft_lstprint);

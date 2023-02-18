@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 16:16:05 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/18 16:57:45 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ enum e_token{
 	REDIR_R,
 	PIPE_TOKEN,
 	SPACE_TOKEN,
-	DOLLAR_TOKEN,
 	SLASH_TOKEN,
 	WORD_TOKEN
 };
@@ -66,14 +65,18 @@ typedef struct s_token{
 // free.c
 void	free_split(char **split);
 
+// parsing 
 // lexer.c
 void	lexer(const char *line, int *arr);
 
+// parse.c
+t_list	*parsing(char *line, t_list *env);
+
+// token_list.c
+void	token_list(t_list **split_word, char *line, int *arr);
+
 // make_env.c
 void	make_env(t_list **env, char **envp);
-
-// parse.c
-t_list	*parsing(char *line);
 
 //builtin.c
 int		ft_echo(t_list *parsed);
