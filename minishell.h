@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 15:14:25 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/18 16:16:05 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,15 @@ typedef struct s_env
 	char	*value;
 }	t_env;
 
+typedef struct s_split{
+	int		type;
+	char	**split;
+}	t_split;
+
 typedef struct s_token{
 	int		type;
-	char	**context;
+	char	*token;
 }	t_token;
-
-typedef struct s_word{
-	int		type;
-	char	*context;
-}	t_word;
 
 // free.c
 void	free_split(char **split);

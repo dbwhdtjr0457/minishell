@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 15:33:49 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/18 16:17:12 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,27 @@
 
 // parsing 문법 체크
 
-t_word	*new_word(char *context, int type)
+t_token	*new_word(char *token, int type)
 {
-	t_word	*new;
+	t_token	*new;
 
-	new = (t_word *)malloc(sizeof(t_token));
+	new = (t_token *)malloc(sizeof(t_split));
 	if (!new)
 		return (0);
-	new->context = context;
+	new->token = token;
 	new->type = type;
 	return (new);
 }
 
 void	print_word_in_list(void *content)
 {
-	t_word	*word;
+	t_token	*word;
 
-	word = (t_word *)content;
-	printf("context: %s type : %d\n", word->context, word->type);
+	word = (t_token *)content;
+	printf("token: %s type : %d\n", word->token, word->type);
 }
 
-t_word	*split_space_quote(char *line, int *arr, int *i)
+t_token	*split_space_quote(char *line, int *arr, int *i)
 {
 	int		start;
 	int		type;
@@ -74,7 +74,7 @@ t_word	*split_space_quote(char *line, int *arr, int *i)
 void	word_lst(t_list **split_word, char *line, int *arr)
 {
 	int		i;
-	t_word	*word;
+	t_token	*word;
 
 	i = 0;
 	*split_word = 0;
@@ -82,7 +82,7 @@ void	word_lst(t_list **split_word, char *line, int *arr)
 	{
 		word = split_space_quote(line, arr, &i);
 		ft_lstadd_back(split_word, ft_lstnew(word));
-		free(word->context);
+		free(word->token);
 		i++;
 	}
 }

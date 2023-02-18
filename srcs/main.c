@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 15:37:41 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/18 16:16:22 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ void	signal_setting(void)
 
 void	ft_lstprint(void *content)
 {
-	t_token	*token;
+	t_split	*token;
 	int		i;
 
- 	token = (t_token *)content;
+ 	token = (t_split *)content;
 	printf("type: %d\n", token->type);
 	i = 0;
-	while (token->context[i])
+	while (token->split[i])
 	{
-		printf("context[i]: %s\n", token->context[i]);
+		printf("context[i]: %s\n", token->split[i]);
 		i++;
 	}
 }
@@ -49,36 +49,36 @@ void	ft_lstprint(void *content)
 t_list	*test_parsing(void)
 {
 	t_list	*test;
-	t_token	*token;
+	t_split	*token;
 
 	test = 0;
-	token = (t_token *)malloc(sizeof(t_token));
+	token = (t_split *)malloc(sizeof(t_split));
 	token->type = REDIR_L;
-	token->context = ft_split("<", ' ');
+	token->split = ft_split("<", ' ');
 	ft_lstadd_back(&test, ft_lstnew(token));
- 	token = (t_token *)malloc(sizeof(t_token));
+ 	token = (t_split *)malloc(sizeof(t_split));
 	token->type = WORD_TOKEN;
-	token->context = ft_split("infile", ' ');
+	token->split = ft_split("infile", ' ');
 	ft_lstadd_back(&test, ft_lstnew(token));
- 	token = (t_token *)malloc(sizeof(t_token));
+ 	token = (t_split *)malloc(sizeof(t_split));
 	token->type = WORD_TOKEN;
-	token->context = ft_split("cat", ' ');
+	token->split = ft_split("cat", ' ');
 	ft_lstadd_back(&test, ft_lstnew(token));
- 	token = (t_token *)malloc(sizeof(t_token));
+ 	token = (t_split *)malloc(sizeof(t_split));
 	token->type = PIPE_TOKEN;
-	token->context = ft_split("|", ' ');
+	token->split = ft_split("|", ' ');
 	ft_lstadd_back(&test, ft_lstnew(token));
- 	token = (t_token *)malloc(sizeof(t_token));
+ 	token = (t_split *)malloc(sizeof(t_split));
 	token->type = WORD_TOKEN;
-	token->context = ft_split("ls -al", ' ');
+	token->split = ft_split("ls -al", ' ');
 	ft_lstadd_back(&test, ft_lstnew(token));
-	token = (t_token *)malloc(sizeof(t_token));
+	token = (t_split *)malloc(sizeof(t_split));
 	token->type = REDIR_R;
-	token->context = ft_split(">", ' ');
+	token->split = ft_split(">", ' ');
 	ft_lstadd_back(&test, ft_lstnew(token));
-	token = (t_token *)malloc(sizeof(t_token));
+	token = (t_split *)malloc(sizeof(t_split));
 	token->type = WORD_TOKEN;
-	token->context = ft_split("outfile", ' ');
+	token->split = ft_split("outfile", ' ');
 	ft_lstadd_back(&test, ft_lstnew(token));
 	return (test);
 }
