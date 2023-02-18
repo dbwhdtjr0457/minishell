@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 17:03:23 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/18 17:54:37 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	print_token_in_list(void *content)
 	printf("token: %s type : %d\n", word->token, word->type);
 }
 
+
+
 t_list	*parsing(char *line, t_list *env)
 {
 	int		*lexer_arr;
@@ -47,9 +49,7 @@ t_list	*parsing(char *line, t_list *env)
 	// 환경변수 치환
 	// $가 붙어 있을 경우 ' '안에 있을 경우를 제외하고 env 목록에 있는 변수로 변경
 	//change_to_env(&split_word, env);
-	//ft_lstiter(split_word, print_token_in_list);
-	//write(1, "\n", 1);
-	ft_lstclear(&split_word, free);
+	ft_lstclear_token(&split_word, free);
 	(void)env;
 	return (0);
 }

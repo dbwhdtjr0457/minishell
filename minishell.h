@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 16:57:45 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/18 17:54:06 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_token{
 
 // free.c
 void	free_split(char **split);
+void	ft_lstclear_token(t_list **lst, void (*del)(void *));
 
 // parsing 
 // lexer.c

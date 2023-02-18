@@ -12,11 +12,11 @@ LIBFT			=	./libft/libft.a
 SRCS_DIR		=	./srcs
 SRCS_FILES		=	main.c \
 					free.c \
-					make_env.c
-SRCS_PARSE		=	parse.c \
+					make_env.c \
+					parse.c \
 					lexer.c \
 					token_list.c
-SRCS			=	$(addprefix $(SRCS_DIR)/, $(SRCS_FILES) $(SRCS_PARSE))
+SRCS			=	$(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
 LIBFT			=	./libft/libft.a
 

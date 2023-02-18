@@ -2,7 +2,8 @@
 	"files.associations": {
 		"history.h": "c",
 		"readline.h": "c",
-		"termios.h": "c"
+		"termios.h": "c",
+		"libft.h": "c"
 	},
     "editor.tabSize": 4,
     "editor.insertSpaces": false,
