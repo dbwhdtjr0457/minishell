@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 17:54:37 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/18 18:11:04 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@
 // 공백 토큰 제거
 
 // parsing 문법 체크
-
-void	print_token_in_list(void *content)
+void	print_word_in_list(void *content)
 {
 	t_token	*word;
 

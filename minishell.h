@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 17:54:06 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/18 18:13:10 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ typedef struct s_token{
 
 // free.c
 void	free_split(char **split);
-void	ft_lstclear_token(t_list **lst, void (*del)(void *));
 
 // parsing 
 // lexer.c
@@ -79,15 +78,21 @@ void	token_list(t_list **split_word, char *line, int *arr);
 // make_env.c
 void	make_env(t_list **env, char **envp);
 
-//builtin.c
-int		ft_echo(t_list *parsed);
-int		ft_cd(t_list *parsed, t_list **env);
-
 //minishell.c
 int		minishell(t_list *parsed, t_list **env);
 
 // get_set_env.c
 char	*get_env(t_list *env, char *key);
 int		set_env(t_list **env, char *key, char *value);
+
+// execute.c
+int		split_size(char **split);
+int		execute(t_list *parsed, t_list **env);
+
+// builtin_1.c
+int		ft_echo(t_list *parsed);
+int		ft_pwd(t_list *parsed);
+int		ft_env(t_list *parsed, t_list *env);
+int		ft_exit(t_list *parsed, t_list *env);
 
 #endif
