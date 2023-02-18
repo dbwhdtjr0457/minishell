@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/17 23:31:07 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/18 15:14:25 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,25 @@ enum e_token{
 
 typedef struct s_env
 {
-	char		*key;
-	char		*value;
+	char	*key;
+	char	*value;
 }	t_env;
 
 typedef struct s_token{
-	int				type;
-	char			*context;
+	int		type;
+	char	**context;
 }	t_token;
+
+typedef struct s_word{
+	int		type;
+	char	*context;
+}	t_word;
 
 // free.c
 void	free_split(char **split);
+
+// lexer.c
+void	lexer(const char *line, int *arr);
 
 // make_env.c
 void	make_env(t_list **env, char **envp);

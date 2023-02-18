@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 00:10:25 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/18 15:33:58 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void	signal_setting(void)
 
 int	main(int ac, char **av, char **envp)
 {
-
 	char			*line;
 	struct termios	term;
 	t_list			*parsed;
@@ -119,6 +118,8 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 		}
 	}
+	ft_lstclear(&parsed, free);
+	//system("leaks minishell");
 	(void)ac;
 	(void)av;
 	return (0);
