@@ -15,7 +15,7 @@ SRCS_FILES		=	main.c \
 					make_env.c \
 					parse.c \
 					lexer.c \
-					token_list.c
+					token_list.c \
 					execute.c \
 					builtin_1.c
 SRCS			=	$(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
