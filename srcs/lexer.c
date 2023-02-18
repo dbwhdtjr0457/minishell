@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 15:13:45 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 16:45:35 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/18 21:08:42 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	lexer(const char *line, int *arr)
 			arr[i] = PIPE_TOKEN;
 		else if (line[i] == ' ')
 			arr[i] = SPACE_TOKEN;
+		else if (line[i] == '$')
+			arr[i] = DALLOR_TOKEN;
 		else
 			arr[i] = WORD_TOKEN;
 		i++;

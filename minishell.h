@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 18:37:13 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/18 20:55:46 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ enum e_token{
 	PIPE_TOKEN,
 	SPACE_TOKEN,
 	SLASH_TOKEN,
+	DALLOR_TOKEN,
 	WORD_TOKEN
 };
 

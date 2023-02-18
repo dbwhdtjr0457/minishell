@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 19:31:37 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/18 21:17:53 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,10 @@ t_list	*parsing(char *line, t_list *env)
 	// word와 space 분리
 	token_list(&split_word, line, lexer_arr);
 	free(lexer_arr);
+	//ft_lstiter(split_word, print_word_in_list);
 	// 환경변수 치환
 	// $가 붙어 있을 경우 ' '안에 있을 경우를 제외하고 env 목록에 있는 변수로 변경
-	split_word = change_to_env(split_word, env);
+	//split_word = change_to_env(split_word, env);
 	ft_lstclear_token(&split_word, free);
 	(void)env;
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:55:19 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 19:31:20 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/18 21:16:27 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,33 @@ t_token	*split_space_quote(char *line, int *arr, int *i)
 	int		type;
 
 	start = *i;
-	type = arr[*i];
-	if (arr[*i] == WORD_TOKEN || arr[*i] == SPACE_TOKEN
-		|| arr[*i] == REDIR_LL || arr[*i] == REDIR_RR)
+	type = arr[(*i)++];
+	if (type == WORD_TOKEN || type == SPACE_TOKEN
+		|| type == REDIR_LL || type == REDIR_RR)
 	{
 		while (arr[*i] == type)
 			*i += 1;
 		*i -= 1;
 	}
-	else if (arr[*i] == QUOTE_DOUBLE || arr[*i] == QUOTE_SINGLE)
+	else if (type == QUOTE_DOUBLE || type == QUOTE_SINGLE)
 	{
-		*i += 1;
 		while (arr[*i] && arr[*i] != type)
 		{
 			*i += 1;
 			if (arr[*i] == type)
 				break ;
+		}
+	}
+	else if (type == DALLOR_TOKEN)
+	{
+		while (arr[*i] && arr[*i] != type)
+		{
+			*i += 1;
+			if (arr[*i] != WORD_TOKEN)
+			{	
+				*i -= 1;
+				break ;
+			}
 		}
 	}
 	// 달러가 나오면, 문자가 끝날때나(space 등 다른 토큰이 나올 때) 다른 달러 나올떄까지 받아서 저장
