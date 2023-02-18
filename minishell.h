@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/17 14:41:07 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/18 16:16:05 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define PROMPT "minishell$ "
 
 enum e_token{
-	QUOTE_DOUBLE = 0,
+	QUOTE_DOUBLE = 1,
 	QUOTE_SINGLE,
 	REDIR_LL,
 	REDIR_L,
@@ -43,22 +43,31 @@ enum e_token{
 	PIPE_TOKEN,
 	SPACE_TOKEN,
 	DOLLAR_TOKEN,
+	SLASH_TOKEN,
 	WORD_TOKEN
 };
 
 typedef struct s_env
 {
-	char		*key;
-	char		*value;
+	char	*key;
+	char	*value;
 }	t_env;
 
+typedef struct s_split{
+	int		type;
+	char	**split;
+}	t_split;
+
 typedef struct s_token{
-	int				type;
-	char			**context;
+	int		type;
+	char	*token;
 }	t_token;
 
 // free.c
 void	free_split(char **split);
+
+// lexer.c
+void	lexer(const char *line, int *arr);
 
 // make_env.c
 void	make_env(t_list **env, char **envp);

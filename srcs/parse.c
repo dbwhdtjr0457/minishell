@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/17 16:21:16 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/18 16:17:12 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-/*
-int	is_word(char c)
-{
-
-}
-*/
 
 // 한글자씩 while 돌면서 읽기
 // ", ' 체크
@@ -30,48 +24,84 @@ int	is_word(char c)
 
 // parsing 문법 체크
 
-void	lexer(const char *line, int *arr)
+t_token	*new_word(char *token, int type)
 {
-	int	i;
+	t_token	*new;
+
+	new = (t_token *)malloc(sizeof(t_split));
+	if (!new)
+		return (0);
+	new->token = token;
+	new->type = type;
+	return (new);
+}
+
+void	print_word_in_list(void *content)
+{
+	t_token	*word;
+
+	word = (t_token *)content;
+	printf("token: %s type : %d\n", word->token, word->type);
+}
+
+t_token	*split_space_quote(char *line, int *arr, int *i)
+{
+	int		start;
+	int		type;
+
+	start = *i;
+	type = arr[*i];
+	if (arr[*i] == WORD_TOKEN || arr[*i] == SPACE_TOKEN
+		|| arr[*i] == REDIR_LL || arr[*i] == REDIR_RR)
+	{
+		while (arr[*i] == type)
+			*i += 1;
+		*i -= 1;
+	}
+	else if (arr[*i] == QUOTE_DOUBLE || arr[*i] == QUOTE_SINGLE)
+	{
+		*i += 1;
+		while (arr[*i] && arr[*i] != type)
+		{
+			*i += 1;
+			if (arr[*i] == type)
+				break ;
+		}
+	}
+	return (new_word(ft_substr(line, start, *i - start + 1), type));
+}
+
+void	word_lst(t_list **split_word, char *line, int *arr)
+{
+	int		i;
+	t_token	*word;
 
 	i = 0;
-	while (line[i])
+	*split_word = 0;
+	while (arr[i])
 	{
-		if (line[i] == '\"')
-			arr[i] = QUOTE_DOUBLE;
-		else if(line[i] == '\'')
-			arr[i] = QUOTE_SINGLE;
-		else if (line[i] == '<')
-		{
-			arr[i] = REDIR_L;
-		}
-		else if (line[i] == '>')
-			arr[i] = REDIR_R;
-		else if (line[i] == '|')
-			arr[i] = PIPE_TOKEN;
-		else if (line[i] == ' ')
-			arr[i] = SPACE_TOKEN;
-		else if (line[i] == '$')
-			arr[i] = DOLLAR_TOKEN;
-		else
-			arr[i] = WORD_TOKEN;
+		word = split_space_quote(line, arr, &i);
+		ft_lstadd_back(split_word, ft_lstnew(word));
+		free(word->token);
 		i++;
 	}
-	//i = 0;
-	//while (arr[i])
-	//{
-	//	printf("%d ", arr[i]);
-	//	i++;
-	//}
-	//printf("\n");
 }
 
 t_list	*parsing(char *line)
 {
-	int	*lexer_arr;
+	int		*lexer_arr;
+	t_list	*split_word;
 
 	lexer_arr = (int *)ft_calloc(ft_strlen(line) + 1, sizeof(int));
+	split_word = 0;
 	// 한글자씩 읽으면서 각 char에 대한 정보 저장
 	lexer(line, lexer_arr);
+	// word와 space 분리
+	word_lst(&split_word, line, lexer_arr);
+	free(lexer_arr);
+	//write(1, "\n", 1);
+	//ft_lstiter(split_word, print_word_in_list);
+	//write(1, "\n", 1);
+	ft_lstclear(&split_word, free);
 	return (0);
 }
