@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 16:16:05 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/18 17:52:48 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,9 @@ typedef struct s_token{
 
 // free.c
 void	free_split(char **split);
+void	free_parsed(void *content);
+void	ft_lstclear_parsed(t_list **lst);
+void	ft_lstclear_env(t_list **lst);
 
 // lexer.c
 void	lexer(const char *line, int *arr);
@@ -75,15 +78,21 @@ void	make_env(t_list **env, char **envp);
 // parse.c
 t_list	*parsing(char *line);
 
-//builtin.c
-int		ft_echo(t_list *parsed);
-int		ft_cd(t_list *parsed, t_list **env);
-
 //minishell.c
 int		minishell(t_list *parsed, t_list **env);
 
 // get_set_env.c
 char	*get_env(t_list *env, char *key);
 int		set_env(t_list **env, char *key, char *value);
+
+// execute.c
+int		split_size(char **split);
+int		execute(t_list *parsed, t_list **env);
+
+// builtin_1.c
+int		ft_echo(t_list *parsed);
+int		ft_pwd(t_list *parsed);
+int		ft_env(t_list *parsed, t_list *env);
+int		ft_exit(t_list *parsed, t_list *env);
 
 #endif

@@ -1,11 +1,12 @@
 {
-	"files.associations": {
-		"history.h": "c",
-		"readline.h": "c",
-		"termios.h": "c"
-	},
-    "editor.tabSize": 4,
-    "editor.insertSpaces": false,
-    "editor.detectIndentation": true,
-    "editor.renderWhitespace": "all"
+  "files.associations": {
+    "history.h": "c",
+    "readline.h": "c",
+    "termios.h": "c",
+    "minishell.h": "c"
+  },
+  "editor.tabSize": 4,
+  "editor.insertSpaces": false,
+  "editor.detectIndentation": true,
+  "editor.renderWhitespace": "all"
 }
