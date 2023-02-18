@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 16:35:15 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/18 17:52:48 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,9 @@ typedef struct s_token{
 
 // free.c
 void	free_split(char **split);
+void	free_parsed(void *content);
+void	ft_lstclear_parsed(t_list **lst);
+void	ft_lstclear_env(t_list **lst);
 
 // lexer.c
 void	lexer(const char *line, int *arr);
@@ -74,10 +77,6 @@ void	make_env(t_list **env, char **envp);
 
 // parse.c
 t_list	*parsing(char *line);
-
-//builtin.c
-int		ft_echo(t_list *parsed);
-int		ft_cd(t_list *parsed, t_list **env);
 
 //minishell.c
 int		minishell(t_list *parsed, t_list **env);
@@ -94,5 +93,6 @@ int		execute(t_list *parsed, t_list **env);
 int		ft_echo(t_list *parsed);
 int		ft_pwd(t_list *parsed);
 int		ft_env(t_list *parsed, t_list *env);
+int		ft_exit(t_list *parsed, t_list *env);
 
 #endif

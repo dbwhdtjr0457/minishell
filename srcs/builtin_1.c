@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:42:37 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/18 15:24:45 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/18 17:50:36 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_echo(t_list *parsed)
 
 	i = 0;
 	flag = 0;
-	tmp = ((t_token *)parsed->content)->context;
+	tmp = ((t_split *)parsed->content)->split;
 	if (tmp[1] && ft_strncmp(tmp[1], "-n", 2) == 0)
 		flag = 1;
 	while (tmp[++i])
@@ -38,7 +38,7 @@ int	ft_pwd(t_list *parsed)
 {
 	char	*pwd;
 
-	if (((t_token *)parsed->content)->context[1])
+	if (((t_split *)parsed->content)->split[1])
 	{
 		ft_putstr_fd("pwd: too many arguments\n", 2);
 		return (1);
@@ -54,7 +54,7 @@ int	ft_env(t_list *parsed, t_list *env)
 {
 	char	**tmp;
 
-	tmp = ((t_token *)parsed->content)->context;
+	tmp = ((t_split *)parsed->content)->split;
 	if (tmp[1])
 	{
 		ft_putstr_fd("env: ", 2);
@@ -71,4 +71,12 @@ int	ft_env(t_list *parsed, t_list *env)
 		env = env->next;
 	}
 	return (0);
+}
+
+int	ft_exit(t_list *parsed, t_list *env)
+{
+	ft_lstclear_env(&env);
+	ft_lstclear_parsed(&parsed);
+	system("leaks minishell");
+	exit(0);
 }

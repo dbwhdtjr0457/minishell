@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 16:17:12 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/18 16:49:59 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_token	*new_word(char *token, int type)
 {
 	t_token	*new;
 
-	new = (t_token *)malloc(sizeof(t_split));
+	new = (t_token *)malloc(sizeof(t_token));
 	if (!new)
 		return (0);
 	new->token = token;

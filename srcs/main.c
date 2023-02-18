@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 16:37:30 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/18 17:53:34 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,22 @@ void	signal_setting(void)
 
 void	ft_lstprint_input(void *content)
 {
-	t_split	*token;
+	t_split	*split;
 	int		i;
 
- 	token = (t_split *)content;
-	printf("type: %d\n", token->type);
+	split = (t_split *)content;
+	printf("type: %d\n", split->type);
 	i = 0;
-	while (token->split[i])
+	while (split->split[i])
 	{
-		printf("context[i]: %s\n", token->split[i]);
+		printf("context[i]: %s\n", split->split[i]);
 		i++;
 	}
 }
 
 void	ft_lstprint_env(void *content)
 {
-	char **tmp;
+	char	**tmp;
 
 	tmp = (char **)content;
 	printf("%s=%s\n", tmp[0], tmp[1]);
@@ -57,37 +57,14 @@ void	ft_lstprint_env(void *content)
 t_list	*test_parsing(void)
 {
 	t_list	*test;
-	t_split	*token;
+	t_split	*split;
 
 	test = 0;
-	token = (t_split *)malloc(sizeof(t_split));
-	token->type = REDIR_L;
-	token->split = ft_split("<", ' ');
-	ft_lstadd_back(&test, ft_lstnew(token));
- 	token = (t_split *)malloc(sizeof(t_split));
-	token->type = WORD_TOKEN;
-	token->split = ft_split("infile", ' ');
-	ft_lstadd_back(&test, ft_lstnew(token));
- 	token = (t_split *)malloc(sizeof(t_split));
-	token->type = WORD_TOKEN;
-	token->split = ft_split("cat", ' ');
-	ft_lstadd_back(&test, ft_lstnew(token));
- 	token = (t_split *)malloc(sizeof(t_split));
-	token->type = PIPE_TOKEN;
-	token->split = ft_split("|", ' ');
-	ft_lstadd_back(&test, ft_lstnew(token));
- 	token = (t_split *)malloc(sizeof(t_split));
-	token->type = WORD_TOKEN;
-	token->split = ft_split("ls -al", ' ');
-	ft_lstadd_back(&test, ft_lstnew(token));
-	token = (t_split *)malloc(sizeof(t_split));
-	token->type = REDIR_R;
-	token->split = ft_split(">", ' ');
-	ft_lstadd_back(&test, ft_lstnew(token));
-	token = (t_split *)malloc(sizeof(t_split));
-	token->type = WORD_TOKEN;
-	token->split = ft_split("outfile", ' ');
-	ft_lstadd_back(&test, ft_lstnew(token));
+	split = (t_split *)malloc(sizeof(t_split));
+	split->type = WORD_TOKEN;
+	split->split = ft_split("pwd", ' ');
+	ft_lstadd_back(&test, ft_lstnew(split));
+	// ft_lstiter(test, ft_lstprint_input);
 	return (test);
 }
 
@@ -119,16 +96,14 @@ int	main(int ac, char **av, char **envp)
 		else
 		{
 			add_history(line);
-			parsed = parsing(line);
+			// parsed = parsing(line);
 			(void)parsed;
 			parsed = test_parsing();
-			// ft_lstiter(parsed, ft_lstprint_input);
-			execute(parsed, &env);
 			free(line);
-			ft_lstclear(&parsed, free);
+			execute(parsed, &env);
+			ft_lstclear_parsed(&parsed);
 		}
 	}
-	ft_lstclear(&parsed, free);
 	(void)ac;
 	(void)av;
 	return (0);
