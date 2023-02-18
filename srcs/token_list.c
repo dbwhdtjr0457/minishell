@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:55:19 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 17:15:39 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/18 19:31:20 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ t_token	*split_space_quote(char *line, int *arr, int *i)
 				break ;
 		}
 	}
+	// 달러가 나오면, 문자가 끝날때나(space 등 다른 토큰이 나올 때) 다른 달러 나올떄까지 받아서 저장
+	// 달러 토큰 추가
+	// 나중에 - 리스트 순회하다가 달러 토큰 나온것만 치환
+	// env 에 없는 환경변수일 경우에는 리스트 없애기000
 	return (new_token(ft_substr(line, start, *i - start + 1), type));
 }
 
