@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/19 23:31:21 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/19 23:47:09 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,8 +187,9 @@ t_list	*parsing(char *line, t_list *env)
 
 	// 한번에 실행할 token끼리 묶어서 t_split에 저장
 	cmd_list = comb_token(&token_list);
+	(void)cmd_list;
 	ft_lstclear_token(&token_list, free);
 	(void)env;
-	system("leaks minishell");
+	system("leaks --list minishell");
 	return (cmd_list);
 }
