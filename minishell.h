@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 20:55:46 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/19 20:06:09 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,10 @@ enum e_token{
 	REDIR_L,
 	REDIR_RR,
 	REDIR_R,
-	PIPE_TOKEN,
-	SPACE_TOKEN,
-	SLASH_TOKEN,
-	DALLOR_TOKEN,
-	WORD_TOKEN
+	PIPE_T,
+	SPACE_T,
+	DALLOR_T,
+	WORD_T
 };
 
 typedef struct s_env
@@ -77,7 +76,7 @@ void	lexer(const char *line, int *arr);
 t_list	*parsing(char *line, t_list *env);
 
 // token_list.c
-void	token_list(t_list **split_word, char *line, int *arr);
+void	make_token_list(t_list **split_word, char *line, int *arr);
 
 // make_env.c
 void	make_env(t_list **env, char **envp);
@@ -98,5 +97,8 @@ int		ft_echo(t_list *parsed);
 int		ft_pwd(t_list *parsed);
 int		ft_env(t_list *parsed, t_list *env);
 int		ft_exit(t_list *parsed, t_list *env);
+
+// main.c
+void	ft_lstprint_input(void *content);
 
 #endif

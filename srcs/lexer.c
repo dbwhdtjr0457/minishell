@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 15:13:45 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 21:08:42 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/19 20:06:02 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ void	lexer(const char *line, int *arr)
 		else if (line[i] == '>')
 			rexer_redir_check(line, arr, &i, REDIR_R);
 		else if (line[i] == '|')
-			arr[i] = PIPE_TOKEN;
+			arr[i] = PIPE_T;
 		else if (line[i] == ' ')
-			arr[i] = SPACE_TOKEN;
+			arr[i] = SPACE_T;
 		else if (line[i] == '$')
-			arr[i] = DALLOR_TOKEN;
+			arr[i] = DALLOR_T;
 		else
-			arr[i] = WORD_TOKEN;
+			arr[i] = WORD_T;
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 18:46:34 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/19 20:49:17 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_list	*test_parsing(void)
 
 	test = 0;
 	split = (t_split *)malloc(sizeof(t_split));
-	split->type = WORD_TOKEN;
+	split->type = WORD_T;
 	split->split = ft_split("pwd", ' ');
 	ft_lstadd_back(&test, ft_lstnew(split));
 	// ft_lstiter(test, ft_lstprint_input);
@@ -102,6 +102,7 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 			//execute(parsed, &env);
 			ft_lstclear_parsed(&parsed);
+			// system("leaks minishell");
 		}
 	}
 	(void)ac;
