@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/19 21:01:59 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/19 23:31:21 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ void	print_split_in_list(void *content)
 
 	i = 0;
 	word = (t_split *)content;
+	printf("출력 : ");
 	while (word->split[i])
-		printf("\nsplit: %s type : %d\n", word->split[i++], word->type);
+		printf("	split: %s type : %d\n", word->split[i++], word->type);
 }
 // split_word를 받아서 하나씩 순회
 // split_word->content 하나씩 보면서
@@ -100,7 +101,7 @@ void	append(char ***res, char *str)
 		new[i] = strdup(tmp[i]);
 	// 새로 추가할 문자열을 새로운 메모리 영역의 마지막에 추가
 	new[len] = strdup(str);
-	new[len + 1] = NULL;
+	new[len + 1] = 0;
 	// 이전 배열 포인터가 가리키는 영역의 메모리 해제
 	i = 0;
 	while (i < len)
@@ -113,19 +114,16 @@ void	append(char ***res, char *str)
 // 연관있는 토큰끼리 합쳐주는 함수
 // t_list *res의 content에 t_split 형태로 저장한 후 반환
 // 인자로 받아온 token_list 는 free해줘야 함
-t_list	*comb_token(t_list **token_list)
+t_list	*comb_token(t_list **token)
 {
-	t_list	**token;
 	t_list	*res;
 	t_split	*split;
 	char	**tmp;
 
-	token = token_list;
 	res = 0;
 	while (*token)
 	{
 		tmp = 0;
-	//	printf("token : %s\n", ((t_token *)((*token)->content))->token);
 		if (((t_token *)((*token)->content))->type == PIPE_T)
 		{
 			split = new_split
@@ -142,9 +140,9 @@ t_list	*comb_token(t_list **token_list)
 			{
 				append(&tmp, ((t_token *)((*token)->content))->token);
 				append(&tmp, ((t_token *)((*token)->next->content))->token);
-
 				split = new_split(tmp, ((t_token *)((*token)->content))->type);
 				ft_lstadd_back(&res, ft_lstnew(split));
+
 				*token = (*token)->next;
 			}
 			// else 리다이렉션 뒤에 word token이 나오지 않을 경우 에러 처리 필요 또는 리다이렉션만 나올경우(뒤에가 널일 경우)
@@ -155,8 +153,7 @@ t_list	*comb_token(t_list **token_list)
 		{
 			append(&tmp, ((t_token *)((*token)->content))->token);
 			while (((t_token *)((*token)->next)) &&
-				(((t_token *)((*token)->next->content))->type == WORD_T ||
-				((t_token *)((*token)->next->content))->type == SPACE_T))
+				((t_token *)((*token)->next->content))->type == SPACE_T)
 			{
 				*token = (*token)->next;
 				if (((t_token *)((*token)->content))->type != SPACE_T)
@@ -167,14 +164,7 @@ t_list	*comb_token(t_list **token_list)
 		}
 		*token = (*token)->next;
 	}
-	//ft_lstiter(res, ft_lstprint_input);
-	ft_lstclear_token(token_list, free);
-	ft_lstclear_parsed(&res);
-	(void)res;
-	(void)tmp;
-	(void)split;
-	(void)token_list;
-	return (0);
+	return (res);
 }
 
 t_list	*parsing(char *line, t_list *env)
@@ -191,16 +181,14 @@ t_list	*parsing(char *line, t_list *env)
 	// word와 space 분리
 	make_token_list(&token_list, line, lexer_arr);
 	free(lexer_arr);
-	//ft_lstiter(split_word, print_word_in_list);
 	// 환경변수 치환
 	// $가 붙어 있을 경우 ' '안에 있을 경우를 제외하고 env 목록에 있는 변수로 변경
 	//split_word = change_to_env(split_word, env);
 
 	// 한번에 실행할 token끼리 묶어서 t_split에 저장
 	cmd_list = comb_token(&token_list);
-	(void)cmd_list;
 	ft_lstclear_token(&token_list, free);
-	ft_lstclear_parsed(&cmd_list);
 	(void)env;
-	return (0);
+	system("leaks minishell");
+	return (cmd_list);
 }
