@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/20 14:56:36 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/20 15:02:39 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,10 @@ enum e_token{
 	REDIR_L,
 	REDIR_RR,
 	REDIR_R,
-	PIPE_TOKEN,
-	SPACE_TOKEN,
-	DOLLAR_TOKEN,
-	SLASH_TOKEN,
-	WORD_TOKEN
+	PIPE_T,
+	SPACE_T,
+	DALLOR_T,
+	WORD_T
 };
 
 typedef struct s_env
@@ -65,6 +64,7 @@ typedef struct s_token{
 
 // free.c
 void	free_split(char **split);
+void	ft_lstclear_token(t_list **lst, void (*del)(void *));
 void	free_parsed(void *content);
 void	ft_lstclear_parsed(t_list **lst);
 void	ft_lstclear_env(t_list **lst);
@@ -72,11 +72,14 @@ void	ft_lstclear_env(t_list **lst);
 // lexer.c
 void	lexer(const char *line, int *arr);
 
+// parse.c
+t_list	*parsing(char *line, t_list *env);
+
+// token_list.c
+void	make_token_list(t_list **split_word, char *line, int *arr);
+
 // make_env.c
 void	make_env(t_list **env, char **envp);
-
-// parse.c
-t_list	*parsing(char *line);
 
 //minishell.c
 int		minishell(t_list *parsed, t_list **env);

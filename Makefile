@@ -2,7 +2,7 @@ NAME			=	minishell
 
 CC				=	cc
 RM				=	rm -f
-CFLAGS			=	-Wall -Wextra -Werror
+CFLAGS			=	-Wall -Wextra -Werror -g
 
 COMFILE_FLAGS 	=	-l readline -L/opt/homebrew/opt/readline/lib
 OBJ_FLAGS 		=	-I/opt/homebrew/opt/readline/include
@@ -12,8 +12,10 @@ LIBFT			=	./libft/libft.a
 SRCS_DIR		=	./srcs
 SRCS_FILES		=	main.c \
 					free.c \
-					lexer.c \
 					make_env.c \
+					parse.c \
+					lexer.c \
+					token_list.c \
 					execute.c \
 					builtin_1.c \
 					env_utils.c \
