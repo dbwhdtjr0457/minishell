@@ -2,9 +2,9 @@ NAME			=	minishell
 
 CC				=	cc
 RM				=	rm -f
-CFLAGS			=	-Wall -Wextra -Werror
+CFLAGS			=	-Wall -Wextra -Werror -g
 
-COMFILE_FLAGS 		=	-l readline -L ${HOME}/.brew/opt/readline/lib
+COMFILE_FLAGS 	=	-l readline -L ${HOME}/.brew/opt/readline/lib
 OBJ_FLAGS 		=	-I ${HOME}/.brew/opt/readline/include
 
 LIBFT			=	./libft/libft.a
@@ -12,11 +12,12 @@ LIBFT			=	./libft/libft.a
 SRCS_DIR		=	./srcs
 SRCS_FILES		=	main.c \
 					free.c \
-					lexer.c \
 					make_env.c \
+					parse.c \
+					lexer.c \
+					token_list.c \
 					execute.c \
-					builtin_1.c \
-					parse.c
+					builtin_1.c
 SRCS			=	$(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
 LIBFT			=	./libft/libft.a
