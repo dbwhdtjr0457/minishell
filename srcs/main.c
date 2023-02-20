@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/20 15:02:17 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/20 15:10:11 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,17 +74,13 @@ int	main(int ac, char **av, char **envp)
 		{
 			add_history(line);
 			parsed = parsing(line, env);
-			(void)parsed;
-			//parsed = test_parsing();
 			free(line);
-			ft_lstiter(env, ft_lstprint_env);
-			printf("\n\n\n\n");
 			execute(parsed, &env);
-			ft_lstiter(env, ft_lstprint_env);
 			ft_lstclear_parsed(&parsed);
 		}
 	}
 	(void)ac;
 	(void)av;
+	system("leaks minishell");
 	return (0);
 }
