@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/19 20:49:17 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/20 14:31:00 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 			//execute(parsed, &env);
 			ft_lstclear_parsed(&parsed);
-			// system("leaks minishell");
 		}
 	}
 	(void)ac;

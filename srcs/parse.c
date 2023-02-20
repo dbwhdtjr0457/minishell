@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/19 23:47:09 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/20 14:30:45 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,36 +114,37 @@ void	append(char ***res, char *str)
 // 연관있는 토큰끼리 합쳐주는 함수
 // t_list *res의 content에 t_split 형태로 저장한 후 반환
 // 인자로 받아온 token_list 는 free해줘야 함
-t_list	*comb_token(t_list **token)
+t_list	*comb_token(t_list **token_list)
 {
+	t_list	*token;
 	t_list	*res;
 	t_split	*split;
 	char	**tmp;
 
 	res = 0;
-	while (*token)
+	token = *token_list;
+	while (token)
 	{
 		tmp = 0;
-		if (((t_token *)((*token)->content))->type == PIPE_T)
+		if (((t_token *)(token->content))->type == PIPE_T)
 		{
 			split = new_split
-				(ft_split(((t_token *)((*token)->content))->token, ' '),
-					((t_token *)((*token)->content))->type);
+				(ft_split(((t_token *)(token->content))->token, ' '),
+					((t_token *)(token->content))->type);
 			ft_lstadd_back(&res, ft_lstnew(split));
 		}
 		// 리다이렉션일 경우 type이 3 ~ 6
-		else if (((t_token *)((*token)->content))->type >= 3
-			&& ((t_token *)((*token)->content))->type <= 6)
+		else if (((t_token *)(token->content))->type >= 3
+			&& ((t_token *)(token->content))->type <= 6)
 		{
-			if (((t_token *)((*token)->next)) &&
-				((t_token *)((*token)->next->content))->type == WORD_T)
+			if (((t_token *)(token->next)) &&
+				((t_token *)(token->next->content))->type == WORD_T)
 			{
-				append(&tmp, ((t_token *)((*token)->content))->token);
-				append(&tmp, ((t_token *)((*token)->next->content))->token);
-				split = new_split(tmp, ((t_token *)((*token)->content))->type);
+				append(&tmp, ((t_token *)(token->content))->token);
+				append(&tmp, ((t_token *)(token->next->content))->token);
+				split = new_split(tmp, ((t_token *)(token->content))->type);
 				ft_lstadd_back(&res, ft_lstnew(split));
-
-				*token = (*token)->next;
+				token = token->next;
 			}
 			// else 리다이렉션 뒤에 word token이 나오지 않을 경우 에러 처리 필요 또는 리다이렉션만 나올경우(뒤에가 널일 경우)
 		}
@@ -151,18 +152,19 @@ t_list	*comb_token(t_list **token)
 		// 파이프나 리다이렉션이 나올 때까지 뒤에 연결
 		else
 		{
-			append(&tmp, ((t_token *)((*token)->content))->token);
-			while (((t_token *)((*token)->next)) &&
-				((t_token *)((*token)->next->content))->type == SPACE_T)
+			append(&tmp, ((t_token *)(token->content))->token);
+			while (((t_token *)(token->next)) &&
+				(((t_token *)(token->next->content))->type == WORD_T ||
+				((t_token *)(token->next->content))->type == SPACE_T))
 			{
-				*token = (*token)->next;
-				if (((t_token *)((*token)->content))->type != SPACE_T)
-					append(&tmp, ((t_token *)((*token)->content))->token);
+				token = token->next;
+			//	if (((t_token *)(token->content))->type == SPACE_T)
+				append(&tmp, ((t_token *)(token->content))->token);
 			}
-			split = new_split(tmp, ((t_token *)((*token)->content))->type);
+			split = new_split(tmp, ((t_token *)(token->content))->type);
 			ft_lstadd_back(&res, ft_lstnew(split));
 		}
-		*token = (*token)->next;
+		token = token->next;
 	}
 	return (res);
 }
@@ -184,12 +186,11 @@ t_list	*parsing(char *line, t_list *env)
 	// 환경변수 치환
 	// $가 붙어 있을 경우 ' '안에 있을 경우를 제외하고 env 목록에 있는 변수로 변경
 	//split_word = change_to_env(split_word, env);
-
 	// 한번에 실행할 token끼리 묶어서 t_split에 저장
 	cmd_list = comb_token(&token_list);
-	(void)cmd_list;
+	//ft_lstiter(cmd_list, print_split_in_list);
 	ft_lstclear_token(&token_list, free);
+	(void)cmd_list;
 	(void)env;
-	system("leaks --list minishell");
 	return (cmd_list);
 }
