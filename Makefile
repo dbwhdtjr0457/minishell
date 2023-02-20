@@ -17,7 +17,10 @@ SRCS_FILES		=	main.c \
 					lexer.c \
 					token_list.c \
 					execute.c \
-					builtin_1.c
+					builtin_1.c \
+					env_utils.c \
+					t_list_utils.c
+
 SRCS			=	$(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
 LIBFT			=	./libft/libft.a

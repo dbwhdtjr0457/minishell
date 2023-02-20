@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:21:42 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/18 17:54:25 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/20 14:56:05 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,19 @@ int	execute(t_list *parsed, t_list **env)
 	int		i;
 
 	tmp = ((t_split *)parsed->content)->split;
-	if (ft_strncmp(tmp[0], "echo", 4) == 0)
+	if (ft_strncmp(tmp[0], "echo", 5) == 0)
 		ft_echo(parsed);
-	// else if (ft_strcmp(tmp[0], "cd") == 0)
-	// 	ft_cd(parsed, env);
-	else if (ft_strncmp(tmp[0], "pwd", 3) == 0)
+	else if (ft_strncmp(tmp[0], "cd", 3) == 0)
+		ft_cd(parsed, env);
+	else if (ft_strncmp(tmp[0], "pwd", 4) == 0)
 		ft_pwd(parsed);
-	// else if (ft_strcmp(tmp[0], "export") == 0)
-	// 	ft_export(parsed, env);
-	// else if (ft_strcmp(tmp[0], "unset") == 0)
-	// 	ft_unset(parsed, env);
-	else if (ft_strncmp(tmp[0], "env", 3) == 0)
+	else if (ft_strncmp(tmp[0], "export", 7) == 0)
+		ft_export(parsed, env);
+	else if (ft_strncmp(tmp[0], "unset", 6) == 0)
+		ft_unset(parsed, env);
+	else if (ft_strncmp(tmp[0], "env", 4) == 0)
 		ft_env(parsed, *env);
-	else if (ft_strncmp(tmp[0], "exit", 4) == 0)
+	else if (ft_strncmp(tmp[0], "exit", 5) == 0)
 		ft_exit(parsed, *env);
 	// else
 	// {
