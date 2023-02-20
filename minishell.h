@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 17:52:48 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/20 14:56:36 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,6 @@ t_list	*parsing(char *line);
 //minishell.c
 int		minishell(t_list *parsed, t_list **env);
 
-// get_set_env.c
-char	*get_env(t_list *env, char *key);
-int		set_env(t_list **env, char *key, char *value);
-
 // execute.c
 int		split_size(char **split);
 int		execute(t_list *parsed, t_list **env);
@@ -94,5 +90,16 @@ int		ft_echo(t_list *parsed);
 int		ft_pwd(t_list *parsed);
 int		ft_env(t_list *parsed, t_list *env);
 int		ft_exit(t_list *parsed, t_list *env);
+int		ft_cd(t_list *parsed, t_list **env);
+int		ft_export(t_list *parsed, t_list **env);
+int		ft_unset(t_list *parsed, t_list **env);
+
+// env_utils.c
+char	*get_env(char *key, t_list *env);
+void	set_env(char *key, char *value, t_list **env);
+
+// t_list_utils.c
+void	ft_lstprint_input(void *content);
+void	ft_lstprint_env(void *content);
 
 #endif

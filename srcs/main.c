@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/18 17:53:34 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/20 15:00:17 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,29 +31,6 @@ void	signal_setting(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	ft_lstprint_input(void *content)
-{
-	t_split	*split;
-	int		i;
-
-	split = (t_split *)content;
-	printf("type: %d\n", split->type);
-	i = 0;
-	while (split->split[i])
-	{
-		printf("context[i]: %s\n", split->split[i]);
-		i++;
-	}
-}
-
-void	ft_lstprint_env(void *content)
-{
-	char	**tmp;
-
-	tmp = (char **)content;
-	printf("%s=%s\n", tmp[0], tmp[1]);
-}
-
 t_list	*test_parsing(void)
 {
 	t_list	*test;
@@ -62,7 +39,21 @@ t_list	*test_parsing(void)
 	test = 0;
 	split = (t_split *)malloc(sizeof(t_split));
 	split->type = WORD_TOKEN;
-	split->split = ft_split("pwd", ' ');
+	split->split = ft_split("export a", ' ');
+	ft_lstadd_back(&test, ft_lstnew(split));
+	// ft_lstiter(test, ft_lstprint_input);
+	return (test);
+}
+
+t_list	*test_parsing2(void)
+{
+	t_list	*test;
+	t_split	*split;
+
+	test = 0;
+	split = (t_split *)malloc(sizeof(t_split));
+	split->type = WORD_TOKEN;
+	split->split = ft_split("unset a", ' ');
 	ft_lstadd_back(&test, ft_lstnew(split));
 	// ft_lstiter(test, ft_lstprint_input);
 	return (test);
@@ -100,7 +91,10 @@ int	main(int ac, char **av, char **envp)
 			(void)parsed;
 			parsed = test_parsing();
 			free(line);
+			ft_lstiter(env, ft_lstprint_env);
+			printf("\n\n\n\n");
 			execute(parsed, &env);
+			ft_lstiter(env, ft_lstprint_env);
 			ft_lstclear_parsed(&parsed);
 		}
 	}
