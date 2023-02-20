@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/20 15:04:43 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/20 15:12:49 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,8 +158,8 @@ t_list	*comb_token(t_list **token_list)
 				((t_token *)(token->next->content))->type == SPACE_T))
 			{
 				token = token->next;
-			//	if (((t_token *)(token->content))->type == SPACE_T)
-				append(&tmp, ((t_token *)(token->content))->token);
+				if (((t_token *)(token->content))->type != SPACE_T)
+					append(&tmp, ((t_token *)(token->content))->token);
 			}
 			split = new_split(tmp, ((t_token *)(token->content))->type);
 			ft_lstadd_back(&res, ft_lstnew(split));
@@ -188,7 +188,7 @@ t_list	*parsing(char *line, t_list *env)
 	//split_word = change_to_env(split_word, env);
 	// 한번에 실행할 token끼리 묶어서 t_split에 저장
 	cmd_list = comb_token(&token_list);
-	//ft_lstiter(cmd_list, print_split_in_list);
+	// ft_lstiter(cmd_list, print_split_in_list);
 	ft_lstclear_token(&token_list, free);
 	(void)cmd_list;
 	(void)env;
