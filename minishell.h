@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/20 15:02:39 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/20 18:51:54 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,9 @@ void	ft_lstclear_token(t_list **lst, void (*del)(void *));
 void	free_parsed(void *content);
 void	ft_lstclear_parsed(t_list **lst);
 void	ft_lstclear_env(t_list **lst);
+
+// comb_token.c
+t_list	*comb_token(t_list *token_list);
 
 // lexer.c
 void	lexer(const char *line, int *arr);
