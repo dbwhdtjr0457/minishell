@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/21 19:51:55 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/21 21:47:42 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,9 @@ void	ft_lstclear_token(t_list **lst);
 void	free_parsed(void *content);
 void	ft_lstclear_parsed(t_list **lst);
 void	ft_lstclear_env(t_list **lst);
+
+// change_to_env.c
+t_list	*change_to_env(t_list **token_list, t_list *env);
 
 // lexer.c
 void	lexer(const char *line, int *arr);

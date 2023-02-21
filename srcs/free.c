@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 15:01:16 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/21 19:51:30 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/21 22:33:31 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_lstclear_token(t_list **lst)
 	{
 		tmp = (*lst)->next;
 		free_token((*lst)->content);
-
+		free(*lst);
 		*lst = tmp;
 	}
 	*lst = 0;
