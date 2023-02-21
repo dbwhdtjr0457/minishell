@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   comb_token.c                                       :+:      :+:    :+:   */
+/*   token_comb.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:50:47 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/20 18:52:56 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/21 15:19:57 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	append(char ***res, char *str)
 // 연관있는 토큰끼리 합쳐주는 함수
 // t_list *res의 content에 t_split 형태로 저장한 후 반환
 // 인자로 받아온 token_list 는 free해줘야 함
-t_list	*comb_token(t_list *token_list)
+t_list	*token_comb(t_list *token_list)
 {
 	t_token	*token;
 	t_list	*res;

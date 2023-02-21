@@ -14,8 +14,8 @@ SRCS_FILES		=	main.c \
 					free.c \
 					make_env.c \
 					parse.c \
-					comb_token.c \
 					lexer.c \
+					token_comb.c \
 					token_list.c \
 					execute.c \
 					builtin_1.c \
