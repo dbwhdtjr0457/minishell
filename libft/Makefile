@@ -3,12 +3,23 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jihylim <jihylim@student.42.fr>            +#+  +:+       +#+         #
+#    By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/07 16:03:53 by jihylim           #+#    #+#              #
-#    Updated: 2022/12/10 17:52:12 by jihylim          ###   ########.fr        #
+#    Updated: 2023/02/21 23:34:34 by jihylim          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+BLACK			= 	"\033[30m"
+GRAY			= 	"\033[30m"
+RED				=	"\033[31m"
+GREEN			=	"\033[32m"
+YELLOW			=	"\033[33m"
+PURPLE			=	"\033[35m"
+CYAN			=	"\033[36m"
+WHITE			=	"\033[37m"
+EOC				=	"\033[0m"
+LINE_DEL		=	"\x1b[1A\x1b[M"
 
 NAME	= libft.a
 CC		= gcc
@@ -69,22 +80,23 @@ endif
 all 	: 	$(NAME)
 
 $(NAME) : 	$(OBJ_ALL)
-			ar rcs ${NAME} $(OBJ_ALL) 
+			@ar rcs ${NAME} $(OBJ_ALL)
+			@echo $(CYAN) "       << libft is made! >>"
 
 bonus 	:
-			make WITH_BONUS=1 all
+			@make WITH_BONUS=1 all
 
 .c.o	:
-			$(CC) $(CFLAGS) -c $< -o ${<:.c=.o}
+			@$(CC) $(CFLAGS) -c $< -o ${<:.c=.o}
 
 clean	:
-			${RM} $(OBJS) $(OBJB)
+			@${RM} $(OBJS) $(OBJB)
 
-fclean	: clean
-			${RM} $(NAME)
+fclean	: 	clean
+			@${RM} $(NAME)
 
-re 		: 
-			make fclean
-			make all
+re 		:
+			@make fclean
+			@make all
 
 .PHONY: all bonus clean fclean re
