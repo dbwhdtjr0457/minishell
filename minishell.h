@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/20 15:02:39 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/22 02:06:38 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,6 @@ enum e_token{
 	DALLOR_T,
 	WORD_T
 };
-
-typedef struct s_env
-{
-	char	*key;
-	char	*value;
-}	t_env;
 
 typedef struct s_split{
 	int		type;
