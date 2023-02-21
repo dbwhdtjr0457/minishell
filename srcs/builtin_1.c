@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:42:37 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/20 15:00:38 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/22 01:18:47 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ int	ft_echo(t_list *parsed)
 	int		flag;
 	char	**tmp;
 
-	i = 0;
 	flag = 0;
 	tmp = ((t_split *)parsed->content)->split;
 	if (tmp[1] && ft_strncmp(tmp[1], "-n", 2) == 0)
 		flag = 1;
+	i = flag;
 	while (tmp[++i])
 	{
 		ft_putstr_fd(tmp[i], 1);
@@ -73,6 +73,16 @@ int	ft_exit(t_list *parsed, t_list *env)
 	exit(0);
 }
 
+void	save_tmp(char **tmp, char *str, t_list **env)
+{
+	char	*tmp2;
+
+	tmp2 = 0;
+	tmp2 = get_env(str, *env);
+	free(tmp[1]);
+	tmp[1] = tmp2;
+}
+
 int	ft_cd(t_list *parsed, t_list **env)
 {
 	char	**tmp;
@@ -81,28 +91,25 @@ int	ft_cd(t_list *parsed, t_list **env)
 	char	*tmp2;
 
 	tmp = ((t_split *)parsed->content)->split;
-	if (tmp[2])
+	if (!tmp[1])
 	{
-		printf("tmp[2] = %s\n", tmp[2]);
-		ft_putstr_fd("cd: too many arguments\n", 2);
-		return (0);
+		tmp2 = get_env("HOME", *env);
+		chdir(tmp2);
+		free(tmp2);
 	}
-	else if (tmp[1])
+	else
 	{
-		tmp2 = 0;
 		if (!ft_strncmp(tmp[1], "~", 1) || !ft_strncmp(tmp[1], "~/", 2))
-			tmp2 = get_env("HOME", *env);
+			save_tmp(tmp, "HOME", env);
 		else if (!ft_strncmp(tmp[1], "-", 1))
-			tmp2 = get_env("OLDPWD", *env);
-		free(tmp[1]);
-		tmp[1] = tmp2;
-	}
-	if (tmp[1] && chdir(tmp[1]) == -1)
-	{
-		ft_putstr_fd("cd: ", 2);
-		ft_putstr_fd(tmp[1], 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		return (0);
+			save_tmp(tmp, "OLDPWD", env);
+		if (chdir(tmp[1]) == -1)
+		{
+			ft_putstr_fd("cd: ", 2);
+			ft_putstr_fd(tmp[1], 2);
+			ft_putstr_fd(": No such file or directory\n", 2);
+			return (0);
+		}
 	}
 	pwd = getcwd(0, 0);
 	oldpwd = get_env("PWD", *env);
@@ -141,13 +148,13 @@ void	ft_lstremove_if(t_list **lst, void *data_ref, int (*cmp)())
 	prev = 0;
 	while (tmp)
 	{
-		if (!cmp(tmp->content, data_ref, ft_strlen(data_ref)))
+		if (!cmp(((char **)tmp->content)[0], data_ref, ft_strlen(data_ref)))
 		{
 			if (prev)
 				prev->next = tmp->next;
 			else
 				*lst = tmp->next;
-			free(tmp->content);
+			free_split(tmp->content);
 			free(tmp);
 			tmp = prev->next;
 		}

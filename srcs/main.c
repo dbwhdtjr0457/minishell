@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/20 15:13:41 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/22 01:19:58 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,6 @@ int	main(int ac, char **av, char **envp)
 	}
 	(void)ac;
 	(void)av;
+	ft_lstclear_env(&env);
 	return (0);
 }
