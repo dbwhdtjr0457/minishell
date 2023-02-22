@@ -13,7 +13,7 @@ NAME			=	minishell
 
 CC				=	cc
 RM				=	rm -f
-CFLAGS			=	-Wall -Wextra -Werror -g
+CFLAGS			=	-Wall -Wextra -Werror -g 
 #-fsanitize=address
 
 COMFILE_FLAGS	=	-l readline -L ${HOME}/.brew/opt/readline/lib
@@ -28,6 +28,7 @@ SRCS_FILES		=	main.c \
 					parse.c \
 					change_to_env.c \
 					lexer.c \
+					is_type.c \
 					token_comb.c \
 					token_list.c \
 					execute.c \
@@ -62,7 +63,7 @@ clean:
 fclean: 		clean
 				@make fclean -C libft
 				@$(RM) $(NAME)
-				@echo $(RED) "       minishell is removed!\n\n" $(EOC)
+				@echo $(RED) "      MochaShell is removed!\n\n" $(EOC)
 
 re:
 				@make fclean
