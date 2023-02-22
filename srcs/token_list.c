@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:55:19 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/22 15:59:39 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/22 18:08:08 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,11 @@ t_token	*split_space_quote(char *line, int *arr, int *i)
 			if (arr[*i] == type)
 				break ;
 		}
+		if (arr[*i] != type)
+		{
+			*i -= 1;
+			type = WORD_T;
+		}
 	}
 	else if (type == DALLOR_T)
 	{
@@ -64,7 +69,6 @@ t_token	*split_space_quote(char *line, int *arr, int *i)
 			}
 		}
 	}
-
 	// 달러가 나오면, 문자가 끝날때나(space 등 다른 토큰이 나올 때) 다른 달러 나올떄까지 받아서 저장
 	// 달러 토큰 추가
 	// 나중에 - 리스트 순회하다가 달러 토큰 나온것만 치환
