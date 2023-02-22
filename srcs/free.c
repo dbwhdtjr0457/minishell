@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 15:01:16 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/19 23:50:12 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/21 22:33:31 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,25 +25,24 @@ void	free_split(char **split)
 	free(split);
 }
 
-void	free_token(t_list *lst, void (*del)(void *))
+void	free_token(void	*content)
 {
-	t_token	*token;
+	t_token	*tmp;
 
-	token = (t_token *)lst->content;
-	del(token->token);
-	del(token);
-	free(lst);
-	lst = 0;
+	tmp = (t_token *)content;
+	free(tmp->token);
+	free(tmp);
 }
 
-void	ft_lstclear_token(t_list **lst, void (*del)(void *))
+void	ft_lstclear_token(t_list **lst)
 {
 	t_list	*tmp;
 
 	while (*lst)
 	{
 		tmp = (*lst)->next;
-		free_token(*lst, del);
+		free_token((*lst)->content);
+		free(*lst);
 		*lst = tmp;
 	}
 	*lst = 0;
