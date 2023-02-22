@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/20 15:13:41 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/21 22:22:18 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,10 @@ int	main(int ac, char **av, char **envp)
 		{
 			add_history(line);
 			parsed = parsing(line, env);
+			(void)parsed;
 			free(line);
-			execute(parsed, &env);
-			ft_lstclear_parsed(&parsed);
+			//execute(parsed, &env);
+			//ft_lstclear_parsed(&parsed);
 		}
 	}
 	(void)ac;

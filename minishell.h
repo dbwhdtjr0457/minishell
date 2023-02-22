@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/20 15:02:39 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/21 21:47:42 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,14 @@ typedef struct s_token{
 
 // free.c
 void	free_split(char **split);
-void	ft_lstclear_token(t_list **lst, void (*del)(void *));
+void	free_token(void	*content);
+void	ft_lstclear_token(t_list **lst);
 void	free_parsed(void *content);
 void	ft_lstclear_parsed(t_list **lst);
 void	ft_lstclear_env(t_list **lst);
+
+// change_to_env.c
+t_list	*change_to_env(t_list **token_list, t_list *env);
 
 // lexer.c
 void	lexer(const char *line, int *arr);
@@ -75,7 +79,11 @@ void	lexer(const char *line, int *arr);
 // parse.c
 t_list	*parsing(char *line, t_list *env);
 
+// token_comb.c
+t_list	*token_comb(t_list *token_list);
+
 // token_list.c
+t_token	*new_token(char *input, int type);
 void	make_token_list(t_list **split_word, char *line, int *arr);
 
 // make_env.c
