@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 21:46:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/22 15:27:42 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/22 18:18:00 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	*change_dallor(t_token *token, t_list *env)
 	if (get)
 		res = ft_strdup(get);
 	else
-		res = ft_strdup(token->token);
+		res = ft_strdup("\0");
 	free(get);
 	free(remove_d);
 	return (res);
