@@ -6,7 +6,7 @@
 #    By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/07 16:03:53 by jihylim           #+#    #+#              #
-#    Updated: 2023/02/21 23:34:34 by jihylim          ###   ########.fr        #
+#    Updated: 2023/02/22 13:52:24 by jihylim          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,6 +87,7 @@ bonus 	:
 			@make WITH_BONUS=1 all
 
 .c.o	:
+			@echo $(CYAN) "Libft Compiling... " $< $(EOC) $(LINE_DEL)
 			@$(CC) $(CFLAGS) -c $< -o ${<:.c=.o}
 
 clean	:
