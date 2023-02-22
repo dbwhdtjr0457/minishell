@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:50:47 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/21 21:53:00 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/22 17:06:16 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,16 @@ void	append(char ***res, char *str)
 	*res = new;
 }
 
+int	is_word_space(t_list *lst)
+{
+	t_token	*tmp;
+
+	tmp =  ((t_token *)(lst->content));
+	if (tmp->type == WORD_T || tmp->type == SPACE_T)
+		return (1);
+	return (0);
+}
+
 // 연관있는 토큰끼리 합쳐주는 함수
 // t_list *res의 content에 t_split 형태로 저장한 후 반환
 // 인자로 받아온 token_list 는 free해줘야 함
@@ -66,13 +76,17 @@ t_list	*token_comb(t_list *token_list)
 	t_list	*res;
 	t_split	*split;
 	char	**tmp;
+	int		i;
 
 	res = 0;
 	while (token_list)
 	{
 		tmp = 0;
+		i = 0;
 		token = (t_token *)(token_list->content);
-		if (token->type == PIPE_T)
+		if (token->type == SPACE_T)
+			;
+		else if (token->type == PIPE_T)
 		{
 			split = new_split(ft_split(token->token, ' '), (token->type));
 			ft_lstadd_back(&res, ft_lstnew(split));
@@ -81,9 +95,11 @@ t_list	*token_comb(t_list *token_list)
 		else if (token->type >= 3 && token->type <= 6)
 		{
 			if (((t_token *)(token_list->next)) &&
-				((t_token *)(token_list->next->content))->type == WORD_T)
+				is_word_space(token_list->next))
 			{
 				append(&tmp, token->token);
+				if (((t_token *)(token_list->next->content))->type == SPACE_T)
+					token_list = token_list->next;
 				append(&tmp, ((t_token *)(token_list->next->content))->token);
 				split = new_split(tmp, token->type);
 				ft_lstadd_back(&res, ft_lstnew(split));
@@ -97,14 +113,22 @@ t_list	*token_comb(t_list *token_list)
 		{
 			append(&tmp, token->token);
 			while (((t_token *)(token_list->next)) &&
-				(((t_token *)(token_list->next->content))->type == WORD_T ||
-				((t_token *)(token_list->next->content))->type == SPACE_T))
+				is_word_space(token_list->next))
 			{
 				token_list = token_list->next;
 				token = (t_token *)(token_list->content);
-				// 공백인 경우  저장하지  않고  넘어가기
-				if (token->type != SPACE_T)
-					append(&tmp, token->token);
+				// 공백인 경우 다음칸으로 넘어가서 append 말고 join하기
+				if (token->type == SPACE_T
+					&& ((t_token *)(token_list->next->content))->type != PIPE_T
+					&& !(((t_token *)(token_list->next->content))->type >= 3
+					&& ((t_token *)(token_list->next->content))->type <= 6))
+				{	
+					token_list = token_list->next;
+					append(&tmp, ((t_token *)(token_list->content))->token);
+					i++;
+				}
+				else if (token->type != SPACE_T)
+					tmp[i] = ft_strjoin(tmp[i], ((t_token *)(token_list->content))->token);
 			}
 			split = new_split(tmp, token->type);
 			ft_lstadd_back(&res, ft_lstnew(split));

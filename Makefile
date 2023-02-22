@@ -41,7 +41,7 @@ LIBFT			=	./libft/libft.a
 
 OBJS			=	$(SRCS:.c=.o)
 
-%.o: %.c
+%.o: %.c		
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
 				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
 

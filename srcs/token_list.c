@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:55:19 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/21 19:48:19 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/22 15:59:39 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ t_token	*split_space_quote(char *line, int *arr, int *i)
 		while (arr[*i] == type)
 			*i += 1;
 		*i -= 1;
+		if (type == SPACE_T)
+			start = *i;
 	}
 	else if (type == QUOTE_DOUBLE || type == QUOTE_SINGLE)
 	{
