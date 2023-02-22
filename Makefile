@@ -4,8 +4,8 @@ CC				=	cc
 RM				=	rm -f
 CFLAGS			=	-Wall -Wextra -Werror -g
 
-COMFILE_FLAGS 	=	-l readline -L/opt/homebrew/opt/readline/lib
-OBJ_FLAGS 		=	-I/opt/homebrew/opt/readline/include
+COMFILE_FLAGS	=	-l readline -L ${HOME}/.brew/opt/readline/lib
+OBJ_FLAGS 		=	-I ${HOME}/.brew/opt/readline/include
 
 LIBFT			=	./libft/libft.a
 
