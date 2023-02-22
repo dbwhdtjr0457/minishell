@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:55:19 by jihylim           #+#    #+#             */
 /*   Updated: 2023/02/21 19:48:19 by jihylim          ###   ########.fr       */

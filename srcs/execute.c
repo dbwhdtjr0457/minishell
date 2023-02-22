@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:21:42 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/20 14:56:05 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/22 02:45:47 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,64 @@ int	split_size(char **split)
 	return (i);
 }
 
+char	*find_path(char *cmd, t_list *env)
+{
+	char	*path;
+	char	*tmp;
+	char	*tmp2;
+	char	**split;
+	int		i;
+
+	path = get_env("PATH", env);
+	if (!path)
+		return (0);
+	split = ft_split(path, ':');
+	i = 0;
+	while (split[i])
+	{
+		tmp2 = ft_strjoin(split[i], "/");
+		tmp = ft_strjoin(tmp2, cmd);
+		free(tmp2);
+		if (access(tmp, F_OK) == 0)
+			break ;
+		free(tmp);
+		tmp = 0;
+		i++;
+	}
+	free(path);
+	free_split(split);
+	return (tmp);
+}
+
+char	**env_to_char(t_list *env)
+{
+	char	**tmp;
+	char	*tmp2;
+	int		i;
+
+	tmp = (char **)malloc(sizeof(char *) * (ft_lstsize(env) + 1));
+	i = 0;
+	while (env)
+	{
+		tmp2 = ft_strjoin(((char **)env->content)[0], "=");
+		tmp[i] = ft_strjoin(tmp2, ((char **)env->content)[1]);
+		free(tmp2);
+		env = env->next;
+		i++;
+	}
+	tmp[i] = 0;
+	return (tmp);
+}
+
 int	execute(t_list *parsed, t_list **env)
 {
 	char	**tmp;
 	char	*path;
 	int		i;
+	char	**env_char;
 
 	tmp = ((t_split *)parsed->content)->split;
+	env_char = env_to_char(*env);
 	if (ft_strncmp(tmp[0], "echo", 5) == 0)
 		ft_echo(parsed);
 	else if (ft_strncmp(tmp[0], "cd", 3) == 0)
@@ -43,23 +94,24 @@ int	execute(t_list *parsed, t_list **env)
 		ft_env(parsed, *env);
 	else if (ft_strncmp(tmp[0], "exit", 5) == 0)
 		ft_exit(parsed, *env);
-	// else
-	// {
-	// 	path = find_path(tmp[0], *env);
-	// 	if (path)
-	// 	{
-	// 		i = fork();
-	// 		if (i == 0)
-	// 			execve(path, tmp, env_to_char(*env));
-	// 		else
-	// 			waitpid(i, 0, 0);
-	// 		free(path);
-	// 	}
-	// 	else
-	// 		ft_putstr_fd("command not found\n", 2);
-	// }
-	(void)env;
-	(void)i;
-	(void)path;
+	else
+	{
+		path = find_path(tmp[0], *env);
+		if (path)
+		{
+			i = fork();
+			if (i == 0)
+				execve(path, tmp, env_char);
+			else
+				waitpid(i, 0, 0);
+		}
+		else
+		{
+			ft_putstr_fd(tmp[0], 2);
+			ft_putstr_fd(": command not found\n", 2);
+		}
+		free(path);
+	}
+	free_split(env_char);
 	return (1);
 }

@@ -46,12 +46,6 @@ enum e_token{
 	WORD_T
 };
 
-typedef struct s_env
-{
-	char	*key;
-	char	*value;
-}	t_env;
-
 typedef struct s_split{
 	int		type;
 	char	**split;

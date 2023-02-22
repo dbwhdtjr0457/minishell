@@ -82,5 +82,6 @@ int	main(int ac, char **av, char **envp)
 	}
 	(void)ac;
 	(void)av;
+	ft_lstclear_env(&env);
 	return (0);
 }
