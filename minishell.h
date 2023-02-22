@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/21 21:47:42 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/22 15:14:02 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 # include "libft/libft.h"
 
-# define PROMPT "minishell$ "
+# define PROMPT "\033[1;33mMochaShell$ \033[0;0m"
 
 enum e_token{
 	QUOTE_DOUBLE = 1,

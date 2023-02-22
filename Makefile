@@ -46,23 +46,23 @@ OBJS			=	$(SRCS:.c=.o)
 				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
 
 $(NAME):		$(OBJS)
-				@echo $(GREEN) "      Making mocha shells...\n"
+				@echo $(GREEN) "      Making mocha shells...\n" $(EOC)
 				@make bonus -C ./libft
 				@$(CC) $(CFLAGS) $(COMFILE_FLAGS) -o $(NAME) $(OBJS) $(LIBFT)
-				@echo $(YELLOW) "\n====================================\n"
-				@echo $(YELLOW) "    << MochaShell is made! >>\n"
+				@echo $(YELLOW) "\n====================================\n" $(EOC)
+				@echo $(YELLOW) "    << MochaShell is made! >>\n" $(EOC)
 
 all:			$(NAME)
 
 clean:
 				@make clean -C libft
 				@$(RM) $(OBJS) $(OBJS_BONUS) $(OBJS_GNL)
-				@echo $(RED) "      Object file is removed!\n"
+				@echo $(RED) "      Object file is removed!\n" $(EOC)
 
 fclean: 		clean
 				@make fclean -C libft
 				@$(RM) $(NAME)
-				@echo $(RED) "       minishell is removed!\n\n"
+				@echo $(RED) "       minishell is removed!\n\n" $(EOC)
 
 re:
 				@make fclean
