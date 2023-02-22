@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/22 15:14:02 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/22 19:15:37 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,11 @@ void	lexer(const char *line, int *arr);
 // parse.c
 t_list	*parsing(char *line, t_list *env);
 
+// is_type.c
+int		is_redir(t_list *lst);
+int		is_pipe(t_list *lst);
+int		is_word(t_list *lst);
+int		is_space(t_list *lst);
 // token_comb.c
 t_list	*token_comb(t_list *token_list);
 
