@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:34:18 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/18 20:42:18 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/22 19:33:11 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*get_env(char *key, t_list *env)
 	while (env)
 	{
 		tmp = env->content;
-		if (ft_strncmp(tmp[0], key, ft_strlen(key)) == 0)
+		if (ft_strncmp(tmp[0], key, ft_strlen(tmp[0])) == 0)
 		{
 			ret = ft_strdup(tmp[1]);
 			return (ret);

@@ -13,7 +13,7 @@ NAME			=	minishell
 
 CC				=	cc
 RM				=	rm -f
-CFLAGS			=	-Wall -Wextra -Werror -g
+CFLAGS			=	-Wall -Wextra -Werror -g 
 #-fsanitize=address
 
 COMFILE_FLAGS	=	-l readline -L ${HOME}/.brew/opt/readline/lib
@@ -28,6 +28,7 @@ SRCS_FILES		=	main.c \
 					parse.c \
 					change_to_env.c \
 					lexer.c \
+					is_type.c \
 					token_comb.c \
 					token_list.c \
 					execute.c \
@@ -41,28 +42,28 @@ LIBFT			=	./libft/libft.a
 
 OBJS			=	$(SRCS:.c=.o)
 
-%.o: %.c
+%.o: %.c		
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
 				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
 
 $(NAME):		$(OBJS)
-				@echo $(GREEN) "      Making mocha shells...\n"
+				@echo $(GREEN) "      Making mocha shells...\n" $(EOC)
 				@make bonus -C ./libft
 				@$(CC) $(CFLAGS) $(COMFILE_FLAGS) -o $(NAME) $(OBJS) $(LIBFT)
-				@echo $(YELLOW) "\n====================================\n"
-				@echo $(YELLOW) "    << MochaShell is made! >>\n"
+				@echo $(YELLOW) "\n====================================\n" $(EOC)
+				@echo $(YELLOW) "    << MochaShell is made! >>\n" $(EOC)
 
 all:			$(NAME)
 
 clean:
 				@make clean -C libft
 				@$(RM) $(OBJS) $(OBJS_BONUS) $(OBJS_GNL)
-				@echo $(RED) "      Object file is removed!\n"
+				@echo $(RED) "      Object file is removed!\n" $(EOC)
 
 fclean: 		clean
 				@make fclean -C libft
 				@$(RM) $(NAME)
-				@echo $(RED) "       minishell is removed!\n\n"
+				@echo $(RED) "      MochaShell is removed!\n\n" $(EOC)
 
 re:
 				@make fclean
