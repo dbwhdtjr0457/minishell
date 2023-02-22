@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 21:46:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/21 22:26:36 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/22 14:10:00 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,9 @@ char	*quote_env(t_token *token, t_list *env)
 	free(lexer_arr);
 	free(str);
 	token_list = change_to_env(&token_list, env);
-
 	// 다시 합치기
 	str = token_join(token_list);
 	ft_lstclear_token(&token_list);
-	// system("leaks --list minishell");
 	return (str);
 }
 
@@ -111,9 +109,10 @@ t_list	*change_to_env(t_list **token_list, t_list *env)
 			else
 				change = change_dallor(token, env);
 			(*token_list)->content = new_token(change, WORD_T);
-			free(token);
+			free_token(token);
 		}
 		(*token_list) = (*token_list)->next;
 	}
+	
 	return (res);
 }
