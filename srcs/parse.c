@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/22 16:24:48 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/24 15:39:06 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ t_list	*parsing(char *line, t_list *env)
 	// syntax 체크
 	// 한번에 실행할 token끼리 묶어서 t_split에 저장
 	cmd_list = token_comb(token_list);
-	// ft_lstiter(cmd_list, print_split_in_list);
-	// ft_lstclear_parsed(&cmd_list);
+	//ft_lstiter(cmd_list, print_split_in_list);
+	ft_lstclear_parsed(&cmd_list);
 	ft_lstclear_token(&token_list);
 	// system("leaks --list minishell");
 	(void)cmd_list;

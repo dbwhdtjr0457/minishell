@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:50:47 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/21 21:53:00 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/22 19:16:42 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,63 @@ void	append(char ***res, char *str)
 			len++;
 	}
 	new = malloc((len + 2) * sizeof(char *));
-	// 이전 배열 포인터가 가리키는 영역에서 새로운 메모리 영역으로 문자열 포인터들을 복사
 	while (++i < len)
 		new[i] = strdup(tmp[i]);
-	// 새로 추가할 문자열을 새로운 메모리 영역의 마지막에 추가
 	new[len] = strdup(str);
 	new[len + 1] = 0;
-	// 이전 배열 포인터가 가리키는 영역의 메모리 해제
 	i = 0;
 	while (i < len)
 		free(tmp[i++]);
 	free(tmp);
-	// 배열 포인터를 새로 할당된 메모리 영역의 주소로 업데이트
 	*res = new;
+}
+
+t_list	*comb_redir(t_list *lst, t_list **res)
+{
+	t_split	*split;
+	char	**tmp;
+
+	tmp = 0;
+	if (((t_token *)(lst->next)) && (is_word(lst->next) || is_space(lst->next)))
+	{
+		append(&tmp, ((t_token *)(lst->content))->token);
+		if (is_space(lst->next))
+			lst = lst->next;
+		append(&tmp, ((t_token *)(lst->next->content))->token);
+		split = new_split(tmp, ((t_token *)(lst->content))->type);
+		ft_lstadd_back(res, ft_lstnew(split));
+		lst = lst->next;
+	}
+	// else 리다이렉션 뒤에 word token이 나오지 않을 경우 에러 처리 필요 또는 리다이렉션만 나올경우(뒤에가 널일 경우)
+	return (lst);
+}
+
+t_list	*comb_word(t_list *lst, t_list **res)
+{
+	t_split	*split;
+	char	**tmp;
+	int		i;
+
+	tmp = 0;
+	i = 0;
+	append(&tmp, ((t_token *)(lst->content))->token);
+	while (((t_token *)(lst->next))
+		&& (is_word(lst->next) || is_space(lst->next)))
+	{
+		lst = lst->next;
+		if (is_space(lst) && !is_pipe(lst->next)
+			&& !is_redir(lst->next))
+		{	
+			lst = lst->next;
+			append(&tmp, ((t_token *)(lst->content))->token);
+			i++;
+		}
+		else if (!is_space(lst))
+			tmp[i] = ft_strjoin(tmp[i], ((t_token *)(lst->content))->token);
+	}
+	split = new_split(tmp, WORD_T);
+	ft_lstadd_back(res, ft_lstnew(split));
+	return (lst);
 }
 
 // 연관있는 토큰끼리 합쳐주는 함수
@@ -62,53 +106,25 @@ void	append(char ***res, char *str)
 // 인자로 받아온 token_list 는 free해줘야 함
 t_list	*token_comb(t_list *token_list)
 {
-	t_token	*token;
 	t_list	*res;
 	t_split	*split;
-	char	**tmp;
 
 	res = 0;
 	while (token_list)
 	{
-		tmp = 0;
-		token = (t_token *)(token_list->content);
-		if (token->type == PIPE_T)
+		if (is_space(token_list))
+			;
+		else if (is_pipe(token_list))
 		{
-			split = new_split(ft_split(token->token, ' '), (token->type));
+			split = new_split(
+					ft_split(((t_token *)(token_list->content))->token, ' '),
+					(((t_token *)(token_list->content))->type));
 			ft_lstadd_back(&res, ft_lstnew(split));
 		}
-		// 리다이렉션일 경우 type이 3 ~ 6
-		else if (token->type >= 3 && token->type <= 6)
-		{
-			if (((t_token *)(token_list->next)) &&
-				((t_token *)(token_list->next->content))->type == WORD_T)
-			{
-				append(&tmp, token->token);
-				append(&tmp, ((t_token *)(token_list->next->content))->token);
-				split = new_split(tmp, token->type);
-				ft_lstadd_back(&res, ft_lstnew(split));
-				token_list = token_list->next;
-			}
-			// else 리다이렉션 뒤에 word token이 나오지 않을 경우 에러 처리 필요 또는 리다이렉션만 나올경우(뒤에가 널일 경우)
-		}
-		//파이프나 리다리렉션이 나오지 않을 경우 == word 일 경우
-		// 파이프나 리다이렉션이 나올 때까지 뒤에 연결
+		else if (is_redir(token_list))
+			token_list = comb_redir(token_list, &res);
 		else
-		{
-			append(&tmp, token->token);
-			while (((t_token *)(token_list->next)) &&
-				(((t_token *)(token_list->next->content))->type == WORD_T ||
-				((t_token *)(token_list->next->content))->type == SPACE_T))
-			{
-				token_list = token_list->next;
-				token = (t_token *)(token_list->content);
-				// 공백인 경우  저장하지  않고  넘어가기
-				if (token->type != SPACE_T)
-					append(&tmp, token->token);
-			}
-			split = new_split(tmp, token->type);
-			ft_lstadd_back(&res, ft_lstnew(split));
-		}
+			token_list = comb_word(token_list, &res);
 		token_list = token_list->next;
 	}
 	return (res);

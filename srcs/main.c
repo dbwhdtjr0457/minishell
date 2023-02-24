@@ -6,7 +6,11 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/02/24 13:54:21 by joyoo            ###   ########.fr       */
+=======
+/*   Updated: 2023/02/22 15:55:13 by jihylim          ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +19,10 @@
 void	signal_c(int signal)
 {
 	if (signal == SIGINT)
-		write(1, "MochaShell$ \n", 15);
+	{	
+		write(1, PROMPT, ft_strlen(PROMPT));
+		write(1, "\n", 1);
+	}
 	// 현재까지 입력된 문자열을 str로 바꿔주는 함력
 	// 프롬포트를 입력하지 않고 새로운 프롬포트 출력할 때, 프롬포트 비워주기
 	rl_replace_line("", 1);
@@ -59,7 +66,7 @@ int	main(int ac, char **av, char **envp)
 	make_env(&env, envp);
 	while (1)
 	{
-		line = readline("MochaShell$ ");
+		line = readline(PROMPT);
 		if (!line)
 		{
 			// ctrl + D 눌렀을 경우
