@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 21:46:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/24 01:04:09 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/24 17:15:52 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,29 @@
 
 char	*token_join(t_list *token_list)
 {
-	t_list	*list;
+	t_list	*lst;
 	int		len;
 	char	*res;
 	int		index;
 
 	len = 0;
 	index = 0;
-	list = token_list;
-	while (list)
+	lst = token_list;
+	while (lst)
 	{
-		len += ft_strlen(((t_token *)list->content)->token);
-		list = list->next;
+		len += ft_strlen(((t_token *)lst->content)->token);
+		lst = lst->next;
 	}
 	res = (char *)ft_calloc((len + 1), sizeof(char));
 	if (!res)
 		return (0);
-	list = token_list;
-	while (list)
+	lst = token_list;
+	while (lst)
 	{
-		len = ft_strlen(((t_token *)list->content)->token);
-		ft_memcpy(res + index, ((t_token *)list->content)->token, len);
+		len = ft_strlen(((t_token *)lst->content)->token);
+		ft_memcpy(res + index, ((t_token *)lst->content)->token, len);
 		index += len;
-		list = list->next;
+		lst = lst->next;
 	}
 	return (res);
 }
@@ -106,7 +106,7 @@ t_list	*change_to_env(t_list *token_list, t_list *env)
 			// printf("%s\n", ((t_token*)make_token(quote_env(token, env))->next->next->content)->token);
 			// ft_lstadd_back(&token_list, make_token(quote_env(token, env)));
 			str = quote_env(token, env);
-			token_list->content = new_token(str, token->type);
+			token_list->content = new_token(str, QUOTE_DOUBLE);
 			free_token(token);
 		}
 		if (token->type == DALLOR_T || token->type == QUOTE_SINGLE)
