@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:42:37 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/22 01:18:47 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/22 18:04:51 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	ft_cd(t_list *parsed, t_list **env)
 	}
 	else
 	{
-		if (!ft_strncmp(tmp[1], "~", 1) || !ft_strncmp(tmp[1], "~/", 2))
+		if (!ft_strncmp(tmp[1], "~", 2) || !ft_strncmp(tmp[1], "~/", 3))
 			save_tmp(tmp, "HOME", env);
 		else if (!ft_strncmp(tmp[1], "-", 1))
 			save_tmp(tmp, "OLDPWD", env);

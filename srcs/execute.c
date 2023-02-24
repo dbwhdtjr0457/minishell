@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:21:42 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/22 02:45:47 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/24 13:57:33 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ char	*find_path(char *cmd, t_list *env)
 	char	**split;
 	int		i;
 
+	if (access(cmd, X_OK) == 0)
+		return (ft_strdup(cmd));
 	path = get_env("PATH", env);
 	if (!path)
 		return (0);
@@ -40,7 +42,7 @@ char	*find_path(char *cmd, t_list *env)
 		tmp2 = ft_strjoin(split[i], "/");
 		tmp = ft_strjoin(tmp2, cmd);
 		free(tmp2);
-		if (access(tmp, F_OK) == 0)
+		if (access(tmp, X_OK) == 0)
 			break ;
 		free(tmp);
 		tmp = 0;
@@ -71,15 +73,8 @@ char	**env_to_char(t_list *env)
 	return (tmp);
 }
 
-int	execute(t_list *parsed, t_list **env)
+int	builtin(t_list *parsed, t_list **env, char **tmp)
 {
-	char	**tmp;
-	char	*path;
-	int		i;
-	char	**env_char;
-
-	tmp = ((t_split *)parsed->content)->split;
-	env_char = env_to_char(*env);
 	if (ft_strncmp(tmp[0], "echo", 5) == 0)
 		ft_echo(parsed);
 	else if (ft_strncmp(tmp[0], "cd", 3) == 0)
@@ -95,15 +90,57 @@ int	execute(t_list *parsed, t_list **env)
 	else if (ft_strncmp(tmp[0], "exit", 5) == 0)
 		ft_exit(parsed, *env);
 	else
+		return (0);
+	return (1);
+}
+
+int	pipe_count(t_list *parsed)
+{
+	int	pipe_num;
+
+	pipe_num = 0;
+	while (parsed)
+	{
+		if (((t_split *)parsed->content)->type == PIPE_T)
+			pipe_num++;
+		parsed = parsed->next;
+	}
+	return (pipe_num);
+}
+
+void	get_parsed(t_list *parsed, int type)
+{
+	while (parsed)
+	{
+		if (((t_split *)parsed->content)->type == type)
+			break ;
+		parsed = parsed->next;
+	}
+}
+
+int	execute(t_list *parsed, t_list **env)
+{
+	char	**tmp;
+	char	*path;
+	pid_t	pid;
+	char	**env_char;
+	int		pipe_num;
+
+	pipe_num = pipe_count(parsed);
+	tmp = ((t_split *)parsed->content)->split;
+	env_char = env_to_char(*env);
+	if (pipe_num > 0)
+		return (pipe_execute(parsed, env, pipe_num));
+	else if (!builtin(parsed, env, tmp))
 	{
 		path = find_path(tmp[0], *env);
 		if (path)
 		{
-			i = fork();
-			if (i == 0)
+			pid = fork();
+			if (pid == 0)
 				execve(path, tmp, env_char);
 			else
-				waitpid(i, 0, 0);
+				waitpid(pid, 0, 0);
 		}
 		else
 		{
