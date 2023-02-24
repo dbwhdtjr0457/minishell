@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 19:10:49 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/22 19:16:12 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/24 14:54:06 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ int	is_word(t_list *lst)
 int	is_space(t_list *lst)
 {
 	if (((t_token *)(lst->content))->type == SPACE_T)
+		return (1);
+	return (0);
+}
+
+int	is_double(t_list *lst)
+{
+	if (((t_token *)(lst->content))->type == QUOTE_DOUBLE)
 		return (1);
 	return (0);
 }

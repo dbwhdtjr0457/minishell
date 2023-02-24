@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 15:01:16 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/21 22:33:31 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/24 15:19:58 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	free_split(char **split)
 	int	i;
 
 	i = 0;
+	if (!(*split))
+		return ;
 	while (split[i])
 	{
 		free(split[i]);
@@ -29,6 +31,8 @@ void	free_token(void	*content)
 {
 	t_token	*tmp;
 
+	if (!content)
+		return ;
 	tmp = (t_token *)content;
 	free(tmp->token);
 	free(tmp);
@@ -38,6 +42,9 @@ void	ft_lstclear_token(t_list **lst)
 {
 	t_list	*tmp;
 
+	if (!lst || !(*lst))
+	//if (!(*lst))
+		return ;
 	while (*lst)
 	{
 		tmp = (*lst)->next;
@@ -51,7 +58,9 @@ void	ft_lstclear_token(t_list **lst)
 void	free_parsed(void *content)
 {
 	t_split	*tmp;
-
+	
+	if (!content)
+		return ;
 	tmp = (t_split *)content;
 	free_split(tmp->split);
 	free(tmp);
@@ -61,6 +70,8 @@ void	ft_lstclear_parsed(t_list **lst)
 {
 	t_list	*tmp;
 
+	if (!(*lst))
+		return ;
 	while (*lst)
 	{
 		tmp = (*lst)->next;
@@ -75,6 +86,8 @@ void	ft_lstclear_env(t_list **lst)
 {
 	t_list	*tmp;
 
+	if (!(*lst))
+		return ;
 	while (*lst)
 	{
 		tmp = (*lst)->next;
