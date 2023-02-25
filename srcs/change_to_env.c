@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 21:46:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/22 18:18:00 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/24 17:15:52 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,29 @@
 
 char	*token_join(t_list *token_list)
 {
-	t_list	*list;
+	t_list	*lst;
 	int		len;
 	char	*res;
 	int		index;
 
 	len = 0;
 	index = 0;
-	list = token_list;
-	while (list)
+	lst = token_list;
+	while (lst)
 	{
-		len += ft_strlen(((t_token *)list->content)->token);
-		list = list->next;
+		len += ft_strlen(((t_token *)lst->content)->token);
+		lst = lst->next;
 	}
 	res = (char *)ft_calloc((len + 1), sizeof(char));
 	if (!res)
 		return (0);
-	list = token_list;
-	while (list)
+	lst = token_list;
+	while (lst)
 	{
-		len = ft_strlen(((t_token *)list->content)->token);
-		ft_memcpy(res + index, ((t_token *)list->content)->token, len);
+		len = ft_strlen(((t_token *)lst->content)->token);
+		ft_memcpy(res + index, ((t_token *)lst->content)->token, len);
 		index += len;
-		list = list->next;
+		lst = lst->next;
 	}
 	return (res);
 }
@@ -54,17 +54,13 @@ char	*token_join(t_list *token_list)
 char	*quote_env(t_token *token, t_list *env)
 {
 	char	*str;
-	int		*lexer_arr;
 	t_list	*token_list;
 
 	// " " 잘라낸 부분 : str
 	str = ft_substr(token->token, 1, ft_strlen(token->token) - 2);
-	lexer_arr = (int *)ft_calloc(ft_strlen(str) + 1, sizeof(int));
-	lexer(str, lexer_arr);
-	make_token_list(&token_list, str, lexer_arr);
-	free(lexer_arr);
+	token_list = make_token(str);
 	free(str);
-	token_list = change_to_env(&token_list, env);
+	token_list = change_to_env(token_list, env);
 	// 다시 합치기
 	str = token_join(token_list);
 	ft_lstclear_token(&token_list);
@@ -92,26 +88,37 @@ char	*change_dallor(t_token *token, t_list *env)
 	return (res);
 }
 
-t_list	*change_to_env(t_list **token_list, t_list *env)
+// 환경변수 매칭 실패 시 토큰 없애기
+// " " 제거 후 split 해서 앞뒤 연결하기
+
+t_list	*change_to_env(t_list *token_list, t_list *env)
 {
 	t_list	*res;
-	char	*change;
+	char	*str;
 	t_token	*token;
 
-	res = *token_list;
-	while (*token_list)
+	res = token_list;
+	while (token_list)
 	{
-		token = (t_token *)((*token_list)->content);
-		if (token->type == DALLOR_T || token->type == QUOTE_DOUBLE)
+		token = (t_token *)((token_list)->content);
+		if (token->type == QUOTE_DOUBLE)
 		{
-			if (token->type == QUOTE_DOUBLE)
-				change = quote_env(token, env);
-			else
-				change = change_dallor(token, env);
-			(*token_list)->content = new_token(change, WORD_T);
+			// printf("%s\n", ((t_token*)make_token(quote_env(token, env))->next->next->content)->token);
+			// ft_lstadd_back(&token_list, make_token(quote_env(token, env)));
+			str = quote_env(token, env);
+			token_list->content = new_token(str, QUOTE_DOUBLE);
 			free_token(token);
 		}
-		(*token_list) = (*token_list)->next;
+		if (token->type == DALLOR_T || token->type == QUOTE_SINGLE)
+		{
+			if (token->type == DALLOR_T)
+				str = change_dallor(token, env);
+			else if (token->type == QUOTE_SINGLE)
+				str = ft_substr(token->token, 1, ft_strlen(token->token) - 2);
+			token_list->content = new_token(str, WORD_T);
+			free_token(token);
+		}
+		token_list = token_list->next;
 	}
 	return (res);
 }

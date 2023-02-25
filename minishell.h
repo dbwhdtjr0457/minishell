@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/24 17:23:35 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/25 15:25:05 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,13 @@ void	ft_lstclear_parsed(t_list **lst);
 void	ft_lstclear_env(t_list **lst);
 
 // change_to_env.c
-t_list	*change_to_env(t_list **token_list, t_list *env);
+t_list	*change_to_env(t_list *token_list, t_list *env);
 
 // lexer.c
 void	lexer(const char *line, int *arr);
 
 // parse.c
+t_list	*make_token(char *line);
 t_list	*parsing(char *line, t_list *env);
 
 // is_type.c
@@ -94,6 +95,7 @@ int		is_redir(t_list *lst);
 int		is_pipe(t_list *lst);
 int		is_word(t_list *lst);
 int		is_space(t_list *lst);
+int		is_double(t_list *lst);
 // token_comb.c
 t_list	*token_comb(t_list *token_list);
 

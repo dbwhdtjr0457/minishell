@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:50:47 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/22 19:16:42 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/24 17:15:06 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ t_list	*comb_redir(t_list *lst, t_list **res)
 	char	**tmp;
 
 	tmp = 0;
-	if (((t_token *)(lst->next)) && (is_word(lst->next) || is_space(lst->next)))
+	if ((lst->next) && (is_word(lst->next) || (is_space(lst->next)
+				&& (lst->next->next) && is_word(lst->next->next))))
 	{
 		append(&tmp, ((t_token *)(lst->content))->token);
 		if (is_space(lst->next))
@@ -69,6 +70,11 @@ t_list	*comb_redir(t_list *lst, t_list **res)
 		ft_lstadd_back(res, ft_lstnew(split));
 		lst = lst->next;
 	}
+	else
+	{	
+		printf("redir error\n");
+		return (0);
+	}
 	// else 리다이렉션 뒤에 word token이 나오지 않을 경우 에러 처리 필요 또는 리다이렉션만 나올경우(뒤에가 널일 경우)
 	return (lst);
 }
@@ -77,6 +83,7 @@ t_list	*comb_word(t_list *lst, t_list **res)
 {
 	t_split	*split;
 	char	**tmp;
+	char	*join;
 	int		i;
 
 	tmp = 0;
@@ -86,15 +93,19 @@ t_list	*comb_word(t_list *lst, t_list **res)
 		&& (is_word(lst->next) || is_space(lst->next)))
 	{
 		lst = lst->next;
-		if (is_space(lst) && !is_pipe(lst->next)
-			&& !is_redir(lst->next))
-		{	
+		if (lst && is_space(lst) && lst->next
+			&& !is_pipe(lst->next) && !is_redir(lst->next))
+		{
 			lst = lst->next;
 			append(&tmp, ((t_token *)(lst->content))->token);
 			i++;
 		}
-		else if (!is_space(lst))
-			tmp[i] = ft_strjoin(tmp[i], ((t_token *)(lst->content))->token);
+		else if (lst && !is_space(lst))
+		{	
+			join = ft_strjoin(tmp[i], ((t_token *)(lst->content))->token);
+			free(tmp[i]);
+			tmp[i] = join;
+		}
 	}
 	split = new_split(tmp, WORD_T);
 	ft_lstadd_back(res, ft_lstnew(split));
@@ -104,28 +115,60 @@ t_list	*comb_word(t_list *lst, t_list **res)
 // 연관있는 토큰끼리 합쳐주는 함수
 // t_list *res의 content에 t_split 형태로 저장한 후 반환
 // 인자로 받아온 token_list 는 free해줘야 함
-t_list	*token_comb(t_list *token_list)
+t_list	*token_comb(t_list *lst)
 {
 	t_list	*res;
-	t_split	*split;
+	t_list	*tmp;
+	//t_split	*split;
 
 	res = 0;
-	while (token_list)
+	while (lst)
 	{
-		if (is_space(token_list))
+		tmp = 0;
+		//if (is_double(lst))
+		//{
+		//	tmp = make_token(((t_token *)lst->content)->token);
+		//	ft_lstlast(tmp)->next = lst->next;
+		//	lst = tmp;
+		//}
+		if (is_space(lst))
 			;
-		else if (is_pipe(token_list))
+		else if (is_pipe(lst))
 		{
-			split = new_split(
-					ft_split(((t_token *)(token_list->content))->token, ' '),
-					(((t_token *)(token_list->content))->type));
-			ft_lstadd_back(&res, ft_lstnew(split));
+			// pipe 뒤에 단어만 와야하나?? redir 와도 되는건가??
+			// 지금은 단어만 와야하는 것/
+			if (!res || !((lst->next) && (is_word(lst->next)
+						|| (is_space(lst->next) && (lst->next->next)
+							&& is_word(lst->next->next)))))
+			{
+				printf("pipe error\n");
+				ft_lstclear_parsed(&res);
+				// 바로 리턴 말고 프리 해주고 끝내야 함
+				return (0);
+			}
+			//split = new_split(
+			//		ft_split(((t_token *)(lst->content))->token, ' '),
+			//		(((t_token *)(lst->content))->type));
+			//ft_lstadd_back(&res, ft_lstnew(split));
 		}
-		else if (is_redir(token_list))
-			token_list = comb_redir(token_list, &res);
+		else if (is_redir(lst))
+			lst = comb_redir(lst, &res);
 		else
-			token_list = comb_word(token_list, &res);
-		token_list = token_list->next;
+			lst = comb_word(lst, &res);
+		//system("leaks --list minishell");
+		if (!lst)
+		{
+			ft_lstclear_token(&tmp);
+			ft_lstclear_parsed(&res);
+			return (0);
+		}
+		lst = lst->next;
+		//if (tmp && tmp->content)
+		//	ft_lstclear_token(&tmp);
+		//system("leaks --list minishell");
 	}
+	//if (tmp && tmp->content)
+	//		ft_lstclear_token(&tmp);
+	//system("leaks --list minishell");
 	return (res);
 }
