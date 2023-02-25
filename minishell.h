@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/26 00:47:03 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/26 00:59:03 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ enum e_token
 	REDIR_R,
 	PIPE_T,
 	SPACE_T,
-	DALLOR_T,
+	DOLLAR_T,
 	WORD_T
 };
 

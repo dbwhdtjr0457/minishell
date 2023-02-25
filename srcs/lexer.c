@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 15:13:45 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/19 20:06:02 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/26 00:59:03 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	lexer(const char *line, int *arr)
 		else if (line[i] == ' ')
 			arr[i] = SPACE_T;
 		else if (line[i] == '$')
-			arr[i] = DALLOR_T;
+			arr[i] = DOLLAR_T;
 		else
 			arr[i] = WORD_T;
 		i++;

@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:55:19 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/22 18:08:08 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/26 00:59:03 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_token	*split_space_quote(char *line, int *arr, int *i)
 			type = WORD_T;
 		}
 	}
-	else if (type == DALLOR_T)
+	else if (type == DOLLAR_T)
 	{
 		*i += 1;
 		while (arr[*i] && arr[*i] != type)
