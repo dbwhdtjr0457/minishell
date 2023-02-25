@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/25 15:35:32 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/25 16:33:35 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,22 @@ typedef struct s_token{
 	int		type;
 	char	*token;
 }	t_token;
+
+typedef struct s_pipex
+{
+	char	**cmd_list;
+	char	**path_list;
+	char	*cmd_path;
+	char	*file1;
+	char	*file2;
+	int		new_pipe[2];
+	int		old_pipe[2];
+	pid_t	*pid;
+	int		argc;
+	char	**argv;
+	char	**envp;
+	int		heredoc;
+}	t_pipex;
 
 // free.c
 void	free_split(char **split);
@@ -115,5 +131,12 @@ void	set_env(char *key, char *value, t_list **env);
 // t_list_utils.c
 void	ft_lstprint_input(void *content);
 void	ft_lstprint_env(void *content);
+
+// pipe.c
+int		pipe_execute(t_list *parsed, t_list **env, int pipe_num);
+void	check_redir(t_list **parsed);
+
+// main.c
+char	**env_to_char(t_list *env);
 
 #endif
