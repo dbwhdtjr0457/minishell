@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 21:46:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/24 17:15:52 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/26 01:00:18 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 // quote_env
 	// token type이 "" 일 경우, "" 떼고, 안의 내용 공백 또는 $로 나누기
-	// change_dallor
+	// change_dollar
 	// 치환 후 join으로 담기
 
 char	*token_join(t_list *token_list)
@@ -67,10 +67,10 @@ char	*quote_env(t_token *token, t_list *env)
 	return (str);
 }
 
-// change_dallor
-	// token type이 dallor 일 경우 달러 다음에 오는 문자만 잘라서 확인
+// change_dollar
+	// token type이 dollar 일 경우 달러 다음에 오는 문자만 잘라서 확인
 
-char	*change_dallor(t_token *token, t_list *env)
+char	*change_dollar(t_token *token, t_list *env)
 {
 	char	*remove_d;
 	char	*res;
@@ -109,10 +109,10 @@ t_list	*change_to_env(t_list *token_list, t_list *env)
 			token_list->content = new_token(str, QUOTE_DOUBLE);
 			free_token(token);
 		}
-		if (token->type == DALLOR_T || token->type == QUOTE_SINGLE)
+		else if (token->type == DOLLAR_T || token->type == QUOTE_SINGLE)
 		{
-			if (token->type == DALLOR_T)
-				str = change_dallor(token, env);
+			if (token->type == DOLLAR_T)
+				str = change_dollar(token, env);
 			else if (token->type == QUOTE_SINGLE)
 				str = ft_substr(token->token, 1, ft_strlen(token->token) - 2);
 			token_list->content = new_token(str, WORD_T);
