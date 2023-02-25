@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/25 21:57:35 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/26 00:52:20 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,27 +58,30 @@ t_list	*make_token(char *line)
 	return (token_list);
 }
 
-t_list	*parsing(char *line, t_list *env)
+t_mini	*parsing(char *line, t_list *env)
 {
 	t_list	*token_list;
-	t_list	*cmd_list;
+	t_mini	*cmd_list;
 
 	cmd_list = 0;
 	token_list = make_token(line);
 	// 환경변수 치환
 	// $가 붙어 있을 경우 ' '안에 있을 경우를 제외하고 env 목록에 있는 변수로 변경
 	token_list = change_to_env(token_list, env);
-	printf("change env\n");
-	ft_lstiter(token_list, print_word_in_list);
+	// printf("change env\n");
+	// ft_lstiter(token_list, print_word_in_list);
 	// 따옴표 제거
 	token_list = split_quote(token_list);
-	printf("del quote env\n");
-	ft_lstiter(token_list, print_word_in_list);
+	// printf("del quote env\n");
+	// ft_lstiter(token_list, print_word_in_list);
 	// syntax 체크
 	// 한번에 실행할 token끼리 묶어서 t_split에 저장
 	cmd_list = token_comb(token_list);
 	ft_lstclear_token(&token_list);
-	//ft_lstiter(cmd_list, print_split_in_list);
+	// printf("\nredir\n");
+	// ft_lstiter(cmd_list->redir, print_split_in_list);
+	// printf("\nparsed\n");
+	// ft_lstiter(cmd_list->parsed, print_split_in_list);
 	// ft_lstclear_parsed(&cmd_list);
 	//system("leaks --list minishell");
 	return (cmd_list);

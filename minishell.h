@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/25 21:57:27 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/26 00:47:03 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@
 
 # define PROMPT "\033[1;33mMochaShell$ \033[0;0m"
 
-enum e_token{
+enum e_token
+{
 	QUOTE_DOUBLE = 1,
 	QUOTE_SINGLE,
 	REDIR_LL,
@@ -46,15 +47,23 @@ enum e_token{
 	WORD_T
 };
 
-typedef struct s_split{
+typedef struct s_split
+{
 	int		type;
 	char	**split;
 }	t_split;
 
-typedef struct s_token{
+typedef struct s_token
+{
 	int		type;
 	char	*token;
 }	t_token;
+
+typedef struct s_mini
+{
+	t_list	*redir;
+	t_list	*parsed;
+}	t_mini;
 
 typedef struct s_pipex
 {
@@ -79,6 +88,7 @@ void	ft_lstclear_token(t_list **lst);
 void	free_parsed(void *content);
 void	ft_lstclear_parsed(t_list **lst);
 void	ft_lstclear_env(t_list **lst);
+void	ft_lstclear_mini(t_mini **mini);
 
 // change_to_env.c
 t_list	*change_to_env(t_list *token_list, t_list *env);
@@ -89,7 +99,7 @@ void	lexer(const char *line, int *arr);
 // parse.c
 void	print_word_in_list(void *content);
 t_list	*make_token(char *line);
-t_list	*parsing(char *line, t_list *env);
+t_mini	*parsing(char *line, t_list *env);
 
 // is_type.c
 int		is_redir(t_list *lst);
@@ -99,7 +109,7 @@ int		is_space(t_list *lst);
 int		is_double(t_list *lst);
 // token_comb.c
 t_list	*split_quote(t_list *lst);
-t_list	*token_comb(t_list *token_list);
+t_mini	*token_comb(t_list *token_list);
 
 // token_list.c
 t_token	*new_token(char *input, int type);
