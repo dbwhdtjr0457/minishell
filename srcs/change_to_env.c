@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 21:46:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/24 17:15:52 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/25 16:21:36 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ t_list	*change_to_env(t_list *token_list, t_list *env)
 			token_list->content = new_token(str, QUOTE_DOUBLE);
 			free_token(token);
 		}
-		if (token->type == DALLOR_T || token->type == QUOTE_SINGLE)
+		else if (token->type == DALLOR_T || token->type == QUOTE_SINGLE)
 		{
 			if (token->type == DALLOR_T)
 				str = change_dallor(token, env);

@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/24 17:16:51 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/25 16:32:17 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ t_list	*parsing(char *line, t_list *env)
 	token_list = change_to_env(token_list, env);
 	// ft_lstiter(token_list, print_word_in_list);
 	// 따옴표 제거
+	token_list = del_quote(token_list);
 	// syntax 체크
 	// 한번에 실행할 token끼리 묶어서 t_split에 저장
 	cmd_list = token_comb(token_list);

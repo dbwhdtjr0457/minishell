@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/24 14:54:14 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/25 15:35:32 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ t_list	*change_to_env(t_list *token_list, t_list *env);
 void	lexer(const char *line, int *arr);
 
 // parse.c
+void	print_word_in_list(void *content);
 t_list	*make_token(char *line);
 t_list	*parsing(char *line, t_list *env);
 
@@ -81,6 +82,7 @@ int		is_word(t_list *lst);
 int		is_space(t_list *lst);
 int		is_double(t_list *lst);
 // token_comb.c
+t_list	*del_quote(t_list *lst);
 t_list	*token_comb(t_list *token_list);
 
 // token_list.c
