@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/24 15:37:07 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/24 17:23:35 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,10 @@ void	ft_lstprint_input(void *content);
 void	ft_lstprint_env(void *content);
 
 // pipe.c
-int	pipe_execute(t_list *parsed, t_list **env, int pipe_num);
+int		pipe_execute(t_list *parsed, t_list **env, int pipe_num);
+void	check_redir(t_list **parsed);
+
+// main.c
+char	**env_to_char(t_list *env);
 
 #endif

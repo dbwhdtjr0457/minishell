@@ -6,11 +6,17 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 19:11:01 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/24 15:13:15 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/25 15:23:03 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	perror_exit(char *str, int status)
+{
+	perror(str);
+	exit(status);
+}
 
 void	pipex_init(t_pipex *pipex, int pipe_num, t_list **env)
 {
@@ -31,51 +37,137 @@ void	pipex_pipe(t_pipex *pipex, int i)
 		perror_exit("pipe error", 1);
 }
 
+void	redir_in(char *file)
+{
+	int	fd;
+
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+		perror_exit("open error", 1);
+	if (dup2(fd, 0) == -1)
+		perror_exit("dup2 error", 1);
+	close(fd);
+}
+
+void	redir_out(char *file)
+{
+	int	fd;
+
+	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
+		perror_exit("open error", 1);
+	if (dup2(fd, STDOUT_FILENO) == -1)
+		perror_exit("dup2 error", 1);
+	close(fd);
+}
+
+void	redir_heredoc(char *file)
+{
+	char	*line;
+	int		fd;
+
+	fd = open(".tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	while (1)
+	{
+		line = readline("> ");
+		if (ft_strncmp(line, file, ft_strlen(file)) == 0)
+			break ;
+		ft_putstr_fd(line, fd);
+		free(line);
+	}
+	free(line);
+	close(fd);
+	fd = open(".tmp", O_RDONLY);
+	if (fd == -1)
+		perror_exit("open error", 1);
+	if (dup2(fd, 0) == -1)
+		perror_exit("dup2 error", 1);
+	close(fd);
+	unlink(".tmp");
+}
+
+void	redir_append(char *file)
+{
+	int	fd;
+
+	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd == -1)
+		perror_exit("open error", 1);
+	if (dup2(fd, 1) == -1)
+		perror_exit("dup2 error", 1);
+	close(fd);
+}
+
 void	check_redir(t_list **parsed)
 {
 	t_list	*tmp;
 	t_list	*tmp2;
-	int		i;
+	t_split	*tmp_split;
+	int		flag;
 
 	tmp = *parsed;
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->content, ">") == 0)
+		flag = 0;
+		tmp_split = tmp->content;
+		if (ft_strncmp((tmp_split->split)[0], "<",
+			ft_strlen(tmp_split->split[0])) == 0)
 		{
-			tmp2 = tmp->next;
-			i = open(tmp2->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (i == -1)
-				perror_exit("open error", 1);
-			dup2(i, 1);
-			close(i);
-			tmp->content = 0;
-			tmp2->content = 0;
+			redir_in((tmp_split->split)[1]);
+			flag = 1;
 		}
-		tmp = tmp->next;
+		else if (ft_strncmp((tmp_split->split)[0], ">",
+			ft_strlen(tmp_split->split[0])) == 0)
+		{
+			redir_out((tmp_split->split)[1]);
+			flag = 1;
+		}
+		else if (ft_strncmp((tmp_split->split)[0], "<<",
+			ft_strlen(tmp_split->split[0])) == 0)
+		{
+			redir_heredoc((tmp_split->split)[1]);
+			flag = 1;
+		}
+		else if (ft_strncmp((tmp_split->split)[0], ">>",
+			ft_strlen(tmp_split->split[0])) == 0)
+		{
+			redir_append((tmp_split->split)[1]);
+			flag = 1;
+		}
+		if (flag)
+		{
+			tmp2->next = tmp->next;
+			free_parsed(tmp->content);
+			free(tmp);
+			tmp = tmp2->next;
+		}
+		else
+		{
+			tmp2 = tmp;
+			tmp = tmp->next;
+		}
 	}
-	*parsed = ft_lstfilter(*parsed, 0);
-	*env = ft_lstfilter(*env, 0);
 }
 
 int	pipe_execute(t_list *parsed, t_list **env, int pipe_num)
 {
-	int		i;
+	// int		i;
 	t_pipex	pipex;
-	int		status;
+	// int		status;
 
-	i = 0;
-	status = 0;
+	// i = 0;
+	// status = 0;
 	check_redir(&parsed);
 	pipex_init(&pipex, pipe_num, env);
-	while (i <= pipe_num)
-	{
-		pipex_pipe(&pipex, i);
-		pipex.pid[i] = fork();
-		if (pipex.pid[i] == 0)
-			pipex_child(&pipex, i, pipe_num, parsed);
-		else
-			pipex_parent(&pipex, i, pipe_num, &status);
-		i++;
-	}
+	// while (i <= pipe_num)
+	// {
+	// 	pipex_pipe(&pipex, i);
+	// 	pipex.pid[i] = fork();
+	// 	if (pipex.pid[i] == 0)
+	// 		pipex_child(&pipex, i, pipe_num, parsed);
+	// 	else
+	// 		pipex_parent(&pipex, i, pipe_num, &status);
+	// 	i++;
+	// }
 	return (1);
 }

@@ -6,11 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/02/24 13:54:21 by joyoo            ###   ########.fr       */
-=======
-/*   Updated: 2023/02/22 15:55:13 by jihylim          ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2023/02/25 15:20:13 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +85,6 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	ft_lstclear_env(&env);
+	// system("leaks minishell");
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:21:42 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/24 13:57:33 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/25 15:19:23 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ char	**env_to_char(t_list *env)
 
 int	builtin(t_list *parsed, t_list **env, char **tmp)
 {
+	if (ft_lstsize(parsed) > 1)
+		return (0);
 	if (ft_strncmp(tmp[0], "echo", 5) == 0)
 		ft_echo(parsed);
 	else if (ft_strncmp(tmp[0], "cd", 3) == 0)
@@ -123,32 +125,47 @@ int	execute(t_list *parsed, t_list **env)
 	char	**tmp;
 	char	*path;
 	pid_t	pid;
+	pid_t	pid2;
 	char	**env_char;
-	int		pipe_num;
+	// int		pipe_num;
 
-	pipe_num = pipe_count(parsed);
+	// pipe_num = pipe_count(parsed);
+	// if (pipe_num > 0)
+	// 	return (pipe_execute(parsed, env, pipe_num));
 	tmp = ((t_split *)parsed->content)->split;
-	env_char = env_to_char(*env);
-	if (pipe_num > 0)
-		return (pipe_execute(parsed, env, pipe_num));
-	else if (!builtin(parsed, env, tmp))
+	if (!builtin(parsed, env, tmp))
 	{
-		path = find_path(tmp[0], *env);
-		if (path)
 		{
+			env_char = env_to_char(*env);
 			pid = fork();
 			if (pid == 0)
-				execve(path, tmp, env_char);
+			{
+				check_redir(&parsed);
+				path = find_path(tmp[0], *env);
+				if (path)
+				{
+					pid2 = fork();
+					if (pid2 == 0)
+						execve(path, tmp, env_char);
+					else
+						waitpid(pid2, 0, 0);
+				}
+				else
+				{
+					ft_putstr_fd(tmp[0], 2);
+					ft_putstr_fd(": command not found\n", 2);
+				}
+				free(path);
+				free_split(env_char);
+				exit(0);
+			}
 			else
+			{
 				waitpid(pid, 0, 0);
+				free_split(env_char);
+			}
 		}
-		else
-		{
-			ft_putstr_fd(tmp[0], 2);
-			ft_putstr_fd(": command not found\n", 2);
-		}
-		free(path);
 	}
-	free_split(env_char);
 	return (1);
 }
+
