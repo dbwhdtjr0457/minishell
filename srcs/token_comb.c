@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:50:47 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/25 16:32:07 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/25 21:56:18 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ t_list	*comb_word(t_list *lst, t_list **res)
 
 // 따옴표 제거하기
 // token에 값이 \0 일 경우 제거하기
-t_list	*del_quote(t_list *lst)
+t_list	*split_quote(t_list *lst)
 {
 	t_list	*res;
 	t_list	*tmp;
