@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 19:11:01 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/25 15:23:03 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/25 16:15:51 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	redir_heredoc(char *file)
 		if (ft_strncmp(line, file, ft_strlen(file)) == 0)
 			break ;
 		ft_putstr_fd(line, fd);
+		ft_putstr_fd("\n", fd);
 		free(line);
 	}
 	free(line);
@@ -100,16 +101,17 @@ void	redir_append(char *file)
 
 void	check_redir(t_list **parsed)
 {
-	t_list	*tmp;
-	t_list	*tmp2;
+	t_list	*curr;
+	t_list	*prev;
 	t_split	*tmp_split;
 	int		flag;
 
-	tmp = *parsed;
-	while (tmp)
+	curr = *parsed;
+	prev = NULL;
+	while (curr)
 	{
 		flag = 0;
-		tmp_split = tmp->content;
+		tmp_split = curr->content;
 		if (ft_strncmp((tmp_split->split)[0], "<",
 			ft_strlen(tmp_split->split[0])) == 0)
 		{
@@ -136,15 +138,21 @@ void	check_redir(t_list **parsed)
 		}
 		if (flag)
 		{
-			tmp2->next = tmp->next;
-			free_parsed(tmp->content);
-			free(tmp);
-			tmp = tmp2->next;
+			if (prev)
+				prev->next = curr->next;
+			else
+				*parsed = curr->next;
+			free_parsed(curr->content);
+			free(curr);
+			if (prev)
+				curr = prev->next;
+			else
+				curr = *parsed;
 		}
 		else
 		{
-			tmp2 = tmp;
-			tmp = tmp->next;
+			prev = curr;
+			curr = curr->next;
 		}
 	}
 }

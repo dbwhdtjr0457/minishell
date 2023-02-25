@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:21:42 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/25 15:19:23 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/25 16:22:45 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ int	execute(t_list *parsed, t_list **env)
 			if (pid == 0)
 			{
 				check_redir(&parsed);
+				tmp = ((t_split *)parsed->content)->split;
 				path = find_path(tmp[0], *env);
 				if (path)
 				{
