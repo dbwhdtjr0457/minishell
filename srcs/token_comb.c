@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:50:47 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/26 20:35:14 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/27 00:22:28 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,9 +135,10 @@ t_list	*split_quote(t_list *lst)
 
 	res = lst;
 	pre = 0;
-	while (lst)
+	while (lst && lst->content)
 	{
 		tmp = 0;
+		// printf("list %sa\n", ((t_lst->content->)
 		if (is_double(lst))
 		{
 			del = lst;

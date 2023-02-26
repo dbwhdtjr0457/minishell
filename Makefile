@@ -13,8 +13,7 @@ NAME			=	minishell
 
 CC				=	cc
 RM				=	rm -f
-CFLAGS			=	-Wall -Wextra -Werror -g
-# -fsanitize=address
+CFLAGS			=	-Wall -Wextra -Werror -g -fsanitize=address
 
 COMFILE_FLAGS	=	-l readline -L ${HOME}/.brew/opt/readline/lib
 OBJ_FLAGS 		=	-I ${HOME}/.brew/opt/readline/include

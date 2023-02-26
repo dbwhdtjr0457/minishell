@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/26 20:34:20 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/27 00:53:05 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,16 @@ t_mini	*parsing(char *line, t_list *env)
 	// 환경변수 치환
 	// $가 붙어 있을 경우 ' '안에 있을 경우를 제외하고 env 목록에 있는 변수로 변경
 	token_list = change_to_env(token_list, env);
+	if (!token_list)
+	{
+		printf("리턴한다ㅏ\n");
+		ft_lstclear_token(&token_list);
+		return (0);
+	}
 	// 따옴표 제거
 	token_list = split_quote(token_list);
+	if (!token_list)
+		return (0);
 	// printf("del quote env\n");
 	// ft_lstiter(token_list, print_word_in_list);
 	// 한번에 실행할 token끼리 묶어서 t_split에 저장
@@ -113,10 +121,10 @@ t_mini	*parsing(char *line, t_list *env)
 	// syntax 체크
 	if (!cmd_list || !pipe_check(cmd_list))
 		return (0);
-	// printf("\nredir\n");
-	// ft_lstiter(cmd_list->redir, print_split_in_list);
-	// printf("\nparsed\n");
-	// ft_lstiter(cmd_list->parsed, print_split_in_list);
+	printf("\nredir\n");
+	ft_lstiter(cmd_list->redir, print_split_in_list);
+	printf("\nparsed\n");
+	ft_lstiter(cmd_list->parsed, print_split_in_list);
 	// system("leaks --list minishell");
 	return (cmd_list);
 }
