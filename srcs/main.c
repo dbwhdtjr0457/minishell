@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/26 00:47:31 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/26 16:23:46 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,11 @@ int	main(int ac, char **av, char **envp)
 			add_history(line);
 			parsed = parsing(line, env);
 			free(line);
-			// execute(parsed, &env);
-			ft_lstclear_mini(&parsed);
+			if (parsed)
+			{
+				// execute(parsed, &env);
+				ft_lstclear_mini(&parsed);
+			}
 		}
 	}
 	(void)ac;
