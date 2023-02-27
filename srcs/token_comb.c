@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:50:47 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/27 19:19:44 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/28 00:29:57 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,59 +66,31 @@ t_list	*comb_pipe(t_list *lst, t_list **res)
 
 t_list	*comb_redir(t_list *lst, t_list **res)
 {
-	t_split	*split;
-	char	**tmp;
+	t_list	*cur;
+	t_token	*token;
+	char	*tmp;
 
+	cur = lst->next;
 	tmp = 0;
-	if (is_redir(lst) && (lst->next)
-		&& (is_word(lst->next) || (is_space(lst->next)
-				&& (lst->next->next) && is_word(lst->next->next))))
+	while (cur)
 	{
-		append(&tmp, ((t_token *)(lst->content))->token);
-		if (is_space(lst->next))
-			lst = lst->next;
-		append(&tmp, ((t_token *)(lst->next->content))->token);
-		split = new_split(tmp, ((t_token *)(lst->content))->type);
-		ft_lstadd_back(res, ft_lstnew(split));
-		lst = lst->next;
-	}
-	else
-		return (0);
-	// else 리다이렉션 뒤에 word token이 나오지 않을 경우 에러 처리 필요 또는 리다이렉션만 나올경우(뒤에가 널일 경우)
-	return (lst);
-}
-
-t_list	*comb_word(t_list *lst, t_list **res)
-{
-	t_split	*split;
-	char	**tmp;
-	char	*join;
-	int		i;
-
-	tmp = 0;
-	i = 0;
-	append(&tmp, ((t_token *)(lst->content))->token);
-	while (((t_token *)(lst->next))
-		&& (is_word(lst->next) || is_space(lst->next)))
-	{
-		lst = lst->next;
-		if (lst && is_space(lst) && lst->next
-			&& !is_pipe(lst->next) && !is_redir(lst->next))
+		token = (t_token *)(cur->content);
+		if (token->type == SPACE_T)
+			;
+		else if (token->type == WORD_T)
 		{
-			lst = lst->next;
-			append(&tmp, ((t_token *)(lst->content))->token);
-			i++;
+			tmp = ft_strdup(token->token);
+			if (!tmp)
+				return (0);
+			ft_lstadd_back(res,
+				ft_lstnew(new_token(tmp, ((t_token *)(lst->content))->type)));
+			return (cur->next);
 		}
-		else if (lst && !is_space(lst))
-		{
-			join = ft_strjoin(tmp[i], ((t_token *)(lst->content))->token);
-			free(tmp[i]);
-			tmp[i] = join;
-		}
+		else if (token->type == PIPE_T)
+			return (0);
+		cur = cur->next;
 	}
-	split = new_split(tmp, WORD_T);
-	ft_lstadd_back(res, ft_lstnew(split));
-	return (lst);
+	return (0);
 }
 
 // 따옴표 제거하기
@@ -177,9 +149,13 @@ t_list	*token_comb(t_list *lst)
 			//else if (is_pipe(lst))
 			//	lst = comb_pipe(lst, &(res->parsed));
 			else if (is_redir(lst))
+			{
+				printf("here%s\n",  ((t_token *)(lst->content))->token);
 				lst = comb_redir(lst, &(mini->redir));
+
+			}
 			else
-				lst = comb_word(lst, &(mini->parsed));
+				append(&mini->parsed, ((t_token *)(lst->content))->token);
 			if (!lst)
 			{
 				//free_mini(mini);

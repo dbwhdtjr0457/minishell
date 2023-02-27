@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 15:01:16 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/27 20:47:30 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/28 00:18:36 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,9 @@ void	free_mini(t_mini *lst)
 
 	mini = (t_mini *)lst;
 	if (mini->parsed)
-		ft_lstclear_parsed(&(mini->parsed));
+		free_split(mini->parsed);
 	if (mini->redir)
-		ft_lstclear_parsed(&(mini->redir));
+		ft_lstclear_token(&(mini->redir));
 	if (mini)
 		free(mini);
 }

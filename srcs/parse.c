@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/27 20:53:20 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/28 00:31:25 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,16 @@ void	print_split_in_list(void *content)
 void	print_mini(void *content)
 {
 	t_mini	*mini;
+	int		i;
 
+	i = 0;
 	mini = (t_mini *)content;
 	printf("printf mini\n");
 	printf("parsed\n");
-	ft_lstiter(mini->parsed, print_split_in_list);
+	while (mini->parsed[i])
+		printf("출력 : %s\n", mini->parsed[i++]);
 	printf("redir\n");
-	ft_lstiter(mini->redir, print_split_in_list);
+	ft_lstiter(mini->redir, print_word_in_list);
 	printf("==========================\n\n");
 }
 
@@ -72,40 +75,40 @@ t_list	*make_token(char *line)
 	return (token_list);
 }
 
-int	pipe_check(t_mini *mini)
-{
-	t_list	*lst;
-	t_split	*pre;
-	t_split	*cur;
-	// int		flag;
+// int	pipe_check(t_mini *mini)
+// {
+// 	t_list	*lst;
+// 	t_split	*pre;
+// 	t_split	*cur;
+// 	// int		flag;
 
-	// flag = 0;
-	pre = 0;
-	lst = mini->parsed;
-	if (!lst)
-	{
-		// 리다이렉션만 들어와도 괜찮은건가?
-		// mini 통째로 free 해야하는건지, parsed가 0이면 그냥 넘기는건지 생각해보기
-		return (0);
-	}
-	while (lst)
-	{
-		cur = (t_split *)lst->content;
-		if (cur->type == PIPE_T)
-		{
-			if (!pre || pre->type != WORD_T || !(lst->next)
-				|| (((t_split *)(lst->next->content))->type) != WORD_T)
-			{
-				printf("pipe error\n");
-				//ft_lstclear_mini(&mini);
-				return (0);
-			}
-		}
-		pre = lst->content;
-		lst = lst->next;
-	}
-	return (1);
-}
+// 	// flag = 0;
+// 	pre = 0;
+// 	lst = mini->parsed;
+// 	if (!lst)
+// 	{
+// 		// 리다이렉션만 들어와도 괜찮은건가?
+// 		// mini 통째로 free 해야하는건지, parsed가 0이면 그냥 넘기는건지 생각해보기
+// 		return (0);
+// 	}
+// 	while (lst)
+// 	{
+// 		cur = (t_split *)lst->content;
+// 		if (cur->type == PIPE_T)
+// 		{
+// 			if (!pre || pre->type != WORD_T || !(lst->next)
+// 				|| (((t_split *)(lst->next->content))->type) != WORD_T)
+// 			{
+// 				printf("pipe error\n");
+// 				//ft_lstclear_mini(&mini);
+// 				return (0);
+// 			}
+// 		}
+// 		pre = lst->content;
+// 		lst = lst->next;
+// 	}
+// 	return (1);
+// }
 
 t_list	*parsing(char *line, t_list *env)
 {
@@ -132,9 +135,9 @@ t_list	*parsing(char *line, t_list *env)
 	//if (!cmd_list || !pipe_check(cmd_list))
 	if (!cmd_list)
 		return (0);
-	//ft_lstiter(cmd_list, print_mini);
+	ft_lstiter(cmd_list, print_mini);
 	//ft_lstclear_mini(&cmd_list);
-	//system("leaks --list minishell");
+	// system("leaks --list minishell");
 	return (cmd_list);
 }
 // 따옴표 안닫혔을 떄 처리 필요, 에러가 나!!
