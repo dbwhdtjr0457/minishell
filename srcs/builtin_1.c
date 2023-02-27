@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:42:37 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/22 18:04:51 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/27 16:29:18 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_echo(t_list *parsed)
 
 	flag = 0;
 	tmp = ((t_split *)parsed->content)->split;
-	if (tmp[1] && ft_strncmp(tmp[1], "-n", 2) == 0)
+	if (tmp[1] && ft_strncmp(tmp[1], "-n", ft_strlen(tmp[1]) + 1) == 0)
 		flag = 1;
 	i = flag;
 	while (tmp[++i])
@@ -99,9 +99,10 @@ int	ft_cd(t_list *parsed, t_list **env)
 	}
 	else
 	{
-		if (!ft_strncmp(tmp[1], "~", 2) || !ft_strncmp(tmp[1], "~/", 3))
+		if (!ft_strncmp(tmp[1], "~", ft_strlen(tmp[1]) + 1)
+			|| !ft_strncmp(tmp[1], "~/", ft_strlen(tmp[1]) + 1))
 			save_tmp(tmp, "HOME", env);
-		else if (!ft_strncmp(tmp[1], "-", 1))
+		else if (!ft_strncmp(tmp[1], "-", ft_strlen(tmp[1]) + 1))
 			save_tmp(tmp, "OLDPWD", env);
 		if (chdir(tmp[1]) == -1)
 		{
@@ -148,7 +149,7 @@ void	ft_lstremove_if(t_list **lst, void *data_ref, int (*cmp)())
 	prev = 0;
 	while (tmp)
 	{
-		if (!cmp(((char **)tmp->content)[0], data_ref, ft_strlen(data_ref)))
+		if (!cmp(((char **)tmp->content)[0], data_ref, ft_strlen(data_ref) + 1))
 		{
 			if (prev)
 				prev->next = tmp->next;

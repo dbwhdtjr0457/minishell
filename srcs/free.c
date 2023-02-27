@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 15:01:16 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/26 00:46:22 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/27 14:32:39 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	ft_lstclear_mini(t_mini **mini)
 {
 	if ((*mini)->parsed)
 		ft_lstclear_parsed(&(*mini)->parsed);
-	if ((*mini)->parsed)
+	if ((*mini)->redir)
 		ft_lstclear_parsed(&(*mini)->redir);
 	if (*mini)
 		free(*mini);
