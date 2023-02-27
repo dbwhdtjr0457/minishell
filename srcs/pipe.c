@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 19:11:01 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/25 16:15:51 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/27 14:24:15 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,65 +99,32 @@ void	redir_append(char *file)
 	close(fd);
 }
 
-void	check_redir(t_list **parsed)
+void	check_redir(t_list *redir)
 {
 	t_list	*curr;
-	t_list	*prev;
 	t_split	*tmp_split;
-	int		flag;
 
-	curr = *parsed;
-	prev = NULL;
+	curr = redir;
 	while (curr)
 	{
-		flag = 0;
 		tmp_split = curr->content;
 		if (ft_strncmp((tmp_split->split)[0], "<",
 			ft_strlen(tmp_split->split[0])) == 0)
-		{
 			redir_in((tmp_split->split)[1]);
-			flag = 1;
-		}
 		else if (ft_strncmp((tmp_split->split)[0], ">",
 			ft_strlen(tmp_split->split[0])) == 0)
-		{
 			redir_out((tmp_split->split)[1]);
-			flag = 1;
-		}
 		else if (ft_strncmp((tmp_split->split)[0], "<<",
 			ft_strlen(tmp_split->split[0])) == 0)
-		{
 			redir_heredoc((tmp_split->split)[1]);
-			flag = 1;
-		}
 		else if (ft_strncmp((tmp_split->split)[0], ">>",
 			ft_strlen(tmp_split->split[0])) == 0)
-		{
 			redir_append((tmp_split->split)[1]);
-			flag = 1;
-		}
-		if (flag)
-		{
-			if (prev)
-				prev->next = curr->next;
-			else
-				*parsed = curr->next;
-			free_parsed(curr->content);
-			free(curr);
-			if (prev)
-				curr = prev->next;
-			else
-				curr = *parsed;
-		}
-		else
-		{
-			prev = curr;
-			curr = curr->next;
-		}
+		curr = curr->next;
 	}
 }
 
-int	pipe_execute(t_list *parsed, t_list **env, int pipe_num)
+int	pipe_execute(t_mini *mini, t_list **env, int pipe_num)
 {
 	// int		i;
 	t_pipex	pipex;
@@ -165,7 +132,7 @@ int	pipe_execute(t_list *parsed, t_list **env, int pipe_num)
 
 	// i = 0;
 	// status = 0;
-	check_redir(&parsed);
+	check_redir(mini->redir);
 	pipex_init(&pipex, pipe_num, env);
 	// while (i <= pipe_num)
 	// {

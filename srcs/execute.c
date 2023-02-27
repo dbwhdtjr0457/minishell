@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:21:42 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/25 16:22:45 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/27 14:18:02 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,24 +73,24 @@ char	**env_to_char(t_list *env)
 	return (tmp);
 }
 
-int	builtin(t_list *parsed, t_list **env, char **tmp)
+int	builtin(t_mini *mini, t_list **env, char **tmp)
 {
-	if (ft_lstsize(parsed) > 1)
+	if (ft_lstsize(mini->parsed) > 1)
 		return (0);
 	if (ft_strncmp(tmp[0], "echo", 5) == 0)
-		ft_echo(parsed);
+		ft_echo(mini);
 	else if (ft_strncmp(tmp[0], "cd", 3) == 0)
-		ft_cd(parsed, env);
+		ft_cd(mini, env);
 	else if (ft_strncmp(tmp[0], "pwd", 4) == 0)
-		ft_pwd(parsed);
+		ft_pwd(mini);
 	else if (ft_strncmp(tmp[0], "export", 7) == 0)
-		ft_export(parsed, env);
+		ft_export(mini, env);
 	else if (ft_strncmp(tmp[0], "unset", 6) == 0)
-		ft_unset(parsed, env);
+		ft_unset(mini, env);
 	else if (ft_strncmp(tmp[0], "env", 4) == 0)
-		ft_env(parsed, *env);
+		ft_env(mini, *env);
 	else if (ft_strncmp(tmp[0], "exit", 5) == 0)
-		ft_exit(parsed, *env);
+		ft_exit(mini, *env);
 	else
 		return (0);
 	return (1);
@@ -120,28 +120,24 @@ void	get_parsed(t_list *parsed, int type)
 	}
 }
 
-int	execute(t_list *parsed, t_list **env)
+int	execute(t_mini *mini, t_list **env)
 {
 	char	**tmp;
 	char	*path;
 	pid_t	pid;
 	pid_t	pid2;
 	char	**env_char;
-	// int		pipe_num;
 
-	// pipe_num = pipe_count(parsed);
-	// if (pipe_num > 0)
-	// 	return (pipe_execute(parsed, env, pipe_num));
-	tmp = ((t_split *)parsed->content)->split;
-	if (!builtin(parsed, env, tmp))
+	tmp = ((t_split *)mini->parsed->content)->split;
+	if (!builtin(mini, env, tmp))
 	{
 		{
 			env_char = env_to_char(*env);
 			pid = fork();
 			if (pid == 0)
 			{
-				check_redir(&parsed);
-				tmp = ((t_split *)parsed->content)->split;
+				check_redir(mini->redir);
+				tmp = ((t_split *)mini->parsed->content)->split;
 				path = find_path(tmp[0], *env);
 				if (path)
 				{
