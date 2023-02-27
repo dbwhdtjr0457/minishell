@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/27 16:35:42 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/27 20:53:20 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,20 @@ void	print_split_in_list(void *content)
 	while (word->split[i])
 		printf("	split: %s type : %d\n", word->split[i++], word->type);
 }
+
+void	print_mini(void *content)
+{
+	t_mini	*mini;
+
+	mini = (t_mini *)content;
+	printf("printf mini\n");
+	printf("parsed\n");
+	ft_lstiter(mini->parsed, print_split_in_list);
+	printf("redir\n");
+	ft_lstiter(mini->redir, print_split_in_list);
+	printf("==========================\n\n");
+}
+
 
 t_list	*make_token(char *line)
 {
@@ -83,7 +97,7 @@ int	pipe_check(t_mini *mini)
 				|| (((t_split *)(lst->next->content))->type) != WORD_T)
 			{
 				printf("pipe error\n");
-				ft_lstclear_mini(&mini);
+				//ft_lstclear_mini(&mini);
 				return (0);
 			}
 		}
@@ -93,10 +107,10 @@ int	pipe_check(t_mini *mini)
 	return (1);
 }
 
-t_mini	*parsing(char *line, t_list *env)
+t_list	*parsing(char *line, t_list *env)
 {
 	t_list	*token_list;
-	t_mini	*cmd_list;
+	t_list	*cmd_list;
 
 	cmd_list = 0;
 	token_list = make_token(line);
@@ -115,13 +129,12 @@ t_mini	*parsing(char *line, t_list *env)
 	cmd_list = token_comb(token_list);
 	ft_lstclear_token(&token_list);
 	// syntax 체크
-	if (!cmd_list || !pipe_check(cmd_list))
+	//if (!cmd_list || !pipe_check(cmd_list))
+	if (!cmd_list)
 		return (0);
-	//printf("\nredir\n");
-	//ft_lstiter(cmd_list->redir, print_split_in_list);
-	//printf("\nparsed\n");
-	//ft_lstiter(cmd_list->parsed, print_split_in_list);
-	// system("leaks --list minishell");
+	//ft_lstiter(cmd_list, print_mini);
+	//ft_lstclear_mini(&cmd_list);
+	//system("leaks --list minishell");
 	return (cmd_list);
 }
 // 따옴표 안닫혔을 떄 처리 필요, 에러가 나!!
