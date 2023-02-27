@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 21:46:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/26 01:00:18 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/27 16:29:57 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,20 @@ char	*token_join(t_list *token_list)
 	return (res);
 }
 
-char	*quote_env(t_token *token, t_list *env)
+char	*change_double_q(t_token *token, t_list *env)
 {
 	char	*str;
 	t_list	*token_list;
 
 	// " " 잘라낸 부분 : str
 	str = ft_substr(token->token, 1, ft_strlen(token->token) - 2);
+	if (!str || !ft_strncmp(str, "\0", ft_strlen(str) + 1))
+		return (0);
 	token_list = make_token(str);
 	free(str);
 	token_list = change_to_env(token_list, env);
+	if (!token_list)
+		return (0);
 	// 다시 합치기
 	str = token_join(token_list);
 	ft_lstclear_token(&token_list);
@@ -82,43 +86,69 @@ char	*change_dollar(t_token *token, t_list *env)
 	if (get)
 		res = ft_strdup(get);
 	else
-		res = ft_strdup("\0");
+		res = 0;
 	free(get);
 	free(remove_d);
 	return (res);
 }
 
+t_list	*del_token(t_list *pre, t_list *cur, t_list **lst)
+{
+	t_list	*del;
+
+	del = cur;
+	if (pre)
+	{	
+		pre->next = cur->next;
+		cur = cur->next;
+	}
+	else
+	{
+		cur = cur->next;
+		*lst = cur;
+	}
+	free(((t_token *)(del->content))->token);
+	free(((t_token *)(del->content)));
+	free(del);
+	return (cur);
+}
+
 // 환경변수 매칭 실패 시 토큰 없애기
 // " " 제거 후 split 해서 앞뒤 연결하기
-
-t_list	*change_to_env(t_list *token_list, t_list *env)
+t_list	*change_to_env(t_list *lst, t_list *env)
 {
-	t_list	*res;
+	t_list	*cur;
 	char	*str;
 	t_token	*token;
+	t_list	*pre;
 
-	res = token_list;
-	while (token_list)
+	cur = lst;
+	pre = 0;
+	while (cur)
 	{
-		token = (t_token *)((token_list)->content);
-		if (token->type == QUOTE_DOUBLE)
+		token = (t_token *)(cur->content);
+		if (token->type == QUOTE_DOUBLE || token->type == DOLLAR_T
+			|| token->type == QUOTE_SINGLE)
 		{
-			// printf("%s\n", ((t_token*)make_token(quote_env(token, env))->next->next->content)->token);
-			// ft_lstadd_back(&token_list, make_token(quote_env(token, env)));
-			str = quote_env(token, env);
-			token_list->content = new_token(str, QUOTE_DOUBLE);
-			free_token(token);
-		}
-		else if (token->type == DOLLAR_T || token->type == QUOTE_SINGLE)
-		{
-			if (token->type == DOLLAR_T)
+			if (token->type == QUOTE_DOUBLE)
+				str = change_double_q(token, env);
+			else if (token->type == DOLLAR_T)
 				str = change_dollar(token, env);
 			else if (token->type == QUOTE_SINGLE)
+			{
 				str = ft_substr(token->token, 1, ft_strlen(token->token) - 2);
-			token_list->content = new_token(str, WORD_T);
+				token->type = WORD_T;
+			}
+			if (!str || !ft_strncmp(str, "\0", ft_strlen(str) + 1))
+			{
+				cur = del_token(pre, cur, &lst);
+				continue ;
+			}
+			cur->content = new_token(str, token->type);
 			free_token(token);
 		}
-		token_list = token_list->next;
+		pre = cur;
+		cur = cur->next;
 	}
-	return (res);
+	return (lst);
 }
