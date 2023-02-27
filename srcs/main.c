@@ -78,10 +78,10 @@ int	main(int ac, char **av, char **envp)
 			add_history(line);
 			mini = parsing(line, env);
 			free(line);
-			if (parsed)
+			if (mini)
 			{
-				execute(parsed, &env);
-				ft_lstclear_mini(&parsed);
+				execute(mini, &env);
+				ft_lstclear_mini(&mini);
 			}
 		}
 	}
