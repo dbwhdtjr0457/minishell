@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 15:01:16 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/27 16:35:15 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/27 20:47:30 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,28 @@ void	ft_lstclear_env(t_list **lst)
 	*lst = 0;
 }
 
-void	ft_lstclear_mini(t_mini **mini)
+void	free_mini(t_mini *lst)
 {
-	if ((*mini)->parsed)
-		ft_lstclear_parsed(&(*mini)->parsed);
-	if ((*mini)->redir)
-		ft_lstclear_parsed(&(*mini)->redir);
-	if (*mini)
-		free(*mini);
+	t_mini	*mini;
+
+	mini = (t_mini *)lst;
+	if (mini->parsed)
+		ft_lstclear_parsed(&(mini->parsed));
+	if (mini->redir)
+		ft_lstclear_parsed(&(mini->redir));
+	if (mini)
+		free(mini);
+}
+
+void	ft_lstclear_mini(t_list **lst)
+{
+	t_list	*tmp;
+
+	while (*lst)
+	{
+		tmp = (*lst)->next;
+		free_mini((*lst)->content);
+		free(*lst);
+		*lst = tmp;
+	}
 }

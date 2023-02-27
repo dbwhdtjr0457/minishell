@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:42:37 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/27 16:38:13 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/27 19:05:11 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	ft_exit(t_mini *mini, t_list *env)
 		if (waitpid(pid, 0, 0))
 		{
 			ft_lstclear_env(&env);
-			ft_lstclear_mini(&mini);
+			//ft_lstclear_mini(&mini);
 			exit(0);
 		}
 	}

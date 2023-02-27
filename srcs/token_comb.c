@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:50:47 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/27 00:22:28 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/27 19:19:44 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,32 +159,38 @@ t_list	*split_quote(t_list *lst)
 // 연관있는 토큰끼리 합쳐주는 함수
 // t_list *res의 content에 t_split 형태로 저장한 후 반환
 // 인자로 받아온 token_list 는 free해줘야 함
-t_mini	*token_comb(t_list *lst)
+t_list	*token_comb(t_list *lst)
 {
-	t_mini	*res;
+	t_mini	*mini;
+	t_list	*res;
 
-	res = (t_mini *)malloc(sizeof(t_mini));
-	res->parsed = 0;
-	res->redir = 0;
+	res = 0;
 	while (lst)
 	{
-		if (is_space(lst))
-			;
-		else if (is_pipe(lst))
-			lst = comb_pipe(lst, &(res->parsed));
-		else if (is_redir(lst))
-			lst = comb_redir(lst, &(res->redir));
-		else
-			lst = comb_word(lst, &(res->parsed));
-		if (!lst)
+		mini = (t_mini *)malloc(sizeof(t_mini));
+		mini->parsed = 0;
+		mini->redir = 0;
+		while (lst && !is_pipe(lst))
 		{
-			ft_lstclear_mini(&res);
-			return (0);
+			if (is_space(lst))
+				;
+			//else if (is_pipe(lst))
+			//	lst = comb_pipe(lst, &(res->parsed));
+			else if (is_redir(lst))
+				lst = comb_redir(lst, &(mini->redir));
+			else
+				lst = comb_word(lst, &(mini->parsed));
+			if (!lst)
+			{
+				//free_mini(mini);
+				ft_lstclear_mini(&res);
+				return (0);
+			}
+			lst = lst->next;
 		}
-		lst = lst->next;
-		//if (tmp && tmp->content)
-		//	ft_lstclear_token(&tmp);
-		//system("leaks --list minishell");
+		ft_lstadd_back(&res, ft_lstnew(mini));
+		if (lst && is_pipe(lst))
+			lst = lst->next;
 	}
 	return (res);
 }
