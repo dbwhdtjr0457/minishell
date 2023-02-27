@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:42:37 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/22 18:04:51 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/25 21:46:59 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,28 @@ int	ft_echo(t_list *parsed)
 	int		i;
 	int		flag;
 	char	**tmp;
+	pid_t	pid;
 
-	flag = 0;
-	tmp = ((t_split *)parsed->content)->split;
-	if (tmp[1] && ft_strncmp(tmp[1], "-n", 2) == 0)
-		flag = 1;
-	i = flag;
-	while (tmp[++i])
+	pid = fork();
+	if (pid == 0)
 	{
-		ft_putstr_fd(tmp[i], 1);
-		if (tmp[i + 1])
-			ft_putchar_fd(' ', 1);
+		flag = 0;
+		tmp = ((t_split *)parsed->content)->split;
+		if (tmp[1] && ft_strncmp(tmp[1], "-n", 2) == 0)
+			flag = 1;
+		i = flag;
+		while (tmp[++i])
+		{
+			ft_putstr_fd(tmp[i], 1);
+			if (tmp[i + 1])
+				ft_putchar_fd(' ', 1);
+		}
+		if (!flag)
+			ft_putchar_fd('\n', 1);
+		exit(0);
 	}
-	if (!flag)
-		ft_putchar_fd('\n', 1);
+	else
+		waitpid(pid, 0, 0);
 	return (1);
 }
 
