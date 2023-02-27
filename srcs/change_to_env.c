@@ -59,10 +59,7 @@ char	*change_double_q(t_token *token, t_list *env)
 	// " " 잘라낸 부분 : str
 	str = ft_substr(token->token, 1, ft_strlen(token->token) - 2);
 	if (!str || !ft_strncmp(str, "\0", ft_strlen(str) + 1))
-	{
-		printf("여긴가\n");
 		return (0);
-	}
 	token_list = make_token(str);
 	free(str);
 	token_list = change_to_env(token_list, env);
