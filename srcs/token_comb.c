@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:50:47 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/24 17:15:06 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/26 00:51:34 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,28 @@ void	append(char ***res, char *str)
 	*res = new;
 }
 
+t_list	*comb_pipe(t_list *lst, t_list **res)
+{
+	t_split	*split;
+
+	// pipe 뒤에 단어만 와야하나?? redir 와도 되는건가??
+	// 지금은 단어만 와야하는 것/
+	if (!res || !((lst->next) && (is_word(lst->next)
+				|| (is_space(lst->next) && (lst->next->next)
+					&& is_word(lst->next->next)))))
+	{
+		printf("pipe error\n");
+		// ft_lstclear_parsed(res);
+		// 바로 리턴 말고 프리 해주고 끝내야 함
+		return (0);
+	}
+	split = new_split(
+			ft_split(((t_token *)(lst->content))->token, ' '),
+			(((t_token *)(lst->content))->type));
+	ft_lstadd_back(res, ft_lstnew(split));
+	return (lst);
+}
+
 t_list	*comb_redir(t_list *lst, t_list **res)
 {
 	t_split	*split;
@@ -71,7 +93,7 @@ t_list	*comb_redir(t_list *lst, t_list **res)
 		lst = lst->next;
 	}
 	else
-	{	
+	{
 		printf("redir error\n");
 		return (0);
 	}
@@ -101,7 +123,7 @@ t_list	*comb_word(t_list *lst, t_list **res)
 			i++;
 		}
 		else if (lst && !is_space(lst))
-		{	
+		{
 			join = ft_strjoin(tmp[i], ((t_token *)(lst->content))->token);
 			free(tmp[i]);
 			tmp[i] = join;
@@ -112,54 +134,66 @@ t_list	*comb_word(t_list *lst, t_list **res)
 	return (lst);
 }
 
-// 연관있는 토큰끼리 합쳐주는 함수
-// t_list *res의 content에 t_split 형태로 저장한 후 반환
-// 인자로 받아온 token_list 는 free해줘야 함
-t_list	*token_comb(t_list *lst)
+// 따옴표 제거하기
+// token에 값이 \0 일 경우 제거하기
+t_list	*split_quote(t_list *lst)
 {
 	t_list	*res;
 	t_list	*tmp;
-	//t_split	*split;
+	t_list	*pre;
+	t_list	*del;
 
-	res = 0;
+	res = lst;
+	pre = 0;
 	while (lst)
 	{
 		tmp = 0;
-		//if (is_double(lst))
-		//{
-		//	tmp = make_token(((t_token *)lst->content)->token);
-		//	ft_lstlast(tmp)->next = lst->next;
-		//	lst = tmp;
-		//}
+		if (is_double(lst))
+		{
+			del = lst;
+			tmp = make_token(((t_token *)lst->content)->token);
+			if (pre)
+				pre->next = tmp;
+			else
+				res = tmp;
+			ft_lstlast(tmp)->next = lst->next;
+			free_token(del->content);
+			free(del);
+			lst = tmp;
+		}
+		pre = lst;
+		lst = lst->next;
+	}
+	return (res);
+}
+
+
+// 연관있는 토큰끼리 합쳐주는 함수
+// t_list *res의 content에 t_split 형태로 저장한 후 반환
+// 인자로 받아온 token_list 는 free해줘야 함
+t_mini	*token_comb(t_list *lst)
+{
+	t_mini	*res;
+	t_list	*tmp;
+
+	res = (t_mini *)malloc(sizeof(t_mini));
+	res->parsed = 0;
+	res->redir = 0;
+	while (lst)
+	{
+		tmp = 0;
 		if (is_space(lst))
 			;
 		else if (is_pipe(lst))
-		{
-			// pipe 뒤에 단어만 와야하나?? redir 와도 되는건가??
-			// 지금은 단어만 와야하는 것/
-			if (!res || !((lst->next) && (is_word(lst->next)
-						|| (is_space(lst->next) && (lst->next->next)
-							&& is_word(lst->next->next)))))
-			{
-				printf("pipe error\n");
-				ft_lstclear_parsed(&res);
-				// 바로 리턴 말고 프리 해주고 끝내야 함
-				return (0);
-			}
-			//split = new_split(
-			//		ft_split(((t_token *)(lst->content))->token, ' '),
-			//		(((t_token *)(lst->content))->type));
-			//ft_lstadd_back(&res, ft_lstnew(split));
-		}
+			lst = comb_pipe(lst, &(res->parsed));
 		else if (is_redir(lst))
-			lst = comb_redir(lst, &res);
+			lst = comb_redir(lst, &(res->redir));
 		else
-			lst = comb_word(lst, &res);
-		//system("leaks --list minishell");
+			lst = comb_word(lst, &(res->parsed));
 		if (!lst)
 		{
 			ft_lstclear_token(&tmp);
-			ft_lstclear_parsed(&res);
+			ft_lstclear_mini(&res);
 			return (0);
 		}
 		lst = lst->next;
@@ -169,6 +203,6 @@ t_list	*token_comb(t_list *lst)
 	}
 	//if (tmp && tmp->content)
 	//		ft_lstclear_token(&tmp);
-	//system("leaks --list minishell");
+	// system("leaks --list minishell");
 	return (res);
 }

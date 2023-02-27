@@ -13,7 +13,7 @@ NAME			=	minishell
 
 CC				=	cc
 RM				=	rm -f
-CFLAGS			=	-Wall -Wextra -Werror -g 
+CFLAGS			=	-Wall -Wextra -Werror -g
 # -fsanitize=address
 
 COMFILE_FLAGS	=	-l readline -L ${HOME}/.brew/opt/readline/lib
@@ -43,7 +43,7 @@ LIBFT			=	./libft/libft.a
 
 OBJS			=	$(SRCS:.c=.o)
 
-%.o: %.c		
+%.o: %.c
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
 				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
 
