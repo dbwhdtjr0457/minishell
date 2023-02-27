@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:50:47 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/28 01:46:17 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/28 01:47:51 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ t_list	*split_quote(t_list *lst)
 	while (lst && lst->content)
 	{
 		tmp = 0;
-		// printf("list %sa\n", ((t_lst->content->)
 		if (is_double(lst))
 		{
 			del = lst;
@@ -169,6 +168,5 @@ t_list	*token_comb(t_list *lst)
 		if (lst && is_pipe(lst))
 			lst = lst->next;
 	}
-	// system("leaks --list minishell");
 	return (res);
 }
