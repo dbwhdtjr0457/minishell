@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:34:18 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/22 19:33:11 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/27 16:26:23 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*get_env(char *key, t_list *env)
 	while (env)
 	{
 		tmp = env->content;
-		if (ft_strncmp(tmp[0], key, ft_strlen(tmp[0])) == 0)
+		if (ft_strncmp(tmp[0], key, ft_strlen(tmp[0]) + 1) == 0)
 		{
 			ret = ft_strdup(tmp[1]);
 			return (ret);
@@ -39,7 +39,7 @@ void	set_env(char *key, char *value, t_list **env)
 	while (tmp_env)
 	{
 		tmp = tmp_env->content;
-		if (!ft_strncmp(tmp[0], key, ft_strlen(key)))
+		if (!ft_strncmp(tmp[0], key, ft_strlen(key) + 1))
 		{
 			free(tmp[1]);
 			tmp[1] = ft_strdup(value);

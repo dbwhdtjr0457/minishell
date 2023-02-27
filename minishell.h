@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/27 14:23:54 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/27 19:08:48 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ void	ft_lstclear_token(t_list **lst);
 void	free_parsed(void *content);
 void	ft_lstclear_parsed(t_list **lst);
 void	ft_lstclear_env(t_list **lst);
-void	ft_lstclear_mini(t_mini **mini);
+void	free_mini(t_mini *lst);
+void	ft_lstclear_mini(t_list **mini);
 
 // change_to_env.c
 t_list	*change_to_env(t_list *token_list, t_list *env);
@@ -99,7 +100,7 @@ void	lexer(const char *line, int *arr);
 // parse.c
 void	print_word_in_list(void *content);
 t_list	*make_token(char *line);
-t_mini	*parsing(char *line, t_list *env);
+t_list	*parsing(char *line, t_list *env);
 
 // is_type.c
 int		is_redir(t_list *lst);
@@ -110,7 +111,7 @@ int		is_double(t_list *lst);
 
 // token_comb.c
 t_list	*split_quote(t_list *lst);
-t_mini	*token_comb(t_list *token_list);
+t_list	*token_comb(t_list *token_list);
 
 // token_list.c
 t_token	*new_token(char *input, int type);

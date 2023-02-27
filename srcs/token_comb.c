@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:50:47 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/26 00:51:34 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/27 19:19:44 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,6 @@ t_list	*comb_pipe(t_list *lst, t_list **res)
 {
 	t_split	*split;
 
-	// pipe 뒤에 단어만 와야하나?? redir 와도 되는건가??
-	// 지금은 단어만 와야하는 것/
-	if (!res || !((lst->next) && (is_word(lst->next)
-				|| (is_space(lst->next) && (lst->next->next)
-					&& is_word(lst->next->next)))))
-	{
-		printf("pipe error\n");
-		// ft_lstclear_parsed(res);
-		// 바로 리턴 말고 프리 해주고 끝내야 함
-		return (0);
-	}
 	split = new_split(
 			ft_split(((t_token *)(lst->content))->token, ' '),
 			(((t_token *)(lst->content))->type));
@@ -81,7 +70,8 @@ t_list	*comb_redir(t_list *lst, t_list **res)
 	char	**tmp;
 
 	tmp = 0;
-	if ((lst->next) && (is_word(lst->next) || (is_space(lst->next)
+	if (is_redir(lst) && (lst->next)
+		&& (is_word(lst->next) || (is_space(lst->next)
 				&& (lst->next->next) && is_word(lst->next->next))))
 	{
 		append(&tmp, ((t_token *)(lst->content))->token);
@@ -93,10 +83,7 @@ t_list	*comb_redir(t_list *lst, t_list **res)
 		lst = lst->next;
 	}
 	else
-	{
-		printf("redir error\n");
 		return (0);
-	}
 	// else 리다이렉션 뒤에 word token이 나오지 않을 경우 에러 처리 필요 또는 리다이렉션만 나올경우(뒤에가 널일 경우)
 	return (lst);
 }
@@ -145,9 +132,10 @@ t_list	*split_quote(t_list *lst)
 
 	res = lst;
 	pre = 0;
-	while (lst)
+	while (lst && lst->content)
 	{
 		tmp = 0;
+		// printf("list %sa\n", ((t_lst->content->)
 		if (is_double(lst))
 		{
 			del = lst;
@@ -171,38 +159,38 @@ t_list	*split_quote(t_list *lst)
 // 연관있는 토큰끼리 합쳐주는 함수
 // t_list *res의 content에 t_split 형태로 저장한 후 반환
 // 인자로 받아온 token_list 는 free해줘야 함
-t_mini	*token_comb(t_list *lst)
+t_list	*token_comb(t_list *lst)
 {
-	t_mini	*res;
-	t_list	*tmp;
+	t_mini	*mini;
+	t_list	*res;
 
-	res = (t_mini *)malloc(sizeof(t_mini));
-	res->parsed = 0;
-	res->redir = 0;
+	res = 0;
 	while (lst)
 	{
-		tmp = 0;
-		if (is_space(lst))
-			;
-		else if (is_pipe(lst))
-			lst = comb_pipe(lst, &(res->parsed));
-		else if (is_redir(lst))
-			lst = comb_redir(lst, &(res->redir));
-		else
-			lst = comb_word(lst, &(res->parsed));
-		if (!lst)
+		mini = (t_mini *)malloc(sizeof(t_mini));
+		mini->parsed = 0;
+		mini->redir = 0;
+		while (lst && !is_pipe(lst))
 		{
-			ft_lstclear_token(&tmp);
-			ft_lstclear_mini(&res);
-			return (0);
+			if (is_space(lst))
+				;
+			//else if (is_pipe(lst))
+			//	lst = comb_pipe(lst, &(res->parsed));
+			else if (is_redir(lst))
+				lst = comb_redir(lst, &(mini->redir));
+			else
+				lst = comb_word(lst, &(mini->parsed));
+			if (!lst)
+			{
+				//free_mini(mini);
+				ft_lstclear_mini(&res);
+				return (0);
+			}
+			lst = lst->next;
 		}
-		lst = lst->next;
-		//if (tmp && tmp->content)
-		//	ft_lstclear_token(&tmp);
-		//system("leaks --list minishell");
+		ft_lstadd_back(&res, ft_lstnew(mini));
+		if (lst && is_pipe(lst))
+			lst = lst->next;
 	}
-	//if (tmp && tmp->content)
-	//		ft_lstclear_token(&tmp);
-	// system("leaks --list minishell");
 	return (res);
 }

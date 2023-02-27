@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 19:11:01 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/27 16:50:45 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/27 21:10:24 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	redir_heredoc(char *file)
 	while (1)
 	{
 		line = readline("> ");
-		if (ft_strncmp(line, file, ft_strlen(file)) == 0)
+		if (ft_strncmp(line, file, ft_strlen(line) + 1) == 0)
 			break ;
 		ft_putstr_fd(line, fd);
 		ft_putstr_fd("\n", fd);
@@ -109,16 +109,16 @@ void	check_redir(t_list *redir)
 	{
 		tmp_split = curr->content;
 		if (ft_strncmp((tmp_split->split)[0], "<",
-			ft_strlen(tmp_split->split[0])) == 0)
+			ft_strlen(tmp_split->split[0]) + 1) == 0)
 			redir_in((tmp_split->split)[1]);
 		else if (ft_strncmp((tmp_split->split)[0], ">",
-			ft_strlen(tmp_split->split[0])) == 0)
+			ft_strlen(tmp_split->split[0]) + 1) == 0)
 			redir_out((tmp_split->split)[1]);
 		else if (ft_strncmp((tmp_split->split)[0], "<<",
-			ft_strlen(tmp_split->split[0])) == 0)
+			ft_strlen(tmp_split->split[0]) + 1) == 0)
 			redir_heredoc((tmp_split->split)[1]);
 		else if (ft_strncmp((tmp_split->split)[0], ">>",
-			ft_strlen(tmp_split->split[0])) == 0)
+			ft_strlen(tmp_split->split[0]) + 1) == 0)
 			redir_append((tmp_split->split)[1]);
 		curr = curr->next;
 	}

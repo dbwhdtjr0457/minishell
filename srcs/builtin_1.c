@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:42:37 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/27 15:44:13 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/27 19:05:11 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	ft_exit(t_mini *mini, t_list *env)
 		if (waitpid(pid, 0, 0))
 		{
 			ft_lstclear_env(&env);
-			ft_lstclear_mini(&mini);
+			//ft_lstclear_mini(&mini);
 			exit(0);
 		}
 	}
@@ -220,7 +220,7 @@ void	ft_lstremove_if(t_list **lst, void *data_ref, int (*cmp)())
 	prev = 0;
 	while (tmp)
 	{
-		if (!cmp(((char **)tmp->content)[0], data_ref, ft_strlen(data_ref)))
+		if (!cmp(((char **)tmp->content)[0], data_ref, ft_strlen(data_ref) + 1))
 		{
 			if (prev)
 				prev->next = tmp->next;
