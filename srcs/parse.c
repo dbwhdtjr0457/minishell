@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/28 00:31:25 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/28 01:46:50 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,10 @@ void	print_mini(void *content)
 
 	i = 0;
 	mini = (t_mini *)content;
-	printf("printf mini\n");
 	printf("parsed\n");
 	while (mini->parsed[i])
 		printf("출력 : %s\n", mini->parsed[i++]);
-	printf("redir\n");
+	printf("\nredir\n");
 	ft_lstiter(mini->redir, print_word_in_list);
 	printf("==========================\n\n");
 }
@@ -130,14 +129,19 @@ t_list	*parsing(char *line, t_list *env)
 	// ft_lstiter(token_list, print_word_in_list);
 	// 한번에 실행할 token끼리 묶어서 t_split에 저장
 	cmd_list = token_comb(token_list);
+	// system("leaks --list minishell");
 	ft_lstclear_token(&token_list);
 	// syntax 체크
 	//if (!cmd_list || !pipe_check(cmd_list))
 	if (!cmd_list)
+	{
+		ft_lstclear_mini(&cmd_list);
 		return (0);
+	}
 	ft_lstiter(cmd_list, print_mini);
 	//ft_lstclear_mini(&cmd_list);
 	// system("leaks --list minishell");
 	return (cmd_list);
 }
+// ls -al < d > | d
 // 따옴표 안닫혔을 떄 처리 필요, 에러가 나!!

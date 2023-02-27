@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:50:47 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/28 00:29:57 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/28 01:46:17 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,16 @@ t_list	*comb_pipe(t_list *lst, t_list **res)
 	return (lst);
 }
 
-t_list	*comb_redir(t_list *lst, t_list **res)
+int	comb_redir(t_list **lst, t_list **res)
 {
 	t_list	*cur;
 	t_token	*token;
 	char	*tmp;
 
-	cur = lst->next;
-	tmp = 0;
+	cur = (*lst)->next;
 	while (cur)
 	{
+		tmp = 0;
 		token = (t_token *)(cur->content);
 		if (token->type == SPACE_T)
 			;
@@ -82,14 +82,19 @@ t_list	*comb_redir(t_list *lst, t_list **res)
 			tmp = ft_strdup(token->token);
 			if (!tmp)
 				return (0);
-			ft_lstadd_back(res,
-				ft_lstnew(new_token(tmp, ((t_token *)(lst->content))->type)));
-			return (cur->next);
+			ft_lstadd_back(res, ft_lstnew
+				(new_token(tmp, ((t_token *)((*lst)->content))->type)));
+			(*lst) = cur;
+			return (1);
 		}
 		else if (token->type == PIPE_T)
+		{
+			printf("redir_error\n");
 			return (0);
+		}
 		cur = cur->next;
 	}
+	printf("!redir error\n");
 	return (0);
 }
 
@@ -150,23 +155,20 @@ t_list	*token_comb(t_list *lst)
 			//	lst = comb_pipe(lst, &(res->parsed));
 			else if (is_redir(lst))
 			{
-				printf("here%s\n",  ((t_token *)(lst->content))->token);
-				lst = comb_redir(lst, &(mini->redir));
-
+				if (!comb_redir(&lst, &(mini->redir)))
+				{
+					free_mini(mini);
+					return (0);
+				}
 			}
 			else
 				append(&mini->parsed, ((t_token *)(lst->content))->token);
-			if (!lst)
-			{
-				//free_mini(mini);
-				ft_lstclear_mini(&res);
-				return (0);
-			}
 			lst = lst->next;
 		}
 		ft_lstadd_back(&res, ft_lstnew(mini));
 		if (lst && is_pipe(lst))
 			lst = lst->next;
 	}
+	// system("leaks --list minishell");
 	return (res);
 }
