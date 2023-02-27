@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/27 16:31:45 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/27 16:35:35 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	main(int ac, char **av, char **envp)
 {
 	char			*line;
 	struct termios	term;
-	t_mini			*parsed;
+	t_mini			*mini;
 	t_list			*env;
 
 	tcgetattr(STDIN_FILENO, &term);
@@ -76,7 +76,7 @@ int	main(int ac, char **av, char **envp)
 		else
 		{
 			add_history(line);
-			parsed = parsing(line, env);
+			mini = parsing(line, env);
 			free(line);
 			if (parsed)
 			{

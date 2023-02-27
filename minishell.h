@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/26 00:59:03 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/27 14:23:54 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int		is_pipe(t_list *lst);
 int		is_word(t_list *lst);
 int		is_space(t_list *lst);
 int		is_double(t_list *lst);
+
 // token_comb.c
 t_list	*split_quote(t_list *lst);
 t_mini	*token_comb(t_list *token_list);
@@ -118,21 +119,18 @@ void	make_token_list(t_list **split_word, char *line, int *arr);
 // make_env.c
 void	make_env(t_list **env, char **envp);
 
-//minishell.c
-int		minishell(t_list *parsed, t_list **env);
-
 // execute.c
 int		split_size(char **split);
-int		execute(t_list *parsed, t_list **env);
+int		execute(t_mini *mini, t_list **env);
 
 // builtin_1.c
-int		ft_echo(t_list *parsed);
-int		ft_pwd(t_list *parsed);
-int		ft_env(t_list *parsed, t_list *env);
-int		ft_exit(t_list *parsed, t_list *env);
-int		ft_cd(t_list *parsed, t_list **env);
-int		ft_export(t_list *parsed, t_list **env);
-int		ft_unset(t_list *parsed, t_list **env);
+int		ft_echo(t_mini *mini);
+int		ft_pwd(t_mini *mini);
+int		ft_env(t_mini *mini, t_list *env);
+int		ft_exit(t_mini *mini, t_list *env);
+int		ft_cd(t_mini *mini, t_list **env);
+int		ft_export(t_mini *mini, t_list **env);
+int		ft_unset(t_mini *mini, t_list **env);
 
 // env_utils.c
 char	*get_env(char *key, t_list *env);
@@ -143,8 +141,8 @@ void	ft_lstprint_input(void *content);
 void	ft_lstprint_env(void *content);
 
 // pipe.c
-int		pipe_execute(t_list *parsed, t_list **env, int pipe_num);
-void	check_redir(t_list **parsed);
+int		pipe_execute(t_mini *mini, t_list **env, int pipe_num);
+void	check_redir(t_list *redir);
 
 // main.c
 char	**env_to_char(t_list *env);
