@@ -83,10 +83,7 @@ t_list	*comb_redir(t_list *lst, t_list **res)
 		lst = lst->next;
 	}
 	else
-	{
-		printf("!redir error\n");
 		return (0);
-	}
 	// else 리다이렉션 뒤에 word token이 나오지 않을 경우 에러 처리 필요 또는 리다이렉션만 나올경우(뒤에가 널일 경우)
 	return (lst);
 }
