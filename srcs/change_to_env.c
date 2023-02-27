@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 21:46:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/27 01:20:48 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/27 16:29:57 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*change_double_q(t_token *token, t_list *env)
 
 	// " " 잘라낸 부분 : str
 	str = ft_substr(token->token, 1, ft_strlen(token->token) - 2);
-	if (!str || !ft_strncmp(str, "\0", 2))
+	if (!str || !ft_strncmp(str, "\0", ft_strlen(str) + 1))
 	{
 		printf("여긴가\n");
 		return (0);
@@ -68,7 +68,6 @@ char	*change_double_q(t_token *token, t_list *env)
 	token_list = change_to_env(token_list, env);
 	if (!token_list)
 		return (0);
-	printf("프린트해보기%s\n", (((t_token *)(token_list->content))->token));
 	// 다시 합치기
 	str = token_join(token_list);
 	ft_lstclear_token(&token_list);
@@ -96,22 +95,24 @@ char	*change_dollar(t_token *token, t_list *env)
 	return (res);
 }
 
-t_list	*del_token(t_list *pre, t_list *cur)
+t_list	*del_token(t_list *pre, t_list *cur, t_list **lst)
 {
 	t_list	*del;
 
-	printf("here\n");
 	del = cur;
 	if (pre)
+	{	
 		pre->next = cur->next;
-	cur = cur->next;
-	// print_word_in_list(cur->content);
-	free_token(del);
-	print_word_in_list(cur->content);
-	// free(((t_token *)(del->content))->token);
-	// free(((t_token *)(del->content)));
-	(void)del;
-	printf("del fin\n");
+		cur = cur->next;
+	}
+	else
+	{
+		cur = cur->next;
+		*lst = cur;
+	}
+	free(((t_token *)(del->content))->token);
+	free(((t_token *)(del->content)));
+	free(del);
 	return (cur);
 }
 
@@ -126,7 +127,7 @@ t_list	*change_to_env(t_list *lst, t_list *env)
 
 	cur = lst;
 	pre = 0;
-	while (lst && cur)
+	while (cur)
 	{
 		token = (t_token *)(cur->content);
 		if (token->type == QUOTE_DOUBLE || token->type == DOLLAR_T
@@ -141,30 +142,16 @@ t_list	*change_to_env(t_list *lst, t_list *env)
 				str = ft_substr(token->token, 1, ft_strlen(token->token) - 2);
 				token->type = WORD_T;
 			}
-			if (!str || !ft_strncmp(str, "\0", 2))
+			if (!str || !ft_strncmp(str, "\0", ft_strlen(str) + 1))
 			{
-				printf("delll\n");
-				cur = del_token(pre, cur);
-				print_word_in_list(cur->content);
-				if (!cur)
-					return (0);
-				// free_token(token);
-				// free(token);
-				printf("del fffffin\n");
+				cur = del_token(pre, cur, &lst);
 				continue ;
 			}
-			else
-				cur->content = new_token(str, token->type);
-			// if (!lst || !lst->content)
-			// 	return (0);
+			cur->content = new_token(str, token->type);
+			free_token(token);
 		}
 		pre = cur;
 		cur = cur->next;
 	}
-	// if (lst)
-	// {
-	// 	if (lst->content)
-	// 		return (lst);
-	// }
 	return (lst);
 }
