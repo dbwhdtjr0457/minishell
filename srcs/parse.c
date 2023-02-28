@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/27 20:53:20 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/27 21:14:02 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ t_list	*parsing(char *line, t_list *env)
 	//if (!cmd_list || !pipe_check(cmd_list))
 	if (!cmd_list)
 		return (0);
-	//ft_lstiter(cmd_list, print_mini);
+	ft_lstiter(cmd_list, print_mini);
 	//ft_lstclear_mini(&cmd_list);
 	//system("leaks --list minishell");
 	return (cmd_list);
