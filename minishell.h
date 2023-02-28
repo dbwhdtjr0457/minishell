@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/27 19:08:48 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/28 00:27:42 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_token
 typedef struct s_mini
 {
 	t_list	*redir;
-	t_list	*parsed;
+	char	**parsed;
 }	t_mini;
 
 typedef struct s_pipex
