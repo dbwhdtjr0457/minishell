@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:42:37 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/27 19:05:11 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/02/27 23:56:42 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	ft_echo(t_mini *mini)
 	{
 		check_redir(mini->redir);
 		flag = 0;
-		tmp = ((t_split *)mini->parsed->content)->split;
+		// 일단 내가 바꿈
+		tmp = mini->parsed;
 		if (tmp[1] && ft_strncmp(tmp[1], "-n", 2) == 0)
 			flag = 1;
 		i = flag;
@@ -52,7 +53,8 @@ int	ft_pwd(t_mini *mini)
 	if (pid == 0)
 	{
 		check_redir(mini->redir);
-		if (((t_split *)mini->parsed->content)->split[1])
+		// 일단 내가 바꿈
+		if (mini->parsed[1])
 		{
 			ft_putstr_fd("pwd: too many arguments\n", 2);
 			return (0);
@@ -77,7 +79,8 @@ int	ft_env(t_mini *mini, t_list *env)
 	if (pid == 0)
 	{
 		check_redir(mini->redir);
-		tmp = ((t_split *)mini->parsed->content)->split;
+		// 일단 내가 바꿈
+		tmp = mini->parsed;
 		if (tmp[1])
 		{
 			ft_putstr_fd("env: ", 2);
@@ -142,7 +145,8 @@ int	ft_cd(t_mini *mini, t_list **env)
 	else
 	{
 		waitpid(pid, 0, 0);
-		tmp = ((t_split *)mini->parsed->content)->split;
+		// 일단 내가 바꿈
+		tmp = mini->parsed;
 		if (!tmp[1])
 		{
 			tmp2 = get_env("HOME", *env);
@@ -180,7 +184,8 @@ int	ft_export(t_mini *mini, t_list **env)
 	char	*res[2];
 	pid_t	pid;
 
-	tmp = ((t_split *)mini->parsed->content)->split;
+	// 일단 내가 바꿈
+	tmp = mini->parsed;
 	pid = fork();
 	if (pid == 0)
 	{
@@ -253,7 +258,8 @@ int	ft_unset(t_mini *mini, t_list **env)
 	else
 	{
 		waitpid(pid, 0, 0);
-		tmp = ((t_split *)mini->parsed->content)->split;
+		// 일단 내가 바꿈
+		tmp = mini->parsed;
 		i = 0;
 		while (tmp[++i])
 			ft_lstremove_if(env, tmp[i], ft_strncmp);

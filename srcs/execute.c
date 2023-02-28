@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:21:42 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/27 14:18:02 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/02/27 23:54:04 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,9 @@ char	**env_to_char(t_list *env)
 
 int	builtin(t_mini *mini, t_list **env, char **tmp)
 {
-	if (ft_lstsize(mini->parsed) > 1)
-		return (0);
+	// mini 형식에 맞춰서 바꿔야함!
+	// if (ft_lstsize(mini->parsed) > 1)
+	// 	return (0);
 	if (ft_strncmp(tmp[0], "echo", 5) == 0)
 		ft_echo(mini);
 	else if (ft_strncmp(tmp[0], "cd", 3) == 0)
@@ -128,7 +129,8 @@ int	execute(t_mini *mini, t_list **env)
 	pid_t	pid2;
 	char	**env_char;
 
-	tmp = ((t_split *)mini->parsed->content)->split;
+	// 일단 내가 바꿈
+	tmp = mini->parsed;
 	if (!builtin(mini, env, tmp))
 	{
 		{
@@ -137,7 +139,8 @@ int	execute(t_mini *mini, t_list **env)
 			if (pid == 0)
 			{
 				check_redir(mini->redir);
-				tmp = ((t_split *)mini->parsed->content)->split;
+				// 일단 내가 바꿈22
+				tmp = mini->parsed;
 				path = find_path(tmp[0], *env);
 				if (path)
 				{
