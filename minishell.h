@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/28 00:27:42 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/01 15:04:29 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,16 @@ typedef struct s_mini
 
 typedef struct s_pipex
 {
-	char	**cmd_list;
 	char	**path_list;
 	char	*cmd_path;
-	char	*file1;
-	char	*file2;
 	int		new_pipe[2];
 	int		old_pipe[2];
 	pid_t	*pid;
 	int		argc;
 	char	**argv;
 	char	**envp;
-	int		heredoc;
+	t_list	**env;
+	int		status;
 }	t_pipex;
 
 // free.c
@@ -101,6 +99,7 @@ void	lexer(const char *line, int *arr);
 void	print_word_in_list(void *content);
 t_list	*make_token(char *line);
 t_list	*parsing(char *line, t_list *env);
+void	print_mini(void *content);
 
 // is_type.c
 int		is_redir(t_list *lst);
@@ -122,7 +121,8 @@ void	make_env(t_list **env, char **envp);
 
 // execute.c
 int		split_size(char **split);
-int		execute(t_mini *mini, t_list **env);
+int		execute(t_list *mini_list, t_list **env);
+char	*find_path(char *cmd, t_list *env);
 
 // builtin_1.c
 int		ft_echo(t_mini *mini);
@@ -142,10 +142,24 @@ void	ft_lstprint_input(void *content);
 void	ft_lstprint_env(void *content);
 
 // pipe.c
-int		pipe_execute(t_mini *mini, t_list **env, int pipe_num);
+void	perror_exit(char *str, int status);
+int		pipe_execute(t_list *mini_list, t_list **env);
+
+// redir.c
+void	redir_in(char *file);
+void	redir_out(char *file);
+void	redir_heredoc(char *file);
+void	redir_append(char *file);
 void	check_redir(t_list *redir);
 
-// main.c
+// utils.c
+int		split_size(char **split);
 char	**env_to_char(t_list *env);
+
+// child.c
+void	child_process(t_pipex *pipex, t_mini *curr_mini, int list_size, int i);
+
+// parent.c
+void	parent_process(t_pipex *pipex, int list_size, int i);
 
 #endif

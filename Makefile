@@ -35,7 +35,11 @@ SRCS_FILES		=	main.c \
 					builtin_1.c \
 					env_utils.c \
 					pipe.c \
-					t_list_utils.c
+					t_list_utils.c \
+					redir.c \
+					utils.c \
+					child.c \
+					parent.c \
 
 SRCS			=	$(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
