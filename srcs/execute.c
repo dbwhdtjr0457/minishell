@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:21:42 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/27 23:54:04 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/01 03:11:51 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	split_size(char **split)
-{
-	int	i;
-
-	i = 0;
-	while (split[i])
-		i++;
-	return (i);
-}
 
 char	*find_path(char *cmd, t_list *env)
 {
@@ -53,26 +43,6 @@ char	*find_path(char *cmd, t_list *env)
 	return (tmp);
 }
 
-char	**env_to_char(t_list *env)
-{
-	char	**tmp;
-	char	*tmp2;
-	int		i;
-
-	tmp = (char **)malloc(sizeof(char *) * (ft_lstsize(env) + 1));
-	i = 0;
-	while (env)
-	{
-		tmp2 = ft_strjoin(((char **)env->content)[0], "=");
-		tmp[i] = ft_strjoin(tmp2, ((char **)env->content)[1]);
-		free(tmp2);
-		env = env->next;
-		i++;
-	}
-	tmp[i] = 0;
-	return (tmp);
-}
-
 int	builtin(t_mini *mini, t_list **env, char **tmp)
 {
 	// mini 형식에 맞춰서 바꿔야함!
@@ -97,20 +67,6 @@ int	builtin(t_mini *mini, t_list **env, char **tmp)
 	return (1);
 }
 
-int	pipe_count(t_list *parsed)
-{
-	int	pipe_num;
-
-	pipe_num = 0;
-	while (parsed)
-	{
-		if (((t_split *)parsed->content)->type == PIPE_T)
-			pipe_num++;
-		parsed = parsed->next;
-	}
-	return (pipe_num);
-}
-
 void	get_parsed(t_list *parsed, int type)
 {
 	while (parsed)
@@ -121,15 +77,22 @@ void	get_parsed(t_list *parsed, int type)
 	}
 }
 
-int	execute(t_mini *mini, t_list **env)
+int	execute(t_list *mini_list, t_list **env)
 {
 	char	**tmp;
 	char	*path;
 	pid_t	pid;
 	pid_t	pid2;
 	char	**env_char;
+	t_mini	*mini;
 
 	// 일단 내가 바꿈
+	if (ft_lstsize(mini_list) > 1)
+	{
+		pipe_execute(mini_list, env);
+		return (0);
+	}
+	mini = (t_mini *)mini_list->content;
 	tmp = mini->parsed;
 	if (!builtin(mini, env, tmp))
 	{

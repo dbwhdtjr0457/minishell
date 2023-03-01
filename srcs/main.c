@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/27 18:58:59 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/01 03:29:03 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	main(int ac, char **av, char **envp)
 {
 	char			*line;
 	struct termios	term;
-	t_list			*mini;
+	t_list			*mini_list;
 	t_list			*env;
 
 	tcgetattr(STDIN_FILENO, &term);
@@ -76,12 +76,12 @@ int	main(int ac, char **av, char **envp)
 		else
 		{
 			add_history(line);
-			mini = parsing(line, env);
+			mini_list = parsing(line, env);
 			free(line);
-			if (mini)
+			if (mini_list)
 			{
-				//execute(mini, &env);
-				ft_lstclear_mini(&mini);
+				execute(mini_list, &env);
+				ft_lstclear_mini(&mini_list);
 			}
 		}
 	}
