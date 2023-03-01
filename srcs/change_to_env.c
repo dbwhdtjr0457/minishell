@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 21:46:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/27 16:29:57 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/01 19:32:11 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,42 @@ char	*change_double_q(t_token *token, t_list *env)
 		return (0);
 	token_list = make_token(str);
 	free(str);
-	token_list = change_to_env(token_list, env);
+	token_list = change_to_env(token_list, env, 1);
 	if (!token_list)
 		return (0);
 	// 다시 합치기
 	str = token_join(token_list);
 	ft_lstclear_token(&token_list);
 	return (str);
+}
+
+char	*change_dollar_s(t_token *token, t_list *env)
+{
+	char	*str;
+	char	*remove_d;
+	char	*res;
+	char	*get;
+
+	res = 0;
+	printf("token %s\n", token->token);
+	str = ft_substr(token->token, 1, ft_strlen(token->token) - 2);
+	if (ft_strrchr(str, '$'))
+		remove_d = ft_substr(str, 1, ft_strlen(str) - 1);
+	else
+		return (str);
+	free(str);
+	printf("remove %s\n", remove_d);
+	get = get_env(remove_d, env);
+	//if (!remove_d || !ft_strncmp(remove_d, "\0", ft_strlen(remove_d) + 1))
+	//	res = ft_strdup("$");
+	//else 
+	if (get)
+		res = ft_strdup(get);
+	else
+		res = 0;
+	free(get);
+	free(remove_d);
+	return (res);
 }
 
 // change_dollar
@@ -82,8 +111,11 @@ char	*change_dollar(t_token *token, t_list *env)
 
 	res = 0;
 	remove_d = ft_substr(token->token, 1, ft_strlen(token->token) - 1);
+	printf("remove %s\n", remove_d);
 	get = get_env(remove_d, env);
-	if (get)
+	if (!remove_d || !ft_strncmp(remove_d, "\0", ft_strlen(remove_d) + 1))
+		res = ft_strdup("$");
+	else if (get)
 		res = ft_strdup(get);
 	else
 		res = 0;
@@ -113,13 +145,44 @@ t_list	*del_token(t_list *pre, t_list *cur, t_list **lst)
 	return (cur);
 }
 
+char	*ft_strjoin_free(char *s1, char *s2)
+{
+	size_t	i;
+	size_t	j;
+	size_t	len;
+	char	*tmp;
+
+	i = 0;
+	j = 0;
+	len = ft_strlen(s1) + ft_strlen(s2);
+	tmp = (char *)malloc(sizeof(char) * len + 1);
+	if (!tmp)
+		return (0);
+	while (s1 && s1[j])
+		tmp[i++] = s1[j++];
+	j = 0;
+	while (s1 && s2[j])
+		tmp[i++] = s2[j++];
+	tmp[i] = '\0';
+	free(s1);
+	free(s2);
+	return (tmp);
+}
+
+//else if (token->type == QUOTE_SINGLE && flag == 1)
+//{
+//	str = change_dollar_s(token, env);
+//	if (str)
+//		str = ft_strjoin_free(ft_strjoin_free(str, "'"), "'");
+//}
+
 // 환경변수 매칭 실패 시 토큰 없애기
 // " " 제거 후 split 해서 앞뒤 연결하기
-t_list	*change_to_env(t_list *lst, t_list *env)
+t_list	*change_to_env(t_list *lst, t_list *env, int flag)
 {
 	t_list	*cur;
 	char	*str;
-	t_token	*token;
+	t_token	*tokexn;
 	t_list	*pre;
 
 	cur = lst;
@@ -130,8 +193,12 @@ t_list	*change_to_env(t_list *lst, t_list *env)
 		if (token->type == QUOTE_DOUBLE || token->type == DOLLAR_T
 			|| token->type == QUOTE_SINGLE)
 		{
-			if (token->type == QUOTE_DOUBLE)
+			if (token->type == QUOTE_DOUBLE || (token->type == QUOTE_SINGLE && flag))
+			{	
 				str = change_double_q(token, env);
+				if (token->type == QUOTE_SINGLE)
+					str = ft_strjoin_free(ft_strdup("'"), ft_strjoin_free(str, ft_strdup("'")));
+			}
 			else if (token->type == DOLLAR_T)
 				str = change_dollar(token, env);
 			else if (token->type == QUOTE_SINGLE)
