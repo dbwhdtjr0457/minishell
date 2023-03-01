@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:55:19 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/26 00:59:03 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/01 17:49:18 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,10 @@ t_token	*split_space_quote(char *line, int *arr, int *i)
 	}
 	else if (type == DOLLAR_T)
 	{
-		*i += 1;
-		while (arr[*i] && arr[*i] != type)
+		while (arr[*i + 1] && arr[*i + 1] != type)
 		{
 			*i += 1;
-			if (arr[*i] != WORD_T)
+			if (arr[*i] != WORD_T || arr[*i] == SPACE_T)
 			{
 				*i -= 1;
 				break ;

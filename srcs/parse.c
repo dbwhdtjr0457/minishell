@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/28 14:34:55 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/01 19:24:51 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ t_list	*parsing(char *line, t_list *env)
 	token_list = make_token(line);
 	// 환경변수 치환
 	// $가 붙어 있을 경우 ' '안에 있을 경우를 제외하고 env 목록에 있는 변수로 변경
-	token_list = change_to_env(token_list, env);
+	token_list = change_to_env(token_list, env, 0);
 	if (!token_list)
 		return (0);
 	// 따옴표 제거
@@ -135,8 +135,8 @@ t_list	*parsing(char *line, t_list *env)
 		ft_lstclear_mini(&cmd_list);
 		return (0);
 	}
-	// ft_lstiter(cmd_list, print_mini);
-	// system("leaks --list minishell");
+	ft_lstiter(cmd_list, print_mini);
+	 system("leaks --list minishell");
 	return (cmd_list);
 }
 // ls -al < d > | d

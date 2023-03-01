@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/01 15:04:29 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/01 18:10:39 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	free_mini(t_mini *lst);
 void	ft_lstclear_mini(t_list **mini);
 
 // change_to_env.c
-t_list	*change_to_env(t_list *token_list, t_list *env);
+t_list	*change_to_env(t_list *token_list, t_list *env, int flag);
 
 // lexer.c
 void	lexer(const char *line, int *arr);
