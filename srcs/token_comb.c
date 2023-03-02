@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:50:47 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/02 14:56:24 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/02 21:48:50 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,18 @@ int	comb_redir(t_list **lst, t_list **res)
 		}
 		else if (token->type == PIPE_T)
 		{
-			printf("redir_error\n");
+			perror("redir_error");
+			return (0);
+		}
+		else if (is_redir(cur))
+		{
+			ft_putstr_fd("MochaShell : syntax error near unexpected token ", 2);
+			ft_putstr_fd(put_redir(cur), 2);
 			return (0);
 		}
 		cur = cur->next;
 	}
-	printf("!redir error\n");
+	ft_putstr_fd("MochaShell : syntax error near unexpected token `newline'\n", 2);
 	return (0);
 }
 
@@ -102,33 +108,33 @@ int	comb_redir(t_list **lst, t_list **res)
 // token에 값이 \0 일 경우 제거하기
 t_list	*split_quote(t_list *lst)
 {
-	t_list	*cur;
+	t_list	*res;
 	t_list	*tmp;
 	t_list	*pre;
 	t_list	*del;
 
-	cur = lst;
+	res = lst;
 	pre = 0;
-	while (cur && cur->content)
+	while (lst)
 	{
 		tmp = 0;
-		if (is_double(cur))
+		if (is_double(lst))
 		{
-			del = cur;
-			tmp = make_token(((t_token *)cur->content)->token);
+			del = lst;
+			tmp = make_token(((t_token *)lst->content)->token);
 			if (pre)
 				pre->next = tmp;
 			else
-				cur = tmp;
-			ft_lstlast(tmp)->next = cur->next;
+				res = tmp;
+			ft_lstlast(tmp)->next = lst->next;
 			free_token(del->content);
 			free(del);
-			cur = tmp;
+			lst = tmp;
 		}
-		pre = cur;
-		cur = cur->next;
+		pre = lst;
+		lst = lst->next;
 	}
-	return (lst);
+	return (res);
 }
 
 t_list	*quote_join_if(t_list *cur, t_list **res, t_list **new)
@@ -169,7 +175,7 @@ t_list	*quote_join(t_list *lst)
 	while (cur && cur->content)
 	{
 		new = 0;
-		while (cur && !is_space(cur) && !is_redir(cur))
+		while (cur && !is_space(cur) && !is_redir(cur) && !is_pipe(cur))
 		{
 			ft_lstadd_back(&new, ft_lstnew(
 					new_token(ft_strdup(((t_token *)(cur->content))->token),
@@ -213,6 +219,11 @@ t_list	*token_comb(t_list *lst)
 			lst = lst->next;
 		}
 		ft_lstadd_back(&res, ft_lstnew(mini));
+		//if (lst && is_pipe(lst))
+		//{
+		//	printf("pipe error\n");
+		//	return (0);
+		//}
 		if (lst && is_pipe(lst))
 			lst = lst->next;
 	}
