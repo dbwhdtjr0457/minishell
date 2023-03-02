@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 21:46:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/01 19:42:36 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/02 16:27:42 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ char	*change_dollar(t_token *token, t_list *env)
 
 	res = 0;
 	remove_d = ft_substr(token->token, 1, ft_strlen(token->token) - 1);
-	printf("remove %s\n", remove_d);
 	get = get_env(remove_d, env);
 	if (!remove_d || !ft_strncmp(remove_d, "\0", ft_strlen(remove_d) + 1))
 		res = ft_strdup("$");
@@ -149,7 +148,13 @@ char	*change_env_type(t_token *token, t_list *env, int flag)
 	{	
 		str = change_quote_dollar(token, env);
 		if (token->type == QUOTE_SINGLE)
-			str = ft_strjoin_free(ft_strdup("'"), ft_strjoin_free(str, ft_strdup("'")));
+		{
+			if (!str)
+				str = ft_strdup("''");
+			else
+				str = ft_strjoin_free(ft_strdup("'"),
+						ft_strjoin_free(str, ft_strdup("'")));
+		}
 	}
 	else if (token->type == DOLLAR_T)
 		str = change_dollar(token, env);
@@ -179,19 +184,6 @@ t_list	*change_to_env(t_list *lst, t_list *env, int flag)
 			|| token->type == QUOTE_SINGLE)
 		{
 			str = change_env_type(token, env, flag);
-			//if (token->type == QUOTE_DOUBLE || (token->type == QUOTE_SINGLE && flag))
-			//{	
-			//	str = change_dollar(token, env);
-			//	if (token->type == QUOTE_SINGLE)
-			//		str = ft_strjoin_free(ft_strdup("'"), ft_strjoin_free(str, ft_strdup("'")));
-			//}
-			//else if (token->type == DOLLAR_T)
-			//	str = change_dollar(token, env);
-			//else if (token->type == QUOTE_SINGLE)
-			//{
-			//	str = ft_substr(token->token, 1, ft_strlen(token->token) - 2);
-			//	token->type = WORD_T;
-			//}
 			if (!str || !ft_strncmp(str, "\0", ft_strlen(str) + 1))
 			{
 				cur = del_token(pre, cur, &lst);
