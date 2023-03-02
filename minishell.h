@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/01 18:10:39 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/02 13:50:12 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ void	free_mini(t_mini *lst);
 void	ft_lstclear_mini(t_list **mini);
 
 // change_to_env.c
+char	*token_join(t_list *token_list);
+t_list	*del_token(t_list *pre, t_list *cur, t_list **lst);
 t_list	*change_to_env(t_list *token_list, t_list *env, int flag);
 
 // lexer.c
@@ -110,6 +112,7 @@ int		is_double(t_list *lst);
 
 // token_comb.c
 t_list	*split_quote(t_list *lst);
+t_list	*quote_join(t_list *lst);
 t_list	*token_comb(t_list *token_list);
 
 // token_list.c
