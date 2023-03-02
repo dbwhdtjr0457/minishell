@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/01 21:21:58 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/02 14:56:56 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,9 @@ t_list	*parsing(char *line, t_list *env)
 	if (!token_list)
 		return (0);
 	//ft_lstiter(token_list, print_word_in_list);
+	// 스페이스 아닌 토큰들 하나의 str로 붙여서 token_list 만들기
+	token_list = quote_join(token_list);
+	//ft_lstiter(token_list, print_word_in_list);
 	// 한번에 실행할 token끼리 묶어서 t_split에 저장
 	cmd_list = token_comb(token_list);
 	ft_lstclear_token(&token_list);
@@ -136,8 +139,8 @@ t_list	*parsing(char *line, t_list *env)
 		ft_lstclear_mini(&cmd_list);
 		return (0);
 	}
-	ft_lstiter(cmd_list, print_mini);
-	 system("leaks --list minishell");
+	//ft_lstiter(cmd_list, print_mini);
+	// system("leaks --list minishell");
 	return (cmd_list);
 }
 // ls -al < d > | d
