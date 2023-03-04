@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 19:10:49 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/04 16:22:02 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/04 19:38:49 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ int	is_word(t_list *lst)
 int	is_space(t_list *lst)
 {
 	if (((t_token *)(lst->content))->type == SPACE_T)
+		return (1);
+	return (0);
+}
+
+int	is_dollar(t_list *lst)
+{
+	if (((t_token *)(lst->content))->type == DOLLAR_T)
 		return (1);
 	return (0);
 }

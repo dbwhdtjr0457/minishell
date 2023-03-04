@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 21:46:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/02 16:27:42 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/04 20:43:51 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,14 +174,16 @@ t_list	*change_to_env(t_list *lst, t_list *env, int flag)
 	char	*str;
 	t_token	*token;
 	t_list	*pre;
+	int		heredoc;
 
 	cur = lst;
 	pre = 0;
+	heredoc = 0;
 	while (cur)
 	{
 		token = (t_token *)(cur->content);
-		if (token->type == QUOTE_DOUBLE || token->type == DOLLAR_T
-			|| token->type == QUOTE_SINGLE)
+		if (token->type == QUOTE_DOUBLE || token->type == QUOTE_SINGLE
+			|| (token->type == DOLLAR_T && !heredoc))
 		{
 			str = change_env_type(token, env, flag);
 			if (!str || !ft_strncmp(str, "\0", ft_strlen(str) + 1))
@@ -192,6 +194,17 @@ t_list	*change_to_env(t_list *lst, t_list *env, int flag)
 			cur->content = new_token(str, token->type);
 			free_token(token);
 		}
+		if (token->type == REDIR_LL)
+		{
+			if (cur->next && is_space(cur->next))
+			{	
+				pre = cur;
+				cur = cur->next;
+			}
+			heredoc = 1;
+		}
+		else if (cur->next && (is_space(cur->next) || is_redir(cur->next)))
+			heredoc = 0;
 		pre = cur;
 		cur = cur->next;
 	}
