@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/02 21:43:32 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/04 16:21:16 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int		is_word(t_list *lst);
 int		is_space(t_list *lst);
 int		is_double(t_list *lst);
 char	*put_redir(t_list *lst);
+void	print_syn_error(t_list *lst, char *str);
 
 // token_comb.c
 t_list	*split_quote(t_list *lst);

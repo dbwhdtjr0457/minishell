@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:50:47 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/02 21:48:50 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/04 18:10:41 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	comb_redir(t_list **lst, t_list **res)
 		token = (t_token *)(cur->content);
 		if (token->type == SPACE_T)
 			;
-		else if (token->type == WORD_T)
+		else if (!is_space(cur) && !is_pipe(cur) && !is_redir(cur))
 		{
 			tmp = ft_strdup(token->token);
 			if (!tmp)
@@ -87,20 +87,14 @@ int	comb_redir(t_list **lst, t_list **res)
 			(*lst) = cur;
 			return (1);
 		}
-		else if (token->type == PIPE_T)
+		else if (token->type == PIPE_T || is_redir(cur))
 		{
-			perror("redir_error");
-			return (0);
-		}
-		else if (is_redir(cur))
-		{
-			ft_putstr_fd("MochaShell : syntax error near unexpected token ", 2);
-			ft_putstr_fd(put_redir(cur), 2);
+			print_syn_error(cur, 0);
 			return (0);
 		}
 		cur = cur->next;
 	}
-	ft_putstr_fd("MochaShell : syntax error near unexpected token `newline'\n", 2);
+	print_syn_error(0, "'newline'\n");
 	return (0);
 }
 
@@ -211,6 +205,7 @@ t_list	*token_comb(t_list *lst)
 				if (!comb_redir(&lst, &(mini->redir)))
 				{
 					free_mini(mini);
+					ft_lstclear_mini(&res);
 					return (0);
 				}
 			}
@@ -219,11 +214,6 @@ t_list	*token_comb(t_list *lst)
 			lst = lst->next;
 		}
 		ft_lstadd_back(&res, ft_lstnew(mini));
-		//if (lst && is_pipe(lst))
-		//{
-		//	printf("pipe error\n");
-		//	return (0);
-		//}
 		if (lst && is_pipe(lst))
 			lst = lst->next;
 	}
