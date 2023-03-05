@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:42:37 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/27 23:56:42 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/05 18:28:06 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	ft_echo(t_mini *mini)
 	{
 		check_redir(mini->redir);
 		flag = 0;
-		// 일단 내가 바꿈
 		tmp = mini->parsed;
 		if (tmp[1] && ft_strncmp(tmp[1], "-n", 2) == 0)
 			flag = 1;
@@ -40,7 +39,10 @@ int	ft_echo(t_mini *mini)
 		exit(0);
 	}
 	else
-		waitpid(pid, 0, 0);
+	{
+		waitpid(pid, &g_status, 0);
+		g_status = (g_status & 0xff00) >> 8;
+	}
 	return (1);
 }
 
@@ -53,11 +55,10 @@ int	ft_pwd(t_mini *mini)
 	if (pid == 0)
 	{
 		check_redir(mini->redir);
-		// 일단 내가 바꿈
 		if (mini->parsed[1])
 		{
 			ft_putstr_fd("pwd: too many arguments\n", 2);
-			return (0);
+			exit(1);
 		}
 		pwd = getcwd(0, 0);
 		ft_putstr_fd(pwd, 1);
@@ -66,7 +67,10 @@ int	ft_pwd(t_mini *mini)
 		exit(0);
 	}
 	else
-		waitpid(pid, 0, 0);
+	{
+		waitpid(pid, &g_status, 0);
+		g_status = (g_status & 0xff00) >> 8;
+	}
 	return (1);
 }
 
@@ -79,20 +83,22 @@ int	ft_env(t_mini *mini, t_list *env)
 	if (pid == 0)
 	{
 		check_redir(mini->redir);
-		// 일단 내가 바꿈
 		tmp = mini->parsed;
 		if (tmp[1])
 		{
 			ft_putstr_fd("env: ", 2);
 			ft_putstr_fd(tmp[1], 2);
 			ft_putstr_fd(": No such file or directory\n", 2);
-			return (0);
+			exit(127);
 		}
 		ft_lstiter(env, ft_lstprint_env);
 		exit(0);
 	}
 	else
-		waitpid(pid, 0, 0);
+	{
+		waitpid(pid, &g_status, 0);
+		g_status = ((g_status & 0xff00) >> 8);
+	}
 	return (1);
 }
 
@@ -115,7 +121,7 @@ int	ft_exit(t_mini *mini, t_list *env)
 			exit(0);
 		}
 	}
-	return (1);
+	return (0);
 }
 
 void	save_tmp(char **tmp, char *str, t_list **env)
@@ -145,7 +151,6 @@ int	ft_cd(t_mini *mini, t_list **env)
 	else
 	{
 		waitpid(pid, 0, 0);
-		// 일단 내가 바꿈
 		tmp = mini->parsed;
 		if (!tmp[1])
 		{
@@ -164,6 +169,7 @@ int	ft_cd(t_mini *mini, t_list **env)
 				ft_putstr_fd("cd: ", 2);
 				ft_putstr_fd(tmp[1], 2);
 				ft_putstr_fd(": No such file or directory\n", 2);
+				g_status = 1;
 				return (0);
 			}
 		}
@@ -173,6 +179,7 @@ int	ft_cd(t_mini *mini, t_list **env)
 		set_env("PWD", pwd, env);
 		free(pwd);
 		free(oldpwd);
+		g_status = 0;
 		return (1);
 	}
 }
@@ -184,7 +191,6 @@ int	ft_export(t_mini *mini, t_list **env)
 	char	*res[2];
 	pid_t	pid;
 
-	// 일단 내가 바꿈
 	tmp = mini->parsed;
 	pid = fork();
 	if (pid == 0)
@@ -212,6 +218,7 @@ int	ft_export(t_mini *mini, t_list **env)
 			else
 				set_env(tmp[1], "", env);
 		}
+		g_status = 0;
 		return (1);
 	}
 }
@@ -258,11 +265,11 @@ int	ft_unset(t_mini *mini, t_list **env)
 	else
 	{
 		waitpid(pid, 0, 0);
-		// 일단 내가 바꿈
 		tmp = mini->parsed;
 		i = 0;
 		while (tmp[++i])
 			ft_lstremove_if(env, tmp[i], ft_strncmp);
+		g_status = 0;
 		return (1);
 	}
 }

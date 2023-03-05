@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/05 15:11:15 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/05 17:12:13 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # include "libft/libft.h"
 
 # define PROMPT "\033[1;33mMochaShell$ \033[0;0m"
+
+int	g_status;
 
 enum e_token
 {
@@ -129,7 +131,7 @@ void	make_env(t_list **env, char **envp);
 int		split_size(char **split);
 int		execute(t_list *mini_list, t_list **env);
 char	*find_path(char *cmd, t_list *env);
-int		builtin(t_mini *mini, t_list **env, char **tmp);
+int		builtin(t_mini *mini, t_list **env);
 
 // builtin_1.c
 int		ft_echo(t_mini *mini);

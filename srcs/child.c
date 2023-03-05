@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:28:12 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/04 16:37:30 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/05 19:02:47 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,17 @@ void	child_process(t_pipex *pipex, t_mini *curr_mini, int list_size, int i)
 		close(pipex->new_pipe[0]);
 		close(pipex->new_pipe[1]);
 	}
-	if (!builtin(curr_mini, pipex->env, curr_mini->parsed))
+	if (!builtin(curr_mini, pipex->env))
 	{
 		path = find_path((curr_mini->parsed)[0], *(pipex->env));
 		check_redir(curr_mini->redir);
 		if (path)
 			execve(path, curr_mini->parsed, pipex->envp);
 		else
+		{
 			printf("%s: command not found\n", (curr_mini->parsed)[0]);
+			exit(127);
+		}
 	}
-	exit(0);
+	exit(g_status);
 }

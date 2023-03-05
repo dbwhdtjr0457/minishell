@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_type.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 19:10:49 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/04 19:38:49 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/05 19:11:20 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,5 @@ void	print_syn_error(t_list *lst, char *str)
 		ft_putstr_fd(put_redir(lst), 2);
 	else if (str)
 		ft_putstr_fd(str, 2);
+	g_status = 258;
 }

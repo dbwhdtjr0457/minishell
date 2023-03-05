@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/05 15:08:19 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/05 19:10:54 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	pipe_check(t_list *lst)
 	}
 	if (lst || !flag)
 	{
-		print_syn_error(0, "'|'|\n");
+		print_syn_error(0, "'|'\n");
 		return (0);
 	}
 	// exit 코드 고려할떄 이건 에러 아님
