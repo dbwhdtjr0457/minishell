@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:21:42 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/04 15:46:50 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/05 16:24:58 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,21 @@ char	*find_path(char *cmd, t_list *env)
 	return (tmp);
 }
 
-int	builtin(t_mini *mini, t_list **env, char **tmp)
+int	builtin(t_mini *mini, t_list **env)
 {
-	if (ft_strncmp(tmp[0], "echo", 5) == 0)
+	if (ft_strncmp((mini->parsed)[0], "echo", 5) == 0)
 		ft_echo(mini);
-	else if (ft_strncmp(tmp[0], "cd", 3) == 0)
+	else if (ft_strncmp((mini->parsed)[0], "cd", 3) == 0)
 		ft_cd(mini, env);
-	else if (ft_strncmp(tmp[0], "pwd", 4) == 0)
+	else if (ft_strncmp((mini->parsed)[0], "pwd", 4) == 0)
 		ft_pwd(mini);
-	else if (ft_strncmp(tmp[0], "export", 7) == 0)
+	else if (ft_strncmp((mini->parsed)[0], "export", 7) == 0)
 		ft_export(mini, env);
-	else if (ft_strncmp(tmp[0], "unset", 6) == 0)
+	else if (ft_strncmp((mini->parsed)[0], "unset", 6) == 0)
 		ft_unset(mini, env);
-	else if (ft_strncmp(tmp[0], "env", 4) == 0)
+	else if (ft_strncmp((mini->parsed)[0], "env", 4) == 0)
 		ft_env(mini, *env);
-	else if (ft_strncmp(tmp[0], "exit", 5) == 0)
+	else if (ft_strncmp((mini->parsed)[0], "exit", 5) == 0)
 		ft_exit(mini, *env);
 	else
 		return (0);
@@ -76,15 +76,13 @@ void	get_parsed(t_list *parsed, int type)
 
 int	execute(t_list *mini_list, t_list **env)
 {
-	char	**tmp;
 	char	*path;
 	pid_t	pid;
 	char	**env_char;
 	t_mini	*mini;
 
 	mini = (t_mini *)mini_list->content;
-	tmp = mini->parsed;
-	if (!builtin(mini, env, tmp))
+	if (!builtin(mini, env))
 	{
 		{
 			env_char = env_to_char(*env);
@@ -92,13 +90,12 @@ int	execute(t_list *mini_list, t_list **env)
 			if (pid == 0)
 			{
 				check_redir(mini->redir);
-				tmp = mini->parsed;
-				path = find_path(tmp[0], *env);
+				path = find_path((mini->parsed)[0], *env);
 				if (path)
-					execve(path, tmp, env_char);
+					execve(path, mini->parsed, env_char);
 				else
 				{
-					ft_putstr_fd(tmp[0], 2);
+					ft_putstr_fd((mini->parsed)[0], 2);
 					ft_putstr_fd(": command not found\n", 2);
 				}
 				free(path);
