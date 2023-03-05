@@ -12,7 +12,7 @@ LINE_DEL		=	"\x1b[1A\x1b[M"
 NAME			=	minishell
 
 CC				=	cc
-RM				=	rm -f
+RM				=	rm -rf
 CFLAGS			=	-Wall -Wextra -Werror -g 
 # -fsanitize=address
 
@@ -45,9 +45,15 @@ SRCS			=	$(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
 LIBFT			=	./libft/libft.a
 
-OBJS			=	$(SRCS:.c=.o)
+OBJS_DIR		=	./objs
+OBJS			=	$(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
-%.o: %.c		
+all:			$(NAME)
+
+$(OBJS_DIR):
+				@mkdir -p $@
+
+$(OBJS_DIR)/%.o	: $(SRCS_DIR)/%.c $(OBJS_DIR)
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
 				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
 
@@ -58,11 +64,9 @@ $(NAME):		$(OBJS)
 				@echo $(YELLOW) "\n====================================\n" $(EOC)
 				@echo $(YELLOW) "    << MochaShell is made! >>\n" $(EOC)
 
-all:			$(NAME)
-
 clean:
 				@make clean -C libft
-				@$(RM) $(OBJS) $(OBJS_BONUS) $(OBJS_GNL)
+				@$(RM) $(OBJS_DIR)
 				@echo $(RED) "      Object file is removed!\n" $(EOC)
 
 fclean: 		clean
@@ -73,5 +77,7 @@ fclean: 		clean
 re:
 				@make fclean
 				@make all
+
+-include $(OBJS:.o=.d)
 
 .PHONY:		all clean fclean re

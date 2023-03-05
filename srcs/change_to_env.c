@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 21:46:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/27 16:29:57 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/05 14:55:34 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*token_join(t_list *token_list)
 	return (res);
 }
 
-char	*change_double_q(t_token *token, t_list *env)
+char	*change_quote_dollar(t_token *token, t_list *env)
 {
 	char	*str;
 	t_list	*token_list;
@@ -62,7 +62,7 @@ char	*change_double_q(t_token *token, t_list *env)
 		return (0);
 	token_list = make_token(str);
 	free(str);
-	token_list = change_to_env(token_list, env);
+	token_list = change_to_env(token_list, env, 1);
 	if (!token_list)
 		return (0);
 	// 다시 합치기
@@ -83,7 +83,9 @@ char	*change_dollar(t_token *token, t_list *env)
 	res = 0;
 	remove_d = ft_substr(token->token, 1, ft_strlen(token->token) - 1);
 	get = get_env(remove_d, env);
-	if (get)
+	if (!remove_d || !ft_strncmp(remove_d, "\0", ft_strlen(remove_d) + 1))
+		res = ft_strdup("$");
+	else if (get)
 		res = ft_strdup(get);
 	else
 		res = 0;
@@ -113,32 +115,77 @@ t_list	*del_token(t_list *pre, t_list *cur, t_list **lst)
 	return (cur);
 }
 
+char	*ft_strjoin_free(char *s1, char *s2)
+{
+	size_t	i;
+	size_t	j;
+	size_t	len;
+	char	*tmp;
+
+	i = 0;
+	j = 0;
+	len = ft_strlen(s1) + ft_strlen(s2);
+	tmp = (char *)malloc(sizeof(char) * len + 1);
+	if (!tmp)
+		return (0);
+	while (s1 && s1[j])
+		tmp[i++] = s1[j++];
+	j = 0;
+	while (s1 && s2[j])
+		tmp[i++] = s2[j++];
+	tmp[i] = '\0';
+	free(s1);
+	free(s2);
+	return (tmp);
+}
+
+char	*change_env_type(t_token *token, t_list *env, int flag)
+{
+	char	*str;
+
+	str = 0;
+	if (token->type == QUOTE_DOUBLE || (token->type == QUOTE_SINGLE && flag))
+	{	
+		str = change_quote_dollar(token, env);
+		if (token->type == QUOTE_SINGLE)
+		{
+			if (!str)
+				str = ft_strdup("''");
+			else
+				str = ft_strjoin_free(ft_strdup("'"),
+						ft_strjoin_free(str, ft_strdup("'")));
+		}
+	}
+	else if (token->type == DOLLAR_T)
+		str = change_dollar(token, env);
+	else if (token->type == QUOTE_SINGLE)
+	{
+		str = ft_substr(token->token, 1, ft_strlen(token->token) - 2);
+		token->type = WORD_T;
+	}
+	return (str);
+}
+
 // 환경변수 매칭 실패 시 토큰 없애기
 // " " 제거 후 split 해서 앞뒤 연결하기
-t_list	*change_to_env(t_list *lst, t_list *env)
+t_list	*change_to_env(t_list *lst, t_list *env, int flag)
 {
 	t_list	*cur;
 	char	*str;
 	t_token	*token;
 	t_list	*pre;
+	int		heredoc;
 
 	cur = lst;
 	pre = 0;
+	heredoc = 0;
 	while (cur)
 	{
 		token = (t_token *)(cur->content);
-		if (token->type == QUOTE_DOUBLE || token->type == DOLLAR_T
-			|| token->type == QUOTE_SINGLE)
+		if (token->type == QUOTE_DOUBLE || token->type == QUOTE_SINGLE
+			|| (token->type == DOLLAR_T && !heredoc))
 		{
-			if (token->type == QUOTE_DOUBLE)
-				str = change_double_q(token, env);
-			else if (token->type == DOLLAR_T)
-				str = change_dollar(token, env);
-			else if (token->type == QUOTE_SINGLE)
-			{
-				str = ft_substr(token->token, 1, ft_strlen(token->token) - 2);
-				token->type = WORD_T;
-			}
+			str = change_env_type(token, env, flag);
 			if (!str || !ft_strncmp(str, "\0", ft_strlen(str) + 1))
 			{
 				cur = del_token(pre, cur, &lst);
@@ -147,6 +194,17 @@ t_list	*change_to_env(t_list *lst, t_list *env)
 			cur->content = new_token(str, token->type);
 			free_token(token);
 		}
+		else if (token->type == REDIR_LL)
+		{
+			if (cur->next && is_space(cur->next))
+			{	
+				pre = cur;
+				cur = cur->next;
+			}
+			heredoc = 1;
+		}
+		else if (cur->next && (is_space(cur->next) || is_redir(cur->next)))
+			heredoc = 0;
 		pre = cur;
 		cur = cur->next;
 	}
