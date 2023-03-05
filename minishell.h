@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/01 15:04:29 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/05 13:57:38 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ void	make_env(t_list **env, char **envp);
 int		split_size(char **split);
 int		execute(t_list *mini_list, t_list **env);
 char	*find_path(char *cmd, t_list *env);
+int		builtin(t_mini *mini, t_list **env, char **tmp);
 
 // builtin_1.c
 int		ft_echo(t_mini *mini);
@@ -146,9 +147,9 @@ void	perror_exit(char *str, int status);
 int		pipe_execute(t_list *mini_list, t_list **env);
 
 // redir.c
-void	redir_in(char *file);
+void	redir_in(t_token *redir);
 void	redir_out(char *file);
-void	redir_heredoc(char *file);
+void	check_heredoc(t_list *redir);
 void	redir_append(char *file);
 void	check_redir(t_list *redir);
 
