@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/04 19:39:07 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/05 14:43:39 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ char	*put_redir(t_list *lst);
 void	print_syn_error(t_list *lst, char *str);
 
 // token_comb.c
-t_list	*split_quote(t_list *lst);
+t_list	*split_env(t_list *lst);
 t_list	*quote_join(t_list *lst);
 t_list	*token_comb(t_list *token_list);
 

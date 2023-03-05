@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/04 18:22:41 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/05 15:08:19 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ t_list	*parsing(char *line, t_list *env)
 		return (0);
 	}
 	ft_lstclear_token(&token_list);
-	ft_lstiter(cmd_list, print_mini);
+	//ft_lstiter(cmd_list, print_mini);
 	// system("leaks --list minishell");
 	return (cmd_list);
 }

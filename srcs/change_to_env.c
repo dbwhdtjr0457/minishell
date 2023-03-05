@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 21:46:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/04 20:43:51 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/05 14:55:34 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ t_list	*change_to_env(t_list *lst, t_list *env, int flag)
 			cur->content = new_token(str, token->type);
 			free_token(token);
 		}
-		if (token->type == REDIR_LL)
+		else if (token->type == REDIR_LL)
 		{
 			if (cur->next && is_space(cur->next))
 			{	

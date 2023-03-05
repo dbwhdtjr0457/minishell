@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:50:47 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/04 18:10:41 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/05 15:05:43 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,39 +98,6 @@ int	comb_redir(t_list **lst, t_list **res)
 	return (0);
 }
 
-// 따옴표 제거하기
-// token에 값이 \0 일 경우 제거하기
-t_list	*split_quote(t_list *lst)
-{
-	t_list	*res;
-	t_list	*tmp;
-	t_list	*pre;
-	t_list	*del;
-
-	res = lst;
-	pre = 0;
-	while (lst)
-	{
-		tmp = 0;
-		if (is_double(lst))
-		{
-			del = lst;
-			tmp = make_token(((t_token *)lst->content)->token);
-			if (pre)
-				pre->next = tmp;
-			else
-				res = tmp;
-			ft_lstlast(tmp)->next = lst->next;
-			free_token(del->content);
-			free(del);
-			lst = tmp;
-		}
-		pre = lst;
-		lst = lst->next;
-	}
-	return (res);
-}
-
 t_list	*quote_join_if(t_list *cur, t_list **res, t_list **new)
 {
 	t_token	*token;
@@ -152,6 +119,44 @@ t_list	*quote_join_if(t_list *cur, t_list **res, t_list **new)
 	return (cur);
 }
 
+t_list	*add_back(t_list **lst, t_list **pre, t_list **res, t_list **new)
+{
+	t_list	*del;
+
+	del = *lst;
+	if (*pre)
+		(*pre)->next = *new;
+	else
+		*res = *new;
+	ft_lstlast(*new)->next = (*lst)->next;
+	free_token(del->content);
+	free(del);
+	return (*new);
+}
+
+t_list	*split_env(t_list *lst)
+{
+	t_list	*res;
+	t_list	*new;
+	t_list	*pre;
+
+	res = lst;
+	pre = 0;
+	while (lst)
+	{
+		new = 0;
+		if (is_dollar(lst)
+			&& ft_strchr(((t_token *)(lst->content))->token, ' '))
+		{
+			new = make_token(((t_token *)lst->content)->token);
+			lst = add_back(&lst, &pre, &res, &new);
+		}
+		pre = lst;
+		lst = lst->next;
+	}
+	return (res);
+}
+
 // 리스트 하나씩 돌기
 // 스페이스 아니면 새로운 토큰 만들어서 추가 => 이 새로운 토큰은 기존 토큰 재사용 X 아예 새로운 친구
 // 추가하면서 원래 있던 토큰 지우기
@@ -164,6 +169,7 @@ t_list	*quote_join(t_list *lst)
 	t_list	*res;
 	t_list	*new;
 
+	lst = split_env(lst);
 	cur = lst;
 	res = 0;
 	while (cur && cur->content)
