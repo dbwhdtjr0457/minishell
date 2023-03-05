@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/01 03:29:03 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/05 14:15:05 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	main(int ac, char **av, char **envp)
 	struct termios	term;
 	t_list			*mini_list;
 	t_list			*env;
+	t_list			*tmp;
 
 	tcgetattr(STDIN_FILENO, &term);
 	term.c_lflag &= ~(ECHOCTL);
@@ -80,7 +81,18 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 			if (mini_list)
 			{
-				execute(mini_list, &env);
+				if (ft_lstsize(mini_list) > 1)
+				{
+					tmp = mini_list;
+					while (tmp)
+					{
+						check_heredoc(((t_mini *)tmp->content)->redir);
+						tmp = tmp->next;
+					}
+					pipe_execute(mini_list, &env);
+				}
+				else
+					execute(mini_list, &env);
 				ft_lstclear_mini(&mini_list);
 			}
 		}
