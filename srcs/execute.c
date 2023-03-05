@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:21:42 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/01 03:11:51 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/04 15:46:50 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,6 @@ char	*find_path(char *cmd, t_list *env)
 
 int	builtin(t_mini *mini, t_list **env, char **tmp)
 {
-	// mini 형식에 맞춰서 바꿔야함!
-	// if (ft_lstsize(mini->parsed) > 1)
-	// 	return (0);
 	if (ft_strncmp(tmp[0], "echo", 5) == 0)
 		ft_echo(mini);
 	else if (ft_strncmp(tmp[0], "cd", 3) == 0)
@@ -82,16 +79,9 @@ int	execute(t_list *mini_list, t_list **env)
 	char	**tmp;
 	char	*path;
 	pid_t	pid;
-	pid_t	pid2;
 	char	**env_char;
 	t_mini	*mini;
 
-	// 일단 내가 바꿈
-	if (ft_lstsize(mini_list) > 1)
-	{
-		pipe_execute(mini_list, env);
-		return (0);
-	}
 	mini = (t_mini *)mini_list->content;
 	tmp = mini->parsed;
 	if (!builtin(mini, env, tmp))
@@ -102,17 +92,10 @@ int	execute(t_list *mini_list, t_list **env)
 			if (pid == 0)
 			{
 				check_redir(mini->redir);
-				// 일단 내가 바꿈22
 				tmp = mini->parsed;
 				path = find_path(tmp[0], *env);
 				if (path)
-				{
-					pid2 = fork();
-					if (pid2 == 0)
-						execve(path, tmp, env_char);
-					else
-						waitpid(pid2, 0, 0);
-				}
+					execve(path, tmp, env_char);
 				else
 				{
 					ft_putstr_fd(tmp[0], 2);
