@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 02:53:39 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/04 15:55:44 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/05 18:36:38 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	parent_process(t_pipex *pipex, int list_size, int i)
 		j = 0;
 		while (j < list_size)
 		{
-			waitpid(pipex->pid[j], &(pipex->status), 0);
+			waitpid(pipex->pid[j], &g_status, 0);
+			g_status = (g_status & 0xff00) >> 8;
 			j++;
 		}
 	}

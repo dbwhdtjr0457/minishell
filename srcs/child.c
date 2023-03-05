@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:28:12 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/05 16:24:37 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/05 19:02:47 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ void	child_process(t_pipex *pipex, t_mini *curr_mini, int list_size, int i)
 		if (path)
 			execve(path, curr_mini->parsed, pipex->envp);
 		else
+		{
 			printf("%s: command not found\n", (curr_mini->parsed)[0]);
+			exit(127);
+		}
 	}
-	exit(0);
+	exit(g_status);
 }

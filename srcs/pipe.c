@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 19:11:01 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/05 14:13:57 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/05 18:29:48 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,5 @@ int	pipe_execute(t_list *mini_list, t_list **env)
 	}
 	i = pipex.status;
 	free_pipex(&pipex);
-	return (WEXITSTATUS(pipex.status));
+	return (1);
 }

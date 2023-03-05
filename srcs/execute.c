@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:21:42 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/05 16:24:58 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/05 18:28:08 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,15 @@ int	execute(t_list *mini_list, t_list **env)
 				{
 					ft_putstr_fd((mini->parsed)[0], 2);
 					ft_putstr_fd(": command not found\n", 2);
+					free(path);
+					free_split(env_char);
+					exit(127);
 				}
-				free(path);
-				free_split(env_char);
-				exit(0);
 			}
 			else
 			{
-				waitpid(pid, 0, 0);
+				waitpid(pid, &g_status, 0);
+				g_status = (g_status & 0xff00) >> 8;
 				free_split(env_char);
 			}
 		}
