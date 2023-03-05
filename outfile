@@ -1,0 +1,13 @@
+total 160
+drwxr-xr-x  12 joyoo  staff    384  3  5 14:29 .
+drwxr-xr-x@ 18 joyoo  staff    576  2 25 20:05 ..
+-rw-r--r--   1 joyoo  staff   6148  2 16 21:48 .DS_Store
+drwxr-xr-x  15 joyoo  staff    480  3  5 14:28 .git
+drwxr-xr-x   4 joyoo  staff    128  2 16 21:48 .github
+drwxr-xr-x   4 joyoo  staff    128  3  4 13:58 .vscode
+-rw-r--r--   1 joyoo  staff   1659  3  5 14:28 Makefile
+drwxr-xr-x  91 joyoo  staff   2912  3  5 14:28 libft
+-rwxr-xr-x   1 joyoo  staff  63494  3  5 14:28 minishell
+-rw-r--r--   1 joyoo  staff   4057  3  5 14:25 minishell.h
+-rw-r--r--   1 joyoo  staff      0  3  5 14:29 outfile
+drwxr-xr-x  38 joyoo  staff   1216  3  5 14:28 srcs
