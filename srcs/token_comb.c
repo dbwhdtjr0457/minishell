@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:50:47 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/28 01:47:51 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/05 15:05:43 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	comb_redir(t_list **lst, t_list **res)
 		token = (t_token *)(cur->content);
 		if (token->type == SPACE_T)
 			;
-		else if (token->type == WORD_T)
+		else if (!is_space(cur) && !is_pipe(cur) && !is_redir(cur))
 		{
 			tmp = ft_strdup(token->token);
 			if (!tmp)
@@ -87,43 +87,69 @@ int	comb_redir(t_list **lst, t_list **res)
 			(*lst) = cur;
 			return (1);
 		}
-		else if (token->type == PIPE_T)
+		else if (token->type == PIPE_T || is_redir(cur))
 		{
-			printf("redir_error\n");
+			print_syn_error(cur, 0);
 			return (0);
 		}
 		cur = cur->next;
 	}
-	printf("!redir error\n");
+	print_syn_error(0, "'newline'\n");
 	return (0);
 }
 
-// 따옴표 제거하기
-// token에 값이 \0 일 경우 제거하기
-t_list	*split_quote(t_list *lst)
+t_list	*quote_join_if(t_list *cur, t_list **res, t_list **new)
+{
+	t_token	*token;
+
+	if (*new)
+	{
+		token = new_token(token_join(*new),
+				((t_token *)((*new)->content))->type);
+		ft_lstclear_token(new);
+		ft_lstadd_back(res, ft_lstnew(token));
+	}
+	else
+	{	
+		ft_lstadd_back(res, ft_lstnew(
+				new_token(ft_strdup(((t_token *)(cur->content))->token),
+					((t_token *)(cur->content))->type)));
+		cur = cur->next;
+	}
+	return (cur);
+}
+
+t_list	*add_back(t_list **lst, t_list **pre, t_list **res, t_list **new)
+{
+	t_list	*del;
+
+	del = *lst;
+	if (*pre)
+		(*pre)->next = *new;
+	else
+		*res = *new;
+	ft_lstlast(*new)->next = (*lst)->next;
+	free_token(del->content);
+	free(del);
+	return (*new);
+}
+
+t_list	*split_env(t_list *lst)
 {
 	t_list	*res;
-	t_list	*tmp;
+	t_list	*new;
 	t_list	*pre;
-	t_list	*del;
 
 	res = lst;
 	pre = 0;
-	while (lst && lst->content)
+	while (lst)
 	{
-		tmp = 0;
-		if (is_double(lst))
+		new = 0;
+		if (is_dollar(lst)
+			&& ft_strchr(((t_token *)(lst->content))->token, ' '))
 		{
-			del = lst;
-			tmp = make_token(((t_token *)lst->content)->token);
-			if (pre)
-				pre->next = tmp;
-			else
-				res = tmp;
-			ft_lstlast(tmp)->next = lst->next;
-			free_token(del->content);
-			free(del);
-			lst = tmp;
+			new = make_token(((t_token *)lst->content)->token);
+			lst = add_back(&lst, &pre, &res, &new);
 		}
 		pre = lst;
 		lst = lst->next;
@@ -131,6 +157,36 @@ t_list	*split_quote(t_list *lst)
 	return (res);
 }
 
+// 리스트 하나씩 돌기
+// 스페이스 아니면 새로운 토큰 만들어서 추가 => 이 새로운 토큰은 기존 토큰 재사용 X 아예 새로운 친구
+// 추가하면서 원래 있던 토큰 지우기
+// while 나와서 token_join 해서 하나의 str로 만들기
+// 스페이스 지워서 담은 토큰리스트 지우고
+// 이전 토큰 리스트위치에 넣기
+t_list	*quote_join(t_list *lst)
+{
+	t_list	*cur;
+	t_list	*res;
+	t_list	*new;
+
+	lst = split_env(lst);
+	cur = lst;
+	res = 0;
+	while (cur && cur->content)
+	{
+		new = 0;
+		while (cur && !is_space(cur) && !is_redir(cur) && !is_pipe(cur))
+		{
+			ft_lstadd_back(&new, ft_lstnew(
+					new_token(ft_strdup(((t_token *)(cur->content))->token),
+						((t_token *)(cur->content))->type)));
+			cur = cur->next;
+		}
+		cur = quote_join_if(cur, &res, &new);
+	}
+	ft_lstclear_token(&lst);
+	return (res);
+}
 
 // 연관있는 토큰끼리 합쳐주는 함수
 // t_list *res의 content에 t_split 형태로 저장한 후 반환
@@ -150,13 +206,12 @@ t_list	*token_comb(t_list *lst)
 		{
 			if (is_space(lst))
 				;
-			//else if (is_pipe(lst))
-			//	lst = comb_pipe(lst, &(res->parsed));
 			else if (is_redir(lst))
 			{
 				if (!comb_redir(&lst, &(mini->redir)))
 				{
 					free_mini(mini);
+					ft_lstclear_mini(&res);
 					return (0);
 				}
 			}

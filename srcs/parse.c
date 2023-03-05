@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/28 14:34:55 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/05 15:08:19 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,40 +74,34 @@ t_list	*make_token(char *line)
 	return (token_list);
 }
 
-// int	pipe_check(t_mini *mini)
-// {
-// 	t_list	*lst;
-// 	t_split	*pre;
-// 	t_split	*cur;
-// 	// int		flag;
+int	pipe_check(t_list *lst)
+{
+	int		flag;
 
-// 	// flag = 0;
-// 	pre = 0;
-// 	lst = mini->parsed;
-// 	if (!lst)
-// 	{
-// 		// 리다이렉션만 들어와도 괜찮은건가?
-// 		// mini 통째로 free 해야하는건지, parsed가 0이면 그냥 넘기는건지 생각해보기
-// 		return (0);
-// 	}
-// 	while (lst)
-// 	{
-// 		cur = (t_split *)lst->content;
-// 		if (cur->type == PIPE_T)
-// 		{
-// 			if (!pre || pre->type != WORD_T || !(lst->next)
-// 				|| (((t_split *)(lst->next->content))->type) != WORD_T)
-// 			{
-// 				printf("pipe error\n");
-// 				//ft_lstclear_mini(&mini);
-// 				return (0);
-// 			}
-// 		}
-// 		pre = lst->content;
-// 		lst = lst->next;
-// 	}
-// 	return (1);
-// }
+	flag = -1;
+	while (lst)
+	{
+		if (is_pipe(lst))
+		{
+			if (!flag)
+				break ;
+			flag = 0;
+		}
+		else if (!is_pipe(lst) && !is_space(lst))
+			flag = 1;
+		lst = lst->next;
+	}
+	if (lst || !flag)
+	{
+		print_syn_error(0, "'|'|\n");
+		return (0);
+	}
+	// exit 코드 고려할떄 이건 에러 아님
+	// 스페이스만 들어왔을 떄 처리한것
+	if (flag == -1)
+		return (0);
+	return (1);
+}
 
 t_list	*parsing(char *line, t_list *env)
 {
@@ -118,26 +112,37 @@ t_list	*parsing(char *line, t_list *env)
 	token_list = make_token(line);
 	// 환경변수 치환
 	// $가 붙어 있을 경우 ' '안에 있을 경우를 제외하고 env 목록에 있는 변수로 변경
-	token_list = change_to_env(token_list, env);
+	token_list = change_to_env(token_list, env, 0);
 	if (!token_list)
 		return (0);
 	// 따옴표 제거
-	token_list = split_quote(token_list);
-	if (!token_list)
-		return (0);
+	// 여기서 따옴표 안에 있는거 분리 안해도 되는거지???
+	//token_list = split_quote(token_list);
+	//if (!token_list)
+	//	return (0);
+	//ft_lstiter(token_list, print_word_in_list);
+	// 스페이스 아닌 토큰들 하나의 str로 붙여서 token_list 만들기
+	token_list = quote_join(token_list);
+	//if (!token_list || !pipe_check(token_list))
+		//return (0);
 	// 한번에 실행할 token끼리 묶어서 t_split에 저장
 	cmd_list = token_comb(token_list);
-	ft_lstclear_token(&token_list);
+	//ft_lstiter(token_list, print_word_in_list);
+	//ft_lstclear_token(&token_list);
 	// syntax 체크
-	//if (!cmd_list || !pipe_check(cmd_list))
-	if (!cmd_list)
+	//system("leaks --list minishell");
+	if (!cmd_list || !pipe_check(token_list))
+	//if (!cmd_list)
 	{
+		ft_lstclear_token(&token_list);
 		ft_lstclear_mini(&cmd_list);
 		return (0);
 	}
-	// ft_lstiter(cmd_list, print_mini);
+	ft_lstclear_token(&token_list);
+	//ft_lstiter(cmd_list, print_mini);
 	// system("leaks --list minishell");
 	return (cmd_list);
 }
+//> d -al | ls < <
 // ls -al < d > | d
 // 따옴표 안닫혔을 떄 처리 필요, 에러가 나!!
