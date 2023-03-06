@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/05 22:33:00 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/06 22:47:20 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	signal_prompt(int signal)
 {
 	(void)signal;
-	g_status = 130;
+	g_status = 128 + signal;
 	// write(1, PROMPT, ft_strlen(PROMPT));
 	write(1, "\n", 1);
 	// 현재까지 입력된 문자열을 str로 바꿔주는 함력
@@ -27,21 +27,28 @@ void	signal_prompt(int signal)
 	rl_redisplay();
 }
 
-void	signal_exe(int signal)
+void	signal_c(int signal)
 {
 	(void)signal;
-	g_status = 130;
+	g_status = 128 + signal;
 	write(1, "^C", 2);
 	write(1, "\n", 1);
-	// kill(getpid(), SIGCHLD);
+}
+
+void	signal_enter(int signal)
+{
+	(void)signal;
+	g_status = -(128 + signal);
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
 }
 
 void	signal_slash(int signal)
 {
 	(void)signal;
-	g_status = 130;
+	g_status = 128 + signal;
 	ft_putstr_fd("^\\Quit: 3\n", 1);
-	// kill(0, SIGKILL);
 }
 
 void	signal_setting(int flag)
@@ -53,24 +60,10 @@ void	signal_setting(int flag)
 	}
 	else if (flag == 2)
 	{
-		signal(SIGINT, signal_exe);
+		signal(SIGINT, signal_c);
 		signal(SIGQUIT, signal_slash);
-		signal(SIGTERM, signal_exe);
+		// signal(SIGTERM, signal_exe);
 	}
-}
-
-t_list	*test_parsing(void)
-{
-	t_list	*test;
-	t_split	*split;
-
-	test = 0;
-	split = (t_split *)malloc(sizeof(t_split));
-	split->type = WORD_T;
-	split->split = ft_split("export a", ' ');
-	ft_lstadd_back(&test, ft_lstnew(split));
-	// ft_lstiter(test, ft_lstprint_input);
-	return (test);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -106,17 +99,21 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 			if (mini_list)
 			{
-				signal_setting(2);
 				tmp = mini_list;
 				while (tmp)
 				{
-					check_heredoc(((t_mini *)tmp->content)->redir);
+					if (!check_heredoc(((t_mini *)tmp->content)->redir))
+						break ;
 					tmp = tmp->next;
 				}
-				if (ft_lstsize(mini_list) > 1)
-					pipe_execute(mini_list, &env);
-				else
-					execute(mini_list, &env);
+				if (!tmp)
+				{
+					signal_setting(2);
+					if (ft_lstsize(mini_list) > 1)
+						pipe_execute(mini_list, &env);
+					else
+						execute(mini_list, &env);
+				}
 				ft_lstclear_mini(&mini_list);
 			}
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/05 17:12:13 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/06 22:41:03 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ int		pipe_execute(t_list *mini_list, t_list **env);
 // redir.c
 void	redir_in(t_token *redir);
 void	redir_out(char *file);
-void	check_heredoc(t_list *redir);
+int		check_heredoc(t_list *redir);
 void	redir_append(char *file);
 void	check_redir(t_list *redir);
 
@@ -170,5 +170,12 @@ void	child_process(t_pipex *pipex, t_mini *curr_mini, int list_size, int i);
 
 // parent.c
 void	parent_process(t_pipex *pipex, int list_size, int i);
+
+// main.c
+void	signal_prompt(int signal);
+void	signal_c(int signal);
+void	signal_enter(int signal);
+void	signal_slash(int signal);
+void	signal_setting(int flag);
 
 #endif
