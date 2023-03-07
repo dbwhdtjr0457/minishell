@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:05:10 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/07 14:58:29 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/07 19:30:43 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ int	change_heredoc(t_token *token)
 	signal(SIGINT, signal_enter);
 	while (1)
 	{
-		line = readline("> ");
+		line = readline("> \0337");
 		if (!line)
 		{
-			ft_putstr_fd("\033[1A\033[2C", 1);
+			ft_putstr_fd("\0338", 1);
 			break ;
 		}
 		if (ft_strncmp(line, token->token, ft_strlen(line) + 1) == 0)
@@ -113,10 +113,7 @@ int	check_heredoc(t_list *redir)
 		tmp_redir = curr->content;
 		if (tmp_redir->type == REDIR_LL)
 			if (!change_heredoc(tmp_redir))
-			{
-				ft_putstr_fd("\033[2C", 1);
 				return (0);
-			}
 		curr = curr->next;
 	}
 	return (1);

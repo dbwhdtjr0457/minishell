@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 21:46:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/05 14:55:34 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/07 16:58:51 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ char	*change_dollar(t_token *token, t_list *env)
 	get = get_env(remove_d, env);
 	if (!remove_d || !ft_strncmp(remove_d, "\0", ft_strlen(remove_d) + 1))
 		res = ft_strdup("$");
+	else if (!ft_strncmp(remove_d, "?", ft_strlen(remove_d) + 1))
+		res = ft_strdup(ft_itoa(g_status));
 	else if (get)
 		res = ft_strdup(get);
 	else
