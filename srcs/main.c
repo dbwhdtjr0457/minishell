@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/07 15:57:24 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/07 20:41:25 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,27 @@ void	signal_setting(int flag)
 	}
 }
 
+void	del_tmp(t_list *mini_list)
+{
+	t_list	*tmp;
+	t_mini	*tmp_mini;
+	t_list	*tmp_redir;
+
+	tmp = mini_list;
+	while (tmp)
+	{
+		tmp_mini = tmp->content;
+		tmp_redir = tmp_mini->redir;
+		while (tmp_redir)
+		{
+			if (access(((t_token *)tmp_redir->content)->token, F_OK) == 0)
+				unlink(((t_token *)tmp_redir->content)->token);
+			tmp_redir = tmp_redir->next;
+		}
+		tmp = tmp->next;
+	}
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char			*line;
@@ -103,7 +124,10 @@ int	main(int ac, char **av, char **envp)
 				while (tmp)
 				{
 					if (!check_heredoc(((t_mini *)tmp->content)->redir))
+					{
+						del_tmp(mini_list);
 						break ;
+					}
 					tmp = tmp->next;
 				}
 				if (!tmp)

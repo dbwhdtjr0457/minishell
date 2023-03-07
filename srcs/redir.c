@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:05:10 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/07 14:58:29 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/07 20:30:23 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,12 +111,8 @@ int	check_heredoc(t_list *redir)
 	while (curr)
 	{
 		tmp_redir = curr->content;
-		if (tmp_redir->type == REDIR_LL)
-			if (!change_heredoc(tmp_redir))
-			{
-				ft_putstr_fd("\033[2C", 1);
-				return (0);
-			}
+		if (tmp_redir->type == REDIR_LL && !change_heredoc(tmp_redir))
+			return (0);
 		curr = curr->next;
 	}
 	return (1);
