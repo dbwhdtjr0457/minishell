@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:21:42 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/07 19:59:52 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/07 20:45:40 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,10 @@ int	execute(t_list *mini_list, t_list **env)
 		else
 		{
 			waitpid(pid, &g_status, 0);
-			g_status = (g_status & 0xff00) >> 8;
+			if (g_status == 2 || g_status == 3)
+				g_status = 128 + g_status;
+			else
+				g_status = (g_status & 0xff00) >> 8;
 			free_split(env_char);
 		}
 	}
