@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/05 19:11:55 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/07 14:17:07 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ int	main(int ac, char **av, char **envp)
 				ft_lstclear_mini(&mini_list);
 			}
 		}
-		printf("g_status: %d\n", g_status);
 	}
 	(void)ac;
 	(void)av;
