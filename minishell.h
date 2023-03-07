@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/06 22:41:03 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/07 19:20:03 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 # include "libft/libft.h"
 
-# define PROMPT "\033[1;33mMochaShell$ \033[0;0m"
+# define PROMPT "\033[1;33mMochaShell$ \033[0;0m\0337"
 
 int	g_status;
 
