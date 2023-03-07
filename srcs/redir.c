@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:05:10 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/05 14:12:26 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/07 14:58:29 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	change_heredoc(t_token *token)
+int	change_heredoc(t_token *token)
 {
 	char	*line;
 	int		num;
@@ -33,11 +33,26 @@ void	change_heredoc(t_token *token)
 		free(numstr);
 	}
 	fd = open(tmpfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	signal(SIGINT, signal_enter);
 	while (1)
 	{
 		line = readline("> ");
+		if (!line)
+		{
+			ft_putstr_fd("\033[1A\033[2C", 1);
+			break ;
+		}
 		if (ft_strncmp(line, token->token, ft_strlen(line) + 1) == 0)
 			break ;
+		if (g_status < 0)
+		{
+			free(line);
+			close(fd);
+			unlink(tmpfile);
+			free(tmpfile);
+			g_status = -g_status;
+			return (0);
+		}
 		ft_putstr_fd(line, fd);
 		ft_putstr_fd("\n", fd);
 		free(line);
@@ -46,6 +61,7 @@ void	change_heredoc(t_token *token)
 	close(fd);
 	free(token->token);
 	token->token = tmpfile;
+	return (1);
 }
 
 void	redir_in(t_token *token)
@@ -86,7 +102,7 @@ void	redir_append(char *file)
 	close(fd);
 }
 
-void	check_heredoc(t_list *redir)
+int	check_heredoc(t_list *redir)
 {
 	t_list	*curr;
 	t_token	*tmp_redir;
@@ -96,9 +112,14 @@ void	check_heredoc(t_list *redir)
 	{
 		tmp_redir = curr->content;
 		if (tmp_redir->type == REDIR_LL)
-			change_heredoc(tmp_redir);
+			if (!change_heredoc(tmp_redir))
+			{
+				ft_putstr_fd("\033[2C", 1);
+				return (0);
+			}
 		curr = curr->next;
 	}
+	return (1);
 }
 
 void	check_redir(t_list *redir)

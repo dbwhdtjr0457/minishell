@@ -6,46 +6,64 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/07 14:17:07 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/07 15:57:24 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	signal_c(int signal)
+void	signal_prompt(int signal)
 {
-	if (signal == SIGINT)
-	{
-		write(1, PROMPT, ft_strlen(PROMPT));
-		write(1, "\n", 1);
-	}
+	(void)signal;
+	g_status = 128 + signal;
+	// write(1, PROMPT, ft_strlen(PROMPT));
+	write(1, "\n", 1);
 	// 현재까지 입력된 문자열을 str로 바꿔주는 함력
 	// 프롬포트를 입력하지 않고 새로운 프롬포트 출력할 때, 프롬포트 비워주기
-	rl_replace_line("", 1);
+	rl_replace_line("", 0);
 	// rl_display 실행 위해 필요
 	rl_on_new_line();
 	// readline에 입력된 문자열 다시 출력
 	rl_redisplay();
 }
 
-void	signal_setting(void)
+void	signal_c(int signal)
 {
-	signal(SIGINT, signal_c);
-	signal(SIGQUIT, SIG_IGN);
+	(void)signal;
+	g_status = 128 + signal;
+	write(1, "^C", 2);
+	write(1, "\n", 1);
 }
 
-t_list	*test_parsing(void)
+void	signal_enter(int signal)
 {
-	t_list	*test;
-	t_split	*split;
+	(void)signal;
+	g_status = -(128 + signal);
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+}
 
-	test = 0;
-	split = (t_split *)malloc(sizeof(t_split));
-	split->type = WORD_T;
-	split->split = ft_split("export a", ' ');
-	ft_lstadd_back(&test, ft_lstnew(split));
-	// ft_lstiter(test, ft_lstprint_input);
-	return (test);
+void	signal_slash(int signal)
+{
+	(void)signal;
+	g_status = 128 + signal;
+	ft_putstr_fd("^\\Quit: 3\n", 1);
+}
+
+void	signal_setting(int flag)
+{
+	if (flag == 1)
+	{
+		signal(SIGINT, signal_prompt);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (flag == 2)
+	{
+		signal(SIGINT, signal_c);
+		signal(SIGQUIT, signal_slash);
+		// signal(SIGTERM, signal_exe);
+	}
 }
 
 int	main(int ac, char **av, char **envp)
@@ -59,10 +77,10 @@ int	main(int ac, char **av, char **envp)
 	tcgetattr(STDIN_FILENO, &term);
 	term.c_lflag &= ~(ECHOCTL);
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
-	signal_setting();
 	make_env(&env, envp);
 	while (1)
 	{
+		signal_setting(1);
 		line = readline(PROMPT);
 		if (!line)
 		{
@@ -80,20 +98,26 @@ int	main(int ac, char **av, char **envp)
 			mini_list = parsing(line, env);
 			free(line);
 			if (mini_list)
-			{					
+			{
 				tmp = mini_list;
 				while (tmp)
 				{
-					check_heredoc(((t_mini *)tmp->content)->redir);
+					if (!check_heredoc(((t_mini *)tmp->content)->redir))
+						break ;
 					tmp = tmp->next;
 				}
-				if (ft_lstsize(mini_list) > 1)
-					pipe_execute(mini_list, &env);
-				else
-					execute(mini_list, &env);
+				if (!tmp)
+				{
+					signal_setting(2);
+					if (ft_lstsize(mini_list) > 1)
+						pipe_execute(mini_list, &env);
+					else
+						execute(mini_list, &env);
+				}
 				ft_lstclear_mini(&mini_list);
 			}
 		}
+		// printf("g_status: %d\n", g_status);
 	}
 	(void)ac;
 	(void)av;
