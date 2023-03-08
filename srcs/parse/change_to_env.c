@@ -6,11 +6,12 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 21:46:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/07 16:58:51 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/08 19:55:13 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
+// #include "../minishell.h"
 
 // token_list 받아서 하나씩 순회
 // token_list->content 하나씩 보면서
@@ -22,34 +23,7 @@
 	// change_dollar
 	// 치환 후 join으로 담기
 
-char	*token_join(t_list *token_list)
-{
-	t_list	*lst;
-	int		len;
-	char	*res;
-	int		index;
 
-	len = 0;
-	index = 0;
-	lst = token_list;
-	while (lst)
-	{
-		len += ft_strlen(((t_token *)lst->content)->token);
-		lst = lst->next;
-	}
-	res = (char *)ft_calloc((len + 1), sizeof(char));
-	if (!res)
-		return (0);
-	lst = token_list;
-	while (lst)
-	{
-		len = ft_strlen(((t_token *)lst->content)->token);
-		ft_memcpy(res + index, ((t_token *)lst->content)->token, len);
-		index += len;
-		lst = lst->next;
-	}
-	return (res);
-}
 
 char	*change_quote_dollar(t_token *token, t_list *env)
 {
@@ -96,58 +70,13 @@ char	*change_dollar(t_token *token, t_list *env)
 	return (res);
 }
 
-t_list	*del_token(t_list *pre, t_list *cur, t_list **lst)
-{
-	t_list	*del;
-
-	del = cur;
-	if (pre)
-	{	
-		pre->next = cur->next;
-		cur = cur->next;
-	}
-	else
-	{
-		cur = cur->next;
-		*lst = cur;
-	}
-	free(((t_token *)(del->content))->token);
-	free(((t_token *)(del->content)));
-	free(del);
-	return (cur);
-}
-
-char	*ft_strjoin_free(char *s1, char *s2)
-{
-	size_t	i;
-	size_t	j;
-	size_t	len;
-	char	*tmp;
-
-	i = 0;
-	j = 0;
-	len = ft_strlen(s1) + ft_strlen(s2);
-	tmp = (char *)malloc(sizeof(char) * len + 1);
-	if (!tmp)
-		return (0);
-	while (s1 && s1[j])
-		tmp[i++] = s1[j++];
-	j = 0;
-	while (s1 && s2[j])
-		tmp[i++] = s2[j++];
-	tmp[i] = '\0';
-	free(s1);
-	free(s2);
-	return (tmp);
-}
-
 char	*change_env_type(t_token *token, t_list *env, int flag)
 {
 	char	*str;
 
 	str = 0;
 	if (token->type == QUOTE_DOUBLE || (token->type == QUOTE_SINGLE && flag))
-	{	
+	{
 		str = change_quote_dollar(token, env);
 		if (token->type == QUOTE_SINGLE)
 		{
@@ -190,7 +119,7 @@ t_list	*change_to_env(t_list *lst, t_list *env, int flag)
 			str = change_env_type(token, env, flag);
 			if (!str || !ft_strncmp(str, "\0", ft_strlen(str) + 1))
 			{
-				cur = del_token(pre, cur, &lst);
+				cur = token_del(pre, cur, &lst);
 				continue ;
 			}
 			cur->content = new_token(str, token->type);
@@ -199,7 +128,7 @@ t_list	*change_to_env(t_list *lst, t_list *env, int flag)
 		else if (token->type == REDIR_LL)
 		{
 			if (cur->next && is_space(cur->next))
-			{	
+			{
 				pre = cur;
 				cur = cur->next;
 			}

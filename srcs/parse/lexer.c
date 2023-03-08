@@ -6,24 +6,12 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 15:13:45 by jihylim           #+#    #+#             */
-/*   Updated: 2023/02/26 00:59:03 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/08 19:55:20 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-
-//void	print_arr(char *arr)
-//{
-//	int	i;
-
-//	i = 0;
-//	while (arr[i])
-//	{
-//		printf("%d ", arr[i]);
-//		i++;
-//	}
-//	printf("\n");
-//}
+#include "../../minishell.h"
+// #include "../minishell.h"
 
 void	rexer_redir_check(const char *line, int *arr, int *i, int type)
 {

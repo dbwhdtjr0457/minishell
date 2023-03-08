@@ -13,7 +13,7 @@ NAME			=	minishell
 
 CC				=	cc
 RM				=	rm -rf
-CFLAGS			=	-Wall -Wextra -Werror -g 
+CFLAGS			=	-Wall -Wextra -Werror -g
 # -fsanitize=address
 
 COMFILE_FLAGS	=	-l readline -L ${HOME}/.brew/opt/readline/lib
@@ -25,37 +25,47 @@ SRCS_DIR		=	./srcs
 SRCS_FILES		=	main.c \
 					free.c \
 					make_env.c \
-					parse.c \
-					change_to_env.c \
-					lexer.c \
-					is_type.c \
-					token_comb.c \
-					token_list.c \
 					execute.c \
 					builtin_1.c \
 					env_utils.c \
 					pipe.c \
-					t_list_utils.c \
+					print_list.c \
 					redir.c \
 					utils.c \
 					child.c \
-					parent.c \
-
+					parent.c
 SRCS			=	$(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
-LIBFT			=	./libft/libft.a
+PARSE_DIR		=	./srcs/parse
+PARSE_FILES		=	parse.c \
+					change_to_env.c \
+					is_type.c \
+					lexer.c \
+					libft_mini.c \
+					token_comb.c \
+					token_list.c \
+					token_utils.c
+PARSE_SRCS		=	$(addprefix $(PARSE_DIR)/, $(PARSE_FILES))
 
 OBJS_DIR		=	./objs
-OBJS			=	$(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
+OBJS			=	$(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o) \
+					$(PARSE_SRCS:$(PARSE_DIR)/%.c=$(OBJS_DIR)/%.o) \
+
+LIBFT			=	./libft/libft.a
 
 all:			$(NAME)
 
 $(OBJS_DIR):
 				@mkdir -p $@
 
-$(OBJS_DIR)/%.o	: $(SRCS_DIR)/%.c $(OBJS_DIR)
+$(OBJS_DIR)/%.o	: $(SRCS_DIR)/%.c  $(OBJS_DIR)
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
 				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
+
+$(OBJS_DIR)/%.o	: $(PARSE_DIR)/%.c $(OBJS_DIR)
+				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
+				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
+
 
 $(NAME):		$(OBJS)
 				@echo $(GREEN) "      Making mocha shells...\n" $(EOC)

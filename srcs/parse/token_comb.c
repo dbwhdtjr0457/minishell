@@ -6,11 +6,12 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:50:47 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/05 15:05:43 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/08 19:55:34 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
+// #include "../minishell.h"
 
 t_split	*new_split(char **input, int type)
 {
@@ -26,7 +27,7 @@ t_split	*new_split(char **input, int type)
 
 // char ** 형에 char * 추가해주는 함수
 // res = {"hello"}가 있으면 res = {"hello", "world"} 처럼 뒤에 연결
-void	append(char ***res, char *str)
+void	append_str(char ***res, char *str)
 {
 	int		len;
 	int		i;
@@ -110,7 +111,7 @@ t_list	*quote_join_if(t_list *cur, t_list **res, t_list **new)
 		ft_lstadd_back(res, ft_lstnew(token));
 	}
 	else
-	{	
+	{
 		ft_lstadd_back(res, ft_lstnew(
 				new_token(ft_strdup(((t_token *)(cur->content))->token),
 					((t_token *)(cur->content))->type)));
@@ -119,7 +120,7 @@ t_list	*quote_join_if(t_list *cur, t_list **res, t_list **new)
 	return (cur);
 }
 
-t_list	*add_back(t_list **lst, t_list **pre, t_list **res, t_list **new)
+t_list	*token_add_back(t_list **lst, t_list **pre, t_list **res, t_list **new)
 {
 	t_list	*del;
 
@@ -149,7 +150,7 @@ t_list	*split_env(t_list *lst)
 			&& ft_strchr(((t_token *)(lst->content))->token, ' '))
 		{
 			new = make_token(((t_token *)lst->content)->token);
-			lst = add_back(&lst, &pre, &res, &new);
+			lst = token_add_back(&lst, &pre, &res, &new);
 		}
 		pre = lst;
 		lst = lst->next;
@@ -188,6 +189,12 @@ t_list	*quote_join(t_list *lst)
 	return (res);
 }
 
+void	mini_init(t_mini **mini)
+{
+	(*mini) = (t_mini *)malloc(sizeof(t_mini));
+	(*mini)->parsed = 0;
+	(*mini)->redir = 0;
+}
 // 연관있는 토큰끼리 합쳐주는 함수
 // t_list *res의 content에 t_split 형태로 저장한 후 반환
 // 인자로 받아온 token_list 는 free해줘야 함
@@ -199,24 +206,19 @@ t_list	*token_comb(t_list *lst)
 	res = 0;
 	while (lst)
 	{
-		mini = (t_mini *)malloc(sizeof(t_mini));
-		mini->parsed = 0;
-		mini->redir = 0;
+		mini_init(&mini);
 		while (lst && !is_pipe(lst))
 		{
 			if (is_space(lst))
 				;
-			else if (is_redir(lst))
+			else if (is_redir(lst) && !comb_redir(&lst, &(mini->redir)))
 			{
-				if (!comb_redir(&lst, &(mini->redir)))
-				{
-					free_mini(mini);
-					ft_lstclear_mini(&res);
-					return (0);
-				}
+				free_mini(mini);
+				ft_lstclear_mini(&res);
+				return (0);
 			}
 			else
-				append(&mini->parsed, ((t_token *)(lst->content))->token);
+				append_str(&mini->parsed, ((t_token *)(lst->content))->token);
 			lst = lst->next;
 		}
 		ft_lstadd_back(&res, ft_lstnew(mini));

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   is_type.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 19:10:49 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/05 19:11:20 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/08 19:55:17 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
+// #include "../minishell.h"
 
 int	is_redir(t_list *lst)
 {

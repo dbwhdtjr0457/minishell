@@ -6,11 +6,12 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:55:19 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/02 19:22:04 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/08 19:55:37 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
+// #include "../minishell.h"
 
 t_token	*new_token(char *input, int type)
 {
