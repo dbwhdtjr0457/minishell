@@ -6,138 +6,60 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 21:46:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/08 19:55:13 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/08 21:23:13 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-// #include "../minishell.h"
 
-// token_list 받아서 하나씩 순회
-// token_list->content 하나씩 보면서
-// token_list->content->token 의 내용을 확인
-// token 한글자씩 보는데
-
-// quote_env
-	// token type이 "" 일 경우, "" 떼고, 안의 내용 공백 또는 $로 나누기
-	// change_dollar
-	// 치환 후 join으로 담기
-
-
-
-char	*change_quote_dollar(t_token *token, t_list *env)
+void	next_lst(t_list **pre, t_list **cur)
 {
-	char	*str;
-	t_list	*token_list;
+	*pre = *cur;
+	*cur = (*cur)->next;
+}
 
-	// " " 잘라낸 부분 : str
-	str = ft_substr(token->token, 1, ft_strlen(token->token) - 2);
+int	change_env_quo(t_list **pre, t_list **cur, t_list **lst, char *str)
+{
+	t_token	*token;
+
+	token = (t_token *)((*cur)->content);
 	if (!str || !ft_strncmp(str, "\0", ft_strlen(str) + 1))
-		return (0);
-	token_list = make_token(str);
-	free(str);
-	token_list = change_to_env(token_list, env, 1);
-	if (!token_list)
-		return (0);
-	// 다시 합치기
-	str = token_join(token_list);
-	ft_lstclear_token(&token_list);
-	return (str);
-}
-
-// change_dollar
-	// token type이 dollar 일 경우 달러 다음에 오는 문자만 잘라서 확인
-
-char	*change_dollar(t_token *token, t_list *env)
-{
-	char	*remove_d;
-	char	*res;
-	char	*get;
-
-	res = 0;
-	remove_d = ft_substr(token->token, 1, ft_strlen(token->token) - 1);
-	get = get_env(remove_d, env);
-	if (!remove_d || !ft_strncmp(remove_d, "\0", ft_strlen(remove_d) + 1))
-		res = ft_strdup("$");
-	else if (!ft_strncmp(remove_d, "?", ft_strlen(remove_d) + 1))
-		res = ft_strdup(ft_itoa(g_status));
-	else if (get)
-		res = ft_strdup(get);
-	else
-		res = 0;
-	free(get);
-	free(remove_d);
-	return (res);
-}
-
-char	*change_env_type(t_token *token, t_list *env, int flag)
-{
-	char	*str;
-
-	str = 0;
-	if (token->type == QUOTE_DOUBLE || (token->type == QUOTE_SINGLE && flag))
 	{
-		str = change_quote_dollar(token, env);
-		if (token->type == QUOTE_SINGLE)
-		{
-			if (!str)
-				str = ft_strdup("''");
-			else
-				str = ft_strjoin_free(ft_strdup("'"),
-						ft_strjoin_free(str, ft_strdup("'")));
-		}
+		*cur = token_del(*pre, *cur, lst);
+		return (0);
 	}
-	else if (token->type == DOLLAR_T)
-		str = change_dollar(token, env);
-	else if (token->type == QUOTE_SINGLE)
-	{
-		str = ft_substr(token->token, 1, ft_strlen(token->token) - 2);
-		token->type = WORD_T;
-	}
-	return (str);
+	(*cur)->content = new_token(str, token->type);
+	free_token(token);
+	return (1);
 }
 
 // 환경변수 매칭 실패 시 토큰 없애기
 // " " 제거 후 split 해서 앞뒤 연결하기
 t_list	*change_to_env(t_list *lst, t_list *env, int flag)
 {
-	t_list	*cur;
-	char	*str;
-	t_token	*token;
 	t_list	*pre;
+	t_list	*cur;
 	int		heredoc;
 
-	cur = lst;
 	pre = 0;
+	cur = lst;
 	heredoc = 0;
 	while (cur)
 	{
-		token = (t_token *)(cur->content);
-		if (token->type == QUOTE_DOUBLE || token->type == QUOTE_SINGLE
-			|| (token->type == DOLLAR_T && !heredoc))
+		if (is_double(cur) || is_single(cur) || (is_dollar(cur) && !heredoc))
 		{
-			str = change_env_type(token, env, flag);
-			if (!str || !ft_strncmp(str, "\0", ft_strlen(str) + 1))
-			{
-				cur = token_del(pre, cur, &lst);
-				continue ;
-			}
-			cur->content = new_token(str, token->type);
-			free_token(token);
+			if (!change_env_quo(&pre, &cur, &lst, remove_quote(cur, env, flag)))
+				break ;
 		}
-		else if (token->type == REDIR_LL)
+		else if (((t_token *)(cur->content))->type == REDIR_LL)
 		{
 			if (cur->next && is_space(cur->next))
-			{
-				pre = cur;
-				cur = cur->next;
-			}
+				next_lst(&pre, &cur);
 			heredoc = 1;
 		}
 		else if (cur->next && (is_space(cur->next) || is_redir(cur->next)))
 			heredoc = 0;
-		pre = cur;
-		cur = cur->next;
+		next_lst(&pre, &cur);
 	}
 	return (lst);
 }

@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/08 16:45:41 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/08 22:46:25 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	main(int ac, char **av, char **envp)
 		{
 			// ctrl + D 눌렀을 경우
 			// 한줄 올리고 커서 12 만큼 앞으로 해서 exit 출력하고 while 빠져나가기
-			ft_putstr_fd("\0338exit\n", 1);
+			ft_putstr_fd("\0338\033[1Aexit\n", 1);
 			//ft_putstr_fd("\033[1A\033[12Cexit\n", 1);
 			break ;
 		}

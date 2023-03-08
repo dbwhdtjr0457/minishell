@@ -39,10 +39,15 @@ SRCS			=	$(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 PARSE_DIR		=	./srcs/parse
 PARSE_FILES		=	parse.c \
 					change_to_env.c \
-					is_type.c \
+					change_to_env_utils.c \
+					is_type_1.c \
+					is_type_2.c \
 					lexer.c \
-					libft_mini.c \
+					print_syn_error.c \
+					quote_join.c \
+					split_env.c \
 					token_comb.c \
+					token_comb_redir.c \
 					token_list.c \
 					token_utils.c
 PARSE_SRCS		=	$(addprefix $(PARSE_DIR)/, $(PARSE_FILES))
