@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:21:42 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/07 18:09:27 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/07 20:45:40 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ char	*find_path(char *cmd, t_list *env)
 
 int	builtin(t_mini *mini, t_list **env)
 {
-	if (ft_strncmp((mini->parsed)[0], "echo", 5) == 0)
+	if (!mini->parsed)
+		return (0);
+	else if (ft_strncmp((mini->parsed)[0], "echo", 5) == 0)
 		ft_echo(mini);
 	else if (ft_strncmp((mini->parsed)[0], "cd", 3) == 0)
 		ft_cd(mini, env);
@@ -84,12 +86,13 @@ int	execute(t_list *mini_list, t_list **env)
 	mini = (t_mini *)mini_list->content;
 	if (!builtin(mini, env))
 	{
+		env_char = env_to_char(*env);
+		pid = fork();
+		if (pid == 0)
 		{
-			env_char = env_to_char(*env);
-			pid = fork();
-			if (pid == 0)
+			check_redir(mini->redir);
+			if (mini->parsed)
 			{
-				check_redir(mini->redir);
 				path = find_path((mini->parsed)[0], *env);
 				if (path)
 					execve(path, mini->parsed, env_char);
@@ -102,15 +105,16 @@ int	execute(t_list *mini_list, t_list **env)
 					exit(127);
 				}
 			}
+			exit(1);
+		}
+		else
+		{
+			waitpid(pid, &g_status, 0);
+			if (g_status == 2 || g_status == 3)
+				g_status = 128 + g_status;
 			else
-			{
-				waitpid(pid, &g_status, 0);
-				if (g_status == 2 || g_status == 3)
-					g_status = 128 + g_status;
-				else
-					g_status = (g_status & 0xff00) >> 8;
-				free_split(env_char);
-			}
+				g_status = (g_status & 0xff00) >> 8;
+			free_split(env_char);
 		}
 	}
 	return (1);
