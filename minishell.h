@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/08 23:06:41 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/09 21:27:30 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,11 +198,15 @@ void	child_process(t_pipex *pipex, t_mini *curr_mini, int list_size, int i);
 // parent.c
 void	parent_process(t_pipex *pipex, int list_size, int i);
 
-// main.c
+// signal.c
 void	signal_prompt(int signal);
-void	signal_c(int signal);
-void	signal_enter(int signal);
-void	signal_slash(int signal);
-void	signal_setting(int flag);
+void	signal_heredoc(int signal);
+void	set_signal(void (*f1)(int), void (*f2)(int));
+void	save_g_status(void);
+
+// terminal.c
+void	term_on(void);
+void	term_off(void);
+
 
 #endif

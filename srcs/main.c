@@ -6,87 +6,30 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/08 23:27:47 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/09 21:26:54 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	signal_prompt(int signal)
-{
-	(void)signal;
-	g_status = 128 + signal;
-	write(1, "\n", 1);
-	// 현재까지 입력된 문자열을 str로 바꿔주는 함력
-	// 프롬포트를 입력하지 않고 새로운 프롬포트 출력할 때, 프롬포트 비워주기
-	rl_replace_line("", 0);
-	// rl_display 실행 위해 필요
-	rl_on_new_line();
-	// readline에 입력된 문자열 다시 출력
-	rl_redisplay();
-}
-
-void	signal_c(int signal)
-{
-	(void)signal;
-	g_status = -(128 + signal);
-	write(1, "^C", 2);
-	write(1, "\n", 1);
-}
-
-void	signal_enter(int signal)
-{
-	(void)signal;
-	g_status = -(128 + signal);
-	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-}
-
-void	signal_slash(int signal)
-{
-	(void)signal;
-	g_status = -(128 + signal);
-	ft_putstr_fd("^\\Quit: 3\n", 1);
-}
-
-void	signal_setting(int flag)
-{
-	if (flag == 1)
-	{
-		signal(SIGINT, signal_prompt);
-		signal(SIGQUIT, SIG_IGN);
-	}
-	else if (flag == 2)
-	{
-		signal(SIGINT, signal_c);
-		signal(SIGQUIT, signal_slash);
-		//signal(SIGTERM, signal_enter);
-	}
-}
-
 int	main(int ac, char **av, char **envp)
 {
 	char			*line;
-	struct termios	term;
 	t_list			*mini_list;
 	t_list			*env;
 	t_list			*tmp;
 
-	tcgetattr(STDIN_FILENO, &term);
-	term.c_lflag &= ~(ECHOCTL);
-	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 	make_env(&env, envp);
+	set_signal(signal_prompt, SIG_IGN);
+	term_off();
 	while (1)
 	{
-		signal_setting(1);
 		line = readline(PROMPT);
 		if (!line)
 		{
 			// ctrl + D 눌렀을 경우
 			// 한줄 올리고 커서 12 만큼 앞으로 해서 exit 출력하고 while 빠져나가기
 			ft_putstr_fd("\0338exit\n", 1);
-			//ft_putstr_fd("\033[1A\033[12Cexit\n", 1);
 			break ;
 		}
 		//아무것도 입력 안하고 엔터만 쳤을 때, history 에 기록 안하도록
@@ -108,17 +51,17 @@ int	main(int ac, char **av, char **envp)
 				}
 				if (!tmp)
 				{
-					signal_setting(2);
+					term_on();
 					if (ft_lstsize(mini_list) > 1)
 						pipe_execute(mini_list, &env);
 					else
 						execute(mini_list, &env);
+					term_off();
 				}
 				ft_lstclear_mini(&mini_list);
 			}
 		}
 		//printf("g_status: %d\n", g_status);
-		//printf("\n");
 	}
 	(void)ac;
 	(void)av;
