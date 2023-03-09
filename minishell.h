@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/07 20:44:35 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/08 23:06:41 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,38 +91,66 @@ void	ft_lstclear_env(t_list **lst);
 void	free_mini(t_mini *lst);
 void	ft_lstclear_mini(t_list **mini);
 
+// print_list.c
+void	print_word_in_list(void *content);
+void	print_split_in_list(void *content);
+void	print_mini(void *content);
+void	ft_lstprint_input(void *content);
+void	ft_lstprint_env(void *content);
+
+//====================================================
+//--------------------- parsing ----------------------
 // change_to_env.c
-char	*token_join(t_list *token_list);
-t_list	*del_token(t_list *pre, t_list *cur, t_list **lst);
 t_list	*change_to_env(t_list *token_list, t_list *env, int flag);
+
+// change_to_env_utils.c
+char	*remove_quote(t_list *cur, t_list *env, int flag);
+
+// is_type.c
+int		is_double(t_list *lst);
+int		is_single(t_list *lst);
+int		is_redir(t_list *lst);
+int		is_pipe(t_list *lst);
+int		is_space(t_list *lst);
+
+// is_type_2.c
+int		is_dollar(t_list *lst);
+int		is_word(t_list *lst);
 
 // lexer.c
 void	lexer(const char *line, int *arr);
 
 // parse.c
-void	print_word_in_list(void *content);
 t_list	*make_token(char *line);
 t_list	*parsing(char *line, t_list *env);
-void	print_mini(void *content);
 
-// is_type.c
-int		is_redir(t_list *lst);
-int		is_pipe(t_list *lst);
-int		is_word(t_list *lst);
-int		is_space(t_list *lst);
-int		is_dollar(t_list *lst);
-int		is_double(t_list *lst);
+// print_syn_error.c
 char	*put_redir(t_list *lst);
 void	print_syn_error(t_list *lst, char *str);
 
-// token_comb.c
+// quote_join.c
+t_list	*quote_join(t_list *lst);
+
+// split_env.c
 t_list	*split_env(t_list *lst);
+
+// token_comb.c
 t_list	*quote_join(t_list *lst);
 t_list	*token_comb(t_list *token_list);
+
+// token_comb_redir.c
+int		comb_redir(t_list **lst, t_list **res);
 
 // token_list.c
 t_token	*new_token(char *input, int type);
 void	make_token_list(t_list **split_word, char *line, int *arr);
+
+// token_utils.c
+char	*token_join(t_list *token_list);
+t_list	*token_del(t_list *pre, t_list *cur, t_list **lst);
+
+//--------------------- parsing ----------------------
+//====================================================
 
 // make_env.c
 void	make_env(t_list **env, char **envp);
@@ -147,8 +175,7 @@ char	*get_env(char *key, t_list *env);
 void	set_env(char *key, char *value, t_list **env);
 
 // t_list_utils.c
-void	ft_lstprint_input(void *content);
-void	ft_lstprint_env(void *content);
+
 
 // pipe.c
 void	perror_exit(char *str, int status);

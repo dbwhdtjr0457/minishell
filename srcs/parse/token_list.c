@@ -6,11 +6,12 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:55:19 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/02 19:22:04 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/08 22:25:19 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
+// #include "../minishell.h"
 
 t_token	*new_token(char *input, int type)
 {
@@ -24,7 +25,36 @@ t_token	*new_token(char *input, int type)
 	return (new);
 }
 
-t_token	*split_space_quote(char *line, int *arr, int *i)
+void	lexer_quote(int *type, int start, int *i, int *arr)
+{
+	*i += 1;
+	while (arr[*i] && arr[*i] != *type)
+	{
+		*i += 1;
+		if (arr[*i] == *type)
+			break ;
+	}
+	if (arr[*i] != *type)
+	{
+		*i = start;
+		*type = WORD_T;
+	}
+}
+
+void	lexer_dollar(int type, int *i, int *arr)
+{
+	while (arr[*i + 1] && arr[*i + 1] != type)
+	{
+		*i += 1;
+		if (arr[*i] != WORD_T || arr[*i] == SPACE_T)
+		{
+			*i -= 1;
+			break ;
+		}
+	}
+}
+
+t_token	*lexer_split(char *line, int *arr, int *i)
 {
 	int		start;
 	int		type;
@@ -42,36 +72,9 @@ t_token	*split_space_quote(char *line, int *arr, int *i)
 			start = *i;
 	}
 	else if (type == QUOTE_DOUBLE || type == QUOTE_SINGLE)
-	{
-		*i += 1;
-		while (arr[*i] && arr[*i] != type)
-		{
-			*i += 1;
-			if (arr[*i] == type)
-				break ;
-		}
-		if (arr[*i] != type)
-		{
-			*i = start;
-			type = WORD_T;
-		}
-	}
+		lexer_quote(&type, start, i, arr);
 	else if (type == DOLLAR_T)
-	{
-		while (arr[*i + 1] && arr[*i + 1] != type)
-		{
-			*i += 1;
-			if (arr[*i] != WORD_T || arr[*i] == SPACE_T)
-			{
-				*i -= 1;
-				break ;
-			}
-		}
-	}
-	// 달러가 나오면, 문자가 끝날때나(space 등 다른 토큰이 나올 때) 다른 달러 나올떄까지 받아서 저장
-	// 달러 토큰 추가
-	// 나중에 - 리스트 순회하다가 달러 토큰 나온것만 치환
-	// env 에 없는 환경변수일 경우에는 리스트 없애기000
+		lexer_dollar(type, i, arr);
 	return (new_token(ft_substr(line, start, *i - start + 1), type));
 }
 
@@ -84,7 +87,7 @@ void	make_token_list(t_list **split_word, char *line, int *arr)
 	*split_word = 0;
 	while (arr[i])
 	{
-		word = split_space_quote(line, arr, &i);
+		word = lexer_split(line, arr, &i);
 		ft_lstadd_back(split_word, ft_lstnew(word));
 		i++;
 	}
