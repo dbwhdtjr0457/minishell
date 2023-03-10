@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 19:11:01 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/07 16:46:54 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/09 21:22:55 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	pipe_execute(t_list *mini_list, t_list **env)
 	while (curr)
 	{
 		curr_mini = (t_mini *)curr->content;
+		set_signal(SIG_IGN, SIG_IGN);
 		pipex_pipe(&pipex);
 		pipex.pid[i] = fork();
 		if (pipex.pid[i] == -1)
@@ -68,5 +69,6 @@ int	pipe_execute(t_list *mini_list, t_list **env)
 	}
 	i = pipex.status;
 	free_pipex(&pipex);
+	set_signal(signal_prompt, SIG_IGN);
 	return (1);
 }

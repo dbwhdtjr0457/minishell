@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:05:10 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/07 20:46:10 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/09 20:41:34 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	change_heredoc(t_token *token)
 		free(numstr);
 	}
 	fd = open(tmpfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	signal(SIGINT, signal_enter);
+	set_signal(signal_heredoc, SIG_IGN);
 	while (1)
 	{
 		line = readline("> \0337");

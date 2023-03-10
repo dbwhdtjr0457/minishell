@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:28:12 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/07 19:56:47 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/09 21:19:27 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	child_process(t_pipex *pipex, t_mini *curr_mini, int list_size, int i)
 {
 	char	*path;
 
+	set_signal(SIG_DFL, SIG_DFL);
 	if (i != 0)
 	{
 		dup2(pipex->old_pipe[0], 0);

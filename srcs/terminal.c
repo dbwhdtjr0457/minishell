@@ -1,40 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parent.c                                           :+:      :+:    :+:   */
+/*   terminal.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/01 02:53:39 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/09 21:25:19 by jihylim          ###   ########.fr       */
+/*   Created: 2023/03/09 21:25:57 by jihylim           #+#    #+#             */
+/*   Updated: 2023/03/09 21:26:29 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	parent_process(t_pipex *pipex, int list_size, int i)
+void	term_on(void)
 {
-	int	j;
+	struct termios	term;
 
-	if (i != 0)
-	{
-		close(pipex->old_pipe[0]);
-		close(pipex->old_pipe[1]);
-	}
-	if (i != list_size - 1)
-	{
-		pipex->old_pipe[0] = pipex->new_pipe[0];
-		pipex->old_pipe[1] = pipex->new_pipe[1];
-	}
-	// waitpid
-	if (i == list_size - 1)
-	{
-		j = 0;
-		while (j < list_size)
-		{
-			waitpid(pipex->pid[j], &g_status, 0);
-			j++;
-		}
-		save_g_status();
-	}
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag = term.c_lflag | ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+
+void	term_off(void)
+{
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag = term.c_lflag & ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }

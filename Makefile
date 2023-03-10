@@ -33,7 +33,9 @@ SRCS_FILES		=	main.c \
 					redir.c \
 					utils.c \
 					child.c \
-					parent.c
+					parent.c \
+					signal.c \
+					terminal.c
 SRCS			=	$(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
 PARSE_DIR		=	./srcs/parse

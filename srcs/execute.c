@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:21:42 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/07 20:45:40 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/09 21:14:32 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,14 @@ int	execute(t_list *mini_list, t_list **env)
 	t_mini	*mini;
 
 	mini = (t_mini *)mini_list->content;
+	set_signal(SIG_IGN, SIG_IGN);
 	if (!builtin(mini, env))
 	{
 		env_char = env_to_char(*env);
 		pid = fork();
 		if (pid == 0)
 		{
+			set_signal(SIG_DFL, SIG_DFL);
 			check_redir(mini->redir);
 			if (mini->parsed)
 			{
@@ -110,12 +112,10 @@ int	execute(t_list *mini_list, t_list **env)
 		else
 		{
 			waitpid(pid, &g_status, 0);
-			if (g_status == 2 || g_status == 3)
-				g_status = 128 + g_status;
-			else
-				g_status = (g_status & 0xff00) >> 8;
+			save_g_status();
 			free_split(env_char);
 		}
+		set_signal(signal_prompt, SIG_IGN);
 	}
 	return (1);
 }
