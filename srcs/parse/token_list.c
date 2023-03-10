@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:55:19 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/08 22:25:19 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/10 18:59:23 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	lexer_dollar(int type, int *i, int *arr)
 	}
 }
 
-t_token	*lexer_split(char *line, int *arr, int *i)
+t_token	*lexer_split(char *line, int *arr, int *i, int flag)
 {
 	int		start;
 	int		type;
@@ -68,7 +68,7 @@ t_token	*lexer_split(char *line, int *arr, int *i)
 		while (arr[*i] == type)
 			*i += 1;
 		*i -= 1;
-		if (type == SPACE_T)
+		if (type == SPACE_T && !flag)
 			start = *i;
 	}
 	else if (type == QUOTE_DOUBLE || type == QUOTE_SINGLE)
@@ -78,7 +78,7 @@ t_token	*lexer_split(char *line, int *arr, int *i)
 	return (new_token(ft_substr(line, start, *i - start + 1), type));
 }
 
-void	make_token_list(t_list **split_word, char *line, int *arr)
+void	make_token_list(t_list **split_word, char *line, int *arr, int flag)
 {
 	int		i;
 	t_token	*word;
@@ -87,7 +87,7 @@ void	make_token_list(t_list **split_word, char *line, int *arr)
 	*split_word = 0;
 	while (arr[i])
 	{
-		word = lexer_split(line, arr, &i);
+		word = lexer_split(line, arr, &i, flag);
 		ft_lstadd_back(split_word, ft_lstnew(word));
 		i++;
 	}
