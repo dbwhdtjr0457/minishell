@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:50:47 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/08 22:49:12 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/11 14:47:18 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,11 @@ void	mini_init(t_mini **mini)
 	(*mini)->redir = 0;
 }
 
-void	free_mini_res(t_mini *mini, t_list *res)
+t_list	*free_mini_res(t_mini *mini, t_list *res)
 {
 	free_mini(mini);
 	ft_lstclear_mini(&res);
+	return (0);
 }
 
 // 연관있는 토큰끼리 합쳐주는 함수
@@ -83,10 +84,10 @@ t_list	*token_comb(t_list *lst)
 		{
 			if (is_space(lst))
 				;
-			else if (is_redir(lst) && !comb_redir(&lst, &(mini->redir)))
-			{
-				free_mini_res(mini, res);
-				return (0);
+			else if (is_redir(lst))
+			{	
+				if (!comb_redir(&lst, &(mini->redir)))
+					return (free_mini_res(mini, res));
 			}
 			else
 				append_str(&mini->parsed, ((t_token *)(lst->content))->token);

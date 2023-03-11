@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:21:42 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/09 21:14:32 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/11 14:48:56 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,4 +119,3 @@ int	execute(t_list *mini_list, t_list **env)
 	}
 	return (1);
 }
-
