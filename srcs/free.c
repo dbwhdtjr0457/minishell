@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 15:01:16 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/28 01:39:04 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/11 17:31:34 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,34 +48,6 @@ void	ft_lstclear_token(t_list **lst)
 	{
 		tmp = (*lst)->next;
 		free_token((*lst)->content);
-		free(*lst);
-		*lst = tmp;
-	}
-	*lst = 0;
-	// system("leaks --list minishell");
-}
-
-void	free_parsed(void *content)
-{
-	t_split	*tmp;
-
-	if (!content)
-		return ;
-	tmp = (t_split *)content;
-	free_split(tmp->split);
-	free(tmp);
-}
-
-void	ft_lstclear_parsed(t_list **lst)
-{
-	t_list	*tmp;
-
-	if (!(*lst))
-		return ;
-	while (*lst)
-	{
-		tmp = (*lst)->next;
-		free_parsed((*lst)->content);
 		free(*lst);
 		*lst = tmp;
 	}
