@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 22:46:55 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/08 22:56:45 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/11 14:46:59 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,15 @@ int	save_after_redir(t_list **lst, t_list **res, t_list *cur)
 int	comb_redir(t_list **lst, t_list **res)
 {
 	t_list	*cur;
-	t_token	*token;
 
 	cur = (*lst)->next;
 	while (cur)
 	{
-		token = (t_token *)(cur->content);
-		if (token->type == SPACE_T)
+		if (is_space(cur))
 			;
 		else if (!is_space(cur) && !is_pipe(cur) && !is_redir(cur))
 			return (save_after_redir(lst, res, cur));
-		else if (token->type == PIPE_T || is_redir(cur))
+		else if (is_space(cur) || is_redir(cur))
 		{
 			print_syn_error(cur, 0);
 			return (0);
