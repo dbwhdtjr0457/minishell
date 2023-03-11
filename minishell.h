@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/10 18:57:10 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/11 17:31:29 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,6 @@ enum e_token
 	WORD_T
 };
 
-typedef struct s_split
-{
-	int		type;
-	char	**split;
-}	t_split;
-
 typedef struct s_token
 {
 	int		type;
@@ -86,18 +80,15 @@ typedef struct s_pipex
 void	free_split(char **split);
 void	free_token(void	*content);
 void	ft_lstclear_token(t_list **lst);
-void	free_parsed(void *content);
-void	ft_lstclear_parsed(t_list **lst);
 void	ft_lstclear_env(t_list **lst);
 void	free_mini(t_mini *lst);
 void	ft_lstclear_mini(t_list **mini);
 
 // print_list.c
 void	print_word_in_list(void *content);
-void	print_split_in_list(void *content);
 void	print_mini(void *content);
-void	ft_lstprint_input(void *content);
 void	ft_lstprint_env(void *content);
+void	ft_lstprint_export(void *content);
 
 //====================================================
 //--------------------- parsing ----------------------
@@ -165,7 +156,7 @@ int		builtin(t_mini *mini, t_list **env);
 // builtin_1.c
 int		ft_echo(t_mini *mini);
 int		ft_pwd(t_mini *mini);
-int		ft_env(t_mini *mini, t_list *env);
+int		ft_env(t_mini *mini, t_list *env, void (*print)(void*));
 int		ft_exit(t_mini *mini, t_list *env);
 int		ft_cd(t_mini *mini, t_list **env);
 int		ft_export(t_mini *mini, t_list **env);

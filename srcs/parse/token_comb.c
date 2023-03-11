@@ -6,24 +6,11 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:50:47 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/11 14:47:18 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/11 17:27:35 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-// #include "../minishell.h"
-
-t_split	*new_split(char **input, int type)
-{
-	t_split	*new;
-
-	new = (t_split *)malloc(sizeof(t_split));
-	if (!new)
-		return (0);
-	new->split = input;
-	new->type = type;
-	return (new);
-}
 
 // char ** 형에 char * 추가해주는 함수
 // res = {"hello"}가 있으면 res = {"hello", "world"} 처럼 뒤에 연결

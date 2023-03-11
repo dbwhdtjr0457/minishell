@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:21:42 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/11 14:48:56 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/11 17:29:11 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,12 @@ int	builtin(t_mini *mini, t_list **env)
 	else if (ft_strncmp((mini->parsed)[0], "unset", 6) == 0)
 		ft_unset(mini, env);
 	else if (ft_strncmp((mini->parsed)[0], "env", 4) == 0)
-		ft_env(mini, *env);
+		ft_env(mini, *env,ft_lstprint_env);
 	else if (ft_strncmp((mini->parsed)[0], "exit", 5) == 0)
 		ft_exit(mini, *env);
 	else
 		return (0);
 	return (1);
-}
-
-void	get_parsed(t_list *parsed, int type)
-{
-	while (parsed)
-	{
-		if (((t_split *)parsed->content)->type == type)
-			break ;
-		parsed = parsed->next;
-	}
 }
 
 int	execute(t_list *mini_list, t_list **env)
