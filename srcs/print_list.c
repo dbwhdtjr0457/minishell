@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 16:08:37 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/08 16:47:31 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/11 17:29:21 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,6 @@ void	print_word_in_list(void *content)
 
 	word = (t_token *)content;
 	printf("token: %s type : %d\n", word->token, word->type);
-}
-
-void	print_split_in_list(void *content)
-{
-	t_split	*word;
-	int		i;
-
-	i = 0;
-	word = (t_split *)content;
-	printf("출력 : ");
-	while (word->split[i])
-		printf("	split: %s type : %d\n", word->split[i++], word->type);
 }
 
 void	print_mini(void *content)
@@ -47,25 +35,22 @@ void	print_mini(void *content)
 	printf("==========================\n\n");
 }
 
-void	ft_lstprint_input(void *content)
-{
-	t_split	*split;
-	int		i;
-
-	split = (t_split *)content;
-	printf("type: %d\n", split->type);
-	i = 0;
-	while (split->split[i])
-	{
-		printf("context[i]: %s\n", split->split[i]);
-		i++;
-	}
-}
-
 void	ft_lstprint_env(void *content)
 {
 	char	**tmp;
 
 	tmp = (char **)content;
-	printf("%s=%s\n", tmp[0], tmp[1]);
+	if (tmp[1] && ft_strncmp(tmp[1], "", ft_strlen(tmp[1])))
+		printf("%s=%s\n", tmp[0], tmp[1]);
+}
+
+void	ft_lstprint_export(void *content)
+{
+	char	**tmp;
+
+	tmp = (char **)content;
+	printf("declare -x %s", tmp[0]);
+	if (tmp[1] && ft_strncmp(tmp[1], "", ft_strlen(tmp[1])))
+		printf("=\"%s\"", tmp[1]);
+	printf("\n");
 }

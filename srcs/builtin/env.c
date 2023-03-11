@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 15:00:12 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/11 15:00:15 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/11 17:33:28 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_env(t_mini *mini, t_list *env)
+int	ft_env(t_mini *mini, t_list *env, void (*print)(void*))
 {
 	char	**tmp;
 	pid_t	pid;
@@ -29,7 +29,7 @@ int	ft_env(t_mini *mini, t_list *env)
 			ft_putstr_fd(": No such file or directory\n", 2);
 			exit(127);
 		}
-		ft_lstiter(env, ft_lstprint_env);
+		ft_lstiter(env, print);
 		exit(0);
 	}
 	else
