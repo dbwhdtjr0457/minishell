@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 22:32:41 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/08 22:32:49 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/10 19:04:08 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_list	*split_env(t_list *lst)
 		if (is_dollar(lst)
 			&& ft_strchr(((t_token *)(lst->content))->token, ' '))
 		{
-			new = make_token(((t_token *)lst->content)->token);
+			new = make_token(((t_token *)lst->content)->token, 0);
 			lst = token_add_back(&lst, &pre, &res, &new);
 		}
 		pre = lst;

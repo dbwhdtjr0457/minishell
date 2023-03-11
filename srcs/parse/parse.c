@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/08 23:02:39 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/11 14:47:39 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 // 문자 토큰 중 연속된 항목 합치기
 // 공백 토큰 제거
 
-t_list	*make_token(char *line)
+t_list	*make_token(char *line, int flag)
 {
 	t_list	*token_list;
 	int		*lexer_arr;
@@ -31,7 +31,7 @@ t_list	*make_token(char *line)
 	token_list = 0;
 	lexer_arr = (int *)ft_calloc(ft_strlen(line) + 1, sizeof(int));
 	lexer(line, lexer_arr);
-	make_token_list(&token_list, line, lexer_arr);
+	make_token_list(&token_list, line, lexer_arr, flag);
 	free(lexer_arr);
 	return (token_list);
 }
@@ -75,7 +75,7 @@ t_list	*parsing(char *line, t_list *env)
 	t_list	*cmd_list;
 
 	cmd_list = 0;
-	token_list = make_token(line);
+	token_list = make_token(line, 0);
 	token_list = change_to_env(token_list, env, 0);
 	if (!token_list)
 		return (0);

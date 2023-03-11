@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/09 21:27:30 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/10 18:57:10 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include <term.h>
 
 # include "libft/libft.h"
+# include "gnl/get_next_line.h"
 
 # define PROMPT "\033[1;33mMochaShell$ \033[0;0m\0337"
 
@@ -121,7 +122,7 @@ int		is_word(t_list *lst);
 void	lexer(const char *line, int *arr);
 
 // parse.c
-t_list	*make_token(char *line);
+t_list	*make_token(char *line, int flag);
 t_list	*parsing(char *line, t_list *env);
 
 // print_syn_error.c
@@ -143,7 +144,7 @@ int		comb_redir(t_list **lst, t_list **res);
 
 // token_list.c
 t_token	*new_token(char *input, int type);
-void	make_token_list(t_list **split_word, char *line, int *arr);
+void	make_token_list(t_list **split_word, char *line, int *arr, int flag);
 
 // token_utils.c
 char	*token_join(t_list *token_list);
@@ -207,6 +208,5 @@ void	save_g_status(void);
 // terminal.c
 void	term_on(void);
 void	term_off(void);
-
 
 #endif

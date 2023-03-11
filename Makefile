@@ -63,32 +63,42 @@ PARSE_FILES		=	parse.c \
 					token_utils.c
 PARSE_SRCS		=	$(addprefix $(PARSE_DIR)/, $(PARSE_FILES))
 
+GNL_DIR			=	./gnl
+GNL_FILES		=	get_next_line.c \
+					get_next_line_utils.c
+GNL_SRCS		=	$(addprefix $(GNL_DIR)/, $(GNL_FILES))
+
 OBJS_DIR		=	./objs
 OBJS			=	$(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o) \
 					$(PARSE_SRCS:$(PARSE_DIR)/%.c=$(OBJS_DIR)/%.o) \
-					$(BUILTIN_SRCS:$(BUILTIN_DIR)/%.c=$(OBJS_DIR)/%.o)
+					$(BUILTIN_SRCS:$(BUILTIN_DIR)/%.c=$(OBJS_DIR)/%.o) \
+					$(GNL_SRCS:$(GNL_DIR)/%.c=$(OBJS_DIR)/%.o) \
 
 LIBFT			=	./libft/libft.a
 
 all:			$(NAME)
 
 $(OBJS_DIR):
-				@mkdir -p $@
+				@echo "\n"
+				@mkdir $@
 
-$(OBJS_DIR)/%.o	: $(SRCS_DIR)/%.c  $(OBJS_DIR)
+$(OBJS_DIR)/%.o	: $(SRCS_DIR)/%.c
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
 				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
 
-$(OBJS_DIR)/%.o	: $(PARSE_DIR)/%.c $(OBJS_DIR)
+$(OBJS_DIR)/%.o	: $(PARSE_DIR)/%.c 
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
 				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
 
-$(OBJS_DIR)/%.o	: $(BUILTIN_DIR)/%.c $(OBJS_DIR)
+$(OBJS_DIR)/%.o	: $(BUILTIN_DIR)/%.c
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
 				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
 
+$(OBJS_DIR)/%.o	: $(GNL_DIR)/%.c 
+				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
+				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
 
-$(NAME):		$(OBJS)
+$(NAME):		$(OBJS_DIR) $(OBJS)
 				@echo $(GREEN) "      Making mocha shells...\n" $(EOC)
 				@make bonus -C ./libft
 				@$(CC) $(CFLAGS) $(COMFILE_FLAGS) -o $(NAME) $(OBJS) $(LIBFT)

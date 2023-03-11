@@ -6,11 +6,34 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/09 21:33:14 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/10 19:02:39 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	print_ascii(void)
+{
+	int		fd;
+	char	*line;
+
+	fd = open("./docs/ascii.txt", O_RDONLY);
+	if (!fd)
+	{
+		printf("error\n");
+		return ;
+	}
+	line = get_next_line(fd);
+	while (line)
+	{
+		printf("%s", line);
+		free(line);
+		line = get_next_line(fd);
+	}
+	printf("\n");
+	free(line);
+	close(fd);
+}
 
 int	main(int ac, char **av, char **envp)
 {
@@ -19,6 +42,7 @@ int	main(int ac, char **av, char **envp)
 	t_list			*env;
 	t_list			*tmp;
 
+	print_ascii();
 	make_env(&env, envp);
 	set_signal(signal_prompt, SIG_IGN);
 	term_off();

@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 21:46:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/08 21:23:13 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/10 18:54:27 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_list	*change_to_env(t_list *lst, t_list *env, int flag)
 		if (is_double(cur) || is_single(cur) || (is_dollar(cur) && !heredoc))
 		{
 			if (!change_env_quo(&pre, &cur, &lst, remove_quote(cur, env, flag)))
-				break ;
+				continue ;
 		}
 		else if (((t_token *)(cur->content))->type == REDIR_LL)
 		{
