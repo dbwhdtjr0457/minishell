@@ -26,7 +26,6 @@ SRCS_FILES		=	main.c \
 					free.c \
 					make_env.c \
 					execute.c \
-					builtin_1.c \
 					env_utils.c \
 					pipe.c \
 					print_list.c \
@@ -37,6 +36,16 @@ SRCS_FILES		=	main.c \
 					signal.c \
 					terminal.c
 SRCS			=	$(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
+
+BUILTIN_DIR		=	./srcs/builtin
+BUILTIN_FILES	=	cd.c \
+					echo.c \
+					env.c \
+					exit.c \
+					export.c \
+					pwd.c \
+					unset.c
+BUILTIN_SRCS	=	$(addprefix $(BUILTIN_DIR)/, $(BUILTIN_FILES))
 
 PARSE_DIR		=	./srcs/parse
 PARSE_FILES		=	parse.c \
@@ -57,6 +66,7 @@ PARSE_SRCS		=	$(addprefix $(PARSE_DIR)/, $(PARSE_FILES))
 OBJS_DIR		=	./objs
 OBJS			=	$(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o) \
 					$(PARSE_SRCS:$(PARSE_DIR)/%.c=$(OBJS_DIR)/%.o) \
+					$(BUILTIN_SRCS:$(BUILTIN_DIR)/%.c=$(OBJS_DIR)/%.o)
 
 LIBFT			=	./libft/libft.a
 
@@ -70,6 +80,10 @@ $(OBJS_DIR)/%.o	: $(SRCS_DIR)/%.c  $(OBJS_DIR)
 				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
 
 $(OBJS_DIR)/%.o	: $(PARSE_DIR)/%.c $(OBJS_DIR)
+				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
+				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
+
+$(OBJS_DIR)/%.o	: $(BUILTIN_DIR)/%.c $(OBJS_DIR)
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
 				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
 
