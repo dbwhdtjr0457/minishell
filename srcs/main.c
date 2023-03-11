@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/11 17:15:26 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/11 17:52:31 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_ascii(void)
 	int		fd;
 	char	*line;
 
-	fd = open("./docs/ascii.txt", O_RDONLY);
+	fd = open("./title/ascii.txt", O_RDONLY);
 	if (!fd)
 	{
 		printf("error\n");

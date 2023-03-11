@@ -1,39 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parent.c                                           :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/01 02:53:39 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/11 17:50:05 by joyoo            ###   ########.fr       */
+/*   Created: 2023/02/16 15:01:16 by joyoo             #+#    #+#             */
+/*   Updated: 2023/03/11 20:14:02 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	parent_process(t_pipex *pipex, int list_size, int i)
+void	free_split(char **split)
 {
-	int	j;
+	int	i;
 
-	if (i != 0)
+	i = 0;
+	if (!(*split))
+		return ;
+	while (split[i])
 	{
-		close(pipex->old_pipe[0]);
-		close(pipex->old_pipe[1]);
+		free(split[i]);
+		i++;
 	}
-	if (i != list_size - 1)
+	free(split);
+}
+
+void	ft_lstclear_env(t_list **lst)
+{
+	t_list	*tmp;
+
+	if (!(*lst))
+		return ;
+	while (*lst)
 	{
-		pipex->old_pipe[0] = pipex->new_pipe[0];
-		pipex->old_pipe[1] = pipex->new_pipe[1];
+		tmp = (*lst)->next;
+		free_split((*lst)->content);
+		free(*lst);
+		*lst = tmp;
 	}
-	if (i == list_size - 1)
-	{
-		j = 0;
-		while (j < list_size)
-		{
-			waitpid(pipex->pid[j], &g_status, 0);
-			j++;
-		}
-		save_g_status();
-	}
+	*lst = 0;
 }

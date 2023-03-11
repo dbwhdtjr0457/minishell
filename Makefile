@@ -16,18 +16,20 @@ RM				=	rm -rf
 CFLAGS			=	-Wall -Wextra -Werror -g
 # -fsanitize=address
 
-COMFILE_FLAGS	=	-l readline -L ${HOME}/.brew/opt/readline/lib
-OBJ_FLAGS 		=	-I ${HOME}/.brew/opt/readline/include
+COMFILE_FLAGS	=	-l readline -L/opt/homebrew/opt/readline/lib
+OBJ_FLAGS 		=	-I/opt/homebrew/opt/readline/include
 
 LIBFT			=	./libft/libft.a
 
 SRCS_DIR		=	./srcs
 SRCS_FILES		=	main.c \
-					free.c \
+					free_env.c \
+					free_parsed.c \
 					execute.c \
 					env_utils.c \
 					pipe.c \
 					print_list.c \
+					heredoc.c \
 					redir.c \
 					utils.c \
 					child.c \
