@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/10 18:57:10 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/11 17:23:39 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,9 +153,6 @@ t_list	*token_del(t_list *pre, t_list *cur, t_list **lst);
 //--------------------- parsing ----------------------
 //====================================================
 
-// make_env.c
-void	make_env(t_list **env, char **envp);
-
 // execute.c
 int		split_size(char **split);
 int		execute(t_list *mini_list, t_list **env);
@@ -172,11 +169,9 @@ int		ft_export(t_mini *mini, t_list **env);
 int		ft_unset(t_mini *mini, t_list **env);
 
 // env_utils.c
+void	make_env(t_list **env, char **envp);
 char	*get_env(char *key, t_list *env);
 void	set_env(char *key, char *value, t_list **env);
-
-// t_list_utils.c
-
 
 // pipe.c
 void	perror_exit(char *str, int status);

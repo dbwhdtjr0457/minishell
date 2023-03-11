@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:34:18 by joyoo             #+#    #+#             */
-/*   Updated: 2023/02/27 16:26:23 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/11 17:16:29 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	make_env(t_list **env, char **envp)
+{
+	int		i;
+	char	**tmp;
+
+	i = 0;
+	*env = 0;
+	while (envp[i])
+	{
+		tmp = ft_split(envp[i], '=');
+		ft_lstadd_back(env, ft_lstnew(tmp));
+		i++;
+	}
+}
 
 char	*get_env(char *key, t_list *env)
 {
