@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parent.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 02:53:39 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/09 21:25:19 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/11 17:50:05 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	parent_process(t_pipex *pipex, int list_size, int i)
 		pipex->old_pipe[0] = pipex->new_pipe[0];
 		pipex->old_pipe[1] = pipex->new_pipe[1];
 	}
-	// waitpid
 	if (i == list_size - 1)
 	{
 		j = 0;

@@ -23,12 +23,13 @@ LIBFT			=	./libft/libft.a
 
 SRCS_DIR		=	./srcs
 SRCS_FILES		=	main.c \
-					free.c \
-					make_env.c \
+					free_env.c \
+					free_parsed.c \
 					execute.c \
 					env_utils.c \
 					pipe.c \
 					print_list.c \
+					heredoc.c \
 					redir.c \
 					utils.c \
 					child.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/10 19:02:39 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/11 17:52:31 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_ascii(void)
 	int		fd;
 	char	*line;
 
-	fd = open("./docs/ascii.txt", O_RDONLY);
+	fd = open("./title/ascii.txt", O_RDONLY);
 	if (!fd)
 	{
 		printf("error\n");
@@ -51,12 +51,9 @@ int	main(int ac, char **av, char **envp)
 		line = readline(PROMPT);
 		if (!line)
 		{
-			// ctrl + D 눌렀을 경우
-			// 한줄 올리고 커서 12 만큼 앞으로 해서 exit 출력하고 while 빠져나가기
 			ft_putstr_fd("\0338exit\n", 1);
 			break ;
 		}
-		//아무것도 입력 안하고 엔터만 쳤을 때, history 에 기록 안하도록
 		else if (*line == '\0')
 			free(line);
 		else
@@ -85,11 +82,9 @@ int	main(int ac, char **av, char **envp)
 				ft_lstclear_mini(&mini_list);
 			}
 		}
-		//printf("g_status: %d\n", g_status);
 	}
 	(void)ac;
 	(void)av;
 	ft_lstclear_env(&env);
-	// system("leaks minishell");
 	return (0);
 }
