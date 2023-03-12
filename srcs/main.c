@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/11 17:52:31 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/12 15:37:21 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,49 @@ void	print_ascii(void)
 	close(fd);
 }
 
-int	main(int ac, char **av, char **envp)
+void	init(t_list **env, char **envp)
 {
-	char			*line;
-	t_list			*mini_list;
-	t_list			*env;
-	t_list			*tmp;
-
 	print_ascii();
-	make_env(&env, envp);
+	make_env(env, envp);
 	set_signal(signal_prompt, SIG_IGN);
 	term_off();
+}
+
+void	main_loop(char *line, t_list **env)
+{
+	t_list	*tmp;
+	t_list	*mini_list;
+
+	add_history(line);
+	mini_list = parsing(line, *env);
+	free(line);
+	if (!mini_list)
+		return ;
+	tmp = mini_list;
+	while (tmp)
+	{
+		if (!check_heredoc(((t_mini *)tmp->content)->redir))
+			break ;
+		tmp = tmp->next;
+	}
+	if (!tmp)
+	{
+		term_on();
+		if (ft_lstsize(mini_list) > 1)
+			pipe_execute(mini_list, env);
+		else
+			execute(mini_list, env);
+		term_off();
+	}
+	ft_lstclear_mini(&mini_list);
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	char	*line;
+	t_list	*env;
+
+	init(&env, envp);
 	while (1)
 	{
 		line = readline(PROMPT);
@@ -57,31 +89,7 @@ int	main(int ac, char **av, char **envp)
 		else if (*line == '\0')
 			free(line);
 		else
-		{
-			add_history(line);
-			mini_list = parsing(line, env);
-			free(line);
-			if (mini_list)
-			{
-				tmp = mini_list;
-				while (tmp)
-				{
-					if (!check_heredoc(((t_mini *)tmp->content)->redir))
-						break ;
-					tmp = tmp->next;
-				}
-				if (!tmp)
-				{
-					term_on();
-					if (ft_lstsize(mini_list) > 1)
-						pipe_execute(mini_list, &env);
-					else
-						execute(mini_list, &env);
-					term_off();
-				}
-				ft_lstclear_mini(&mini_list);
-			}
-		}
+			main_loop(line, &env);
 	}
 	(void)ac;
 	(void)av;
