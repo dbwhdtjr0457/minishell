@@ -3,20 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:28:12 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/09 21:19:27 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/11 15:45:54 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	child_process(t_pipex *pipex, t_mini *curr_mini, int list_size, int i)
+void	set_dup(t_pipex *pipex, int i, int list_size)
 {
-	char	*path;
-
-	set_signal(SIG_DFL, SIG_DFL);
 	if (i != 0)
 	{
 		dup2(pipex->old_pipe[0], 0);
@@ -29,6 +26,14 @@ void	child_process(t_pipex *pipex, t_mini *curr_mini, int list_size, int i)
 		close(pipex->new_pipe[0]);
 		close(pipex->new_pipe[1]);
 	}
+}
+
+void	child_process(t_pipex *pipex, t_mini *curr_mini, int list_size, int i)
+{
+	char	*path;
+
+	set_signal(SIG_DFL, SIG_DFL);
+	set_dup(pipex, i, list_size);
 	check_redir(curr_mini->redir);
 	if (!builtin(curr_mini, pipex->env) && curr_mini->parsed)
 	{

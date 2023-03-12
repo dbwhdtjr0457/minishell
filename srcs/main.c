@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/11 20:24:20 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/12 15:22:11 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,7 @@ int	main(int ac, char **av, char **envp)
 			ft_putstr_fd("\0338exit\n", 1);
 			break ;
 		}
-		else if (*line == '\0')
-			free(line);
-		else
-			main_loop(line, &env);
+		//printf("g_status: %d\n", g_status);
 	}
 	(void)ac;
 	(void)av;
