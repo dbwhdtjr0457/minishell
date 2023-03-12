@@ -6,11 +6,12 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 21:23:39 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/08 21:24:01 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/12 23:54:58 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "parse.h"
+#include "minishell.h"
 
 char	*put_redir(t_list *lst)
 {

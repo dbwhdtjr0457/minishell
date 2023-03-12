@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:08:01 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/07 14:14:29 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/12 23:54:58 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 int	split_size(char **split)
 {

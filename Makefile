@@ -17,14 +17,16 @@ CFLAGS			=	-Wall -Wextra -Werror -g
 # -fsanitize=address
 
 COMFILE_FLAGS	=	-l readline -L ${HOME}/.brew/opt/readline/lib
-OBJ_FLAGS 		=	-I ${HOME}/.brew/opt/readline/include
+OBJ_FLAGS 		=	-I ${HOME}/.brew/opt/readline/include \
+					-I include \
+					-I libft \
+					-I gnl
 
 LIBFT			=	./libft/libft.a
 
 SRCS_DIR		=	./srcs
 SRCS_FILES		=	main.c \
 					free_env.c \
-					free_parsed.c \
 					execute.c \
 					env_utils.c \
 					pipe.c \
@@ -52,6 +54,7 @@ PARSE_DIR		=	./srcs/parse
 PARSE_FILES		=	parse.c \
 					change_to_env.c \
 					change_to_env_utils.c \
+					free_parsed.c \
 					is_type_1.c \
 					is_type_2.c \
 					lexer.c \
@@ -87,7 +90,7 @@ $(OBJS_DIR)/%.o	: $(SRCS_DIR)/%.c
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
 				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
 
-$(OBJS_DIR)/%.o	: $(PARSE_DIR)/%.c 
+$(OBJS_DIR)/%.o	: $(PARSE_DIR)/%.c
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
 				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
 
@@ -95,7 +98,7 @@ $(OBJS_DIR)/%.o	: $(BUILTIN_DIR)/%.c
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
 				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
 
-$(OBJS_DIR)/%.o	: $(GNL_DIR)/%.c 
+$(OBJS_DIR)/%.o	: $(GNL_DIR)/%.c
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
 				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
 

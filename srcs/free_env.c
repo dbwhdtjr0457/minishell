@@ -1,31 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   free_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 15:01:16 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/11 20:14:02 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/12 23:54:58 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-
-void	free_split(char **split)
-{
-	int	i;
-
-	i = 0;
-	if (!(*split))
-		return ;
-	while (split[i])
-	{
-		free(split[i]);
-		i++;
-	}
-	free(split);
-}
+#include "minishell.h"
 
 void	ft_lstclear_env(t_list **lst)
 {

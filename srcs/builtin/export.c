@@ -6,11 +6,11 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 14:58:15 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/11 17:23:55 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/12 23:54:58 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "minishell.h"
 
 int	print_export_error(char *s1, char *s2)
 {

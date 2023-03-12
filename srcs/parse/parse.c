@@ -6,12 +6,11 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/11 14:47:39 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/12 23:54:58 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
-// #include "../minishell.h"
+#include "parse.h"
 
 // 한글자씩 while 돌면서 읽기
 // ", ' 체크

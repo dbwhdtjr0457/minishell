@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parent.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 02:53:39 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/11 17:50:05 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/12 23:54:58 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 void	parent_process(t_pipex *pipex, int list_size, int i)
 {

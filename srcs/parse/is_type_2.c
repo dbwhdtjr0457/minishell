@@ -6,11 +6,11 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 21:25:39 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/08 21:25:45 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/12 23:54:58 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "parse.h"
 
 int	is_dollar(t_list *lst)
 {

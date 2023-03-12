@@ -6,11 +6,11 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:50:47 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/11 17:27:35 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/12 23:54:58 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "parse.h"
 
 // char ** 형에 char * 추가해주는 함수
 // res = {"hello"}가 있으면 res = {"hello", "world"} 처럼 뒤에 연결
@@ -31,8 +31,8 @@ void	append_str(char ***res, char *str)
 	}
 	new = malloc((len + 2) * sizeof(char *));
 	while (++i < len)
-		new[i] = strdup(tmp[i]);
-	new[len] = strdup(str);
+		new[i] = ft_strdup(tmp[i]);
+	new[len] = ft_strdup(str);
 	new[len + 1] = 0;
 	i = 0;
 	while (i < len)
@@ -72,7 +72,7 @@ t_list	*token_comb(t_list *lst)
 			if (is_space(lst))
 				;
 			else if (is_redir(lst))
-			{	
+			{
 				if (!comb_redir(&lst, &(mini->redir)))
 					return (free_mini_res(mini, res));
 			}

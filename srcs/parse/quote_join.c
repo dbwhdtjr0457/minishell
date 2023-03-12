@@ -6,11 +6,11 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 22:28:04 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/08 22:33:21 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/12 23:54:58 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "parse.h"
 
 t_list	*quote_join_if(t_list *cur, t_list **res, t_list **new)
 {

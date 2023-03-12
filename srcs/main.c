@@ -6,11 +6,11 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/12 15:37:21 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/12 23:53:14 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 void	print_ascii(void)
 {

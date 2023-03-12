@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   free_parsed.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 20:13:21 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/11 20:13:48 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/12 23:54:58 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "parse.h"
+
+void	free_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	if (!(*split))
+		return ;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+}
 
 void	free_token(void	*content)
 {
