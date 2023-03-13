@@ -6,11 +6,11 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:28:12 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/12 23:54:58 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 15:32:39 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "execute.h"
 
 void	set_dup(t_pipex *pipex, int i, int list_size)
 {
@@ -42,7 +42,8 @@ void	child_process(t_pipex *pipex, t_mini *curr_mini, int list_size, int i)
 			execve(path, curr_mini->parsed, pipex->envp);
 		else
 		{
-			printf("%s: command not found\n", (curr_mini->parsed)[0]);
+			ft_putstr_fd((curr_mini->parsed)[0], 2);
+			ft_putstr_fd(": command not found\n", 2);
 			exit(127);
 		}
 	}
