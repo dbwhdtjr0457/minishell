@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 22:32:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/13 16:41:20 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 20:18:49 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_list	*make_token(char *line, int flag)
 	lexer_arr = (int *)ft_calloc(ft_strlen(line) + 1, sizeof(int));
 	lexer(line, lexer_arr);
 	make_token_list(&token_list, line, lexer_arr, flag);
-	ft_free(lexer_arr);
+	free(lexer_arr);
 	return (token_list);
 }
 

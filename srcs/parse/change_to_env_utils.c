@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 21:15:58 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/13 16:41:20 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 20:15:43 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,13 @@ static char	*change_quote_dollar(t_token *token, t_list *env)
 	t_list	*token_list;
 
 	str = ft_substr(token->token, 1, ft_strlen(token->token) - 2);
-	if (!str || !ft_strncmp(str, "\0", ft_strlen(str) + 1))
+	if (!str)
 		return (0);
+	if (!ft_strncmp(str, "\0", ft_strlen(str) + 1))
+	{
+		ft_free(str);
+		return (0);
+	}
 	token_list = make_token(str, 1);
 	ft_free(str);
 	token_list = change_to_env(token_list, env, 1);

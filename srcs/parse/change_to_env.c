@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 21:46:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/13 16:26:34 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 20:13:46 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static int	change_env_quo(t_list **pre, t_list **cur, t_list **lst, char *str)
 	token = (t_token *)((*cur)->content);
 	if (!str || !ft_strncmp(str, "\0", ft_strlen(str) + 1))
 	{
+		if (str)
+			ft_free(str);
 		*cur = token_del(*pre, *cur, lst);
 		return (0);
 	}
