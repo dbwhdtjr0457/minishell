@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/13 15:47:15 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:47:44 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 // # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-// # include <term.h>
 
 # include "libft.h"
 # include "execute.h"

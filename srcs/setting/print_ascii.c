@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:02:09 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/13 16:41:20 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:45:30 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,12 @@ void	print_ascii(void)
 	while (line)
 	{
 		printf("%s", line);
-		ft_free(line);
+		free(line);
+		line = 0;
 		line = get_next_line(fd);
 	}
 	printf("\n");
-	ft_free(line);
+	free(line);
+	line = 0;
 	close(fd);
 }

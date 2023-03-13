@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 16:35:03 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/13 16:41:20 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:45:43 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	ft_free(void *ptr)
 {
-	ft_free(ptr);
+	free(ptr);
 	ptr = 0;
 }
