@@ -16,7 +16,8 @@ RM				=	rm -rf
 CFLAGS			=	-Wall -Wextra -Werror -g
 # -fsanitize=address
 
-COMFILE_FLAGS	=	-l readline -L ${HOME}/.brew/opt/readline/lib
+COMFILE_FLAGS	=	-l readline -L ${HOME}/.brew/opt/readline/lib \
+					-l ft -L libft
 OBJ_FLAGS 		=	-I ${HOME}/.brew/opt/readline/include \
 					-I include \
 					-I libft \
@@ -26,18 +27,9 @@ LIBFT			=	./libft/libft.a
 
 SRCS_DIR		=	./srcs
 SRCS_FILES		=	main.c \
-					free_env.c \
-					execute.c \
-					env_utils.c \
-					pipe.c \
-					print_list.c \
-					heredoc.c \
-					redir.c \
-					utils.c \
-					child.c \
-					parent.c \
 					signal.c \
-					terminal.c
+					terminal.c \
+					print_ascii.c
 SRCS			=	$(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
 BUILTIN_DIR		=	./srcs/builtin
@@ -50,11 +42,19 @@ BUILTIN_FILES	=	cd.c \
 					unset.c
 BUILTIN_SRCS	=	$(addprefix $(BUILTIN_DIR)/, $(BUILTIN_FILES))
 
+EXECUTE_DIR		=	./srcs/execute
+EXECUTE_FILES	=	child.c \
+					execute.c \
+					heredoc.c \
+					parent.c \
+					pipe.c \
+					redir.c
+EXECUTE_SRCS	=	$(addprefix $(EXECUTE_DIR)/, $(EXECUTE_FILES))
+
 PARSE_DIR		=	./srcs/parse
 PARSE_FILES		=	parse.c \
 					change_to_env.c \
 					change_to_env_utils.c \
-					free_parsed.c \
 					is_type_1.c \
 					is_type_2.c \
 					lexer.c \
@@ -67,6 +67,13 @@ PARSE_FILES		=	parse.c \
 					token_utils.c
 PARSE_SRCS		=	$(addprefix $(PARSE_DIR)/, $(PARSE_FILES))
 
+UTILS_DIR		=	./srcs/utils
+UTILS_FILES		=	env_utils.c \
+					free_env.c \
+					free_parsed.c \
+					print_list.c
+UTILS_SRCS		=	$(addprefix $(UTILS_DIR)/, $(UTILS_FILES))
+
 GNL_DIR			=	./gnl
 GNL_FILES		=	get_next_line.c \
 					get_next_line_utils.c
@@ -76,6 +83,8 @@ OBJS_DIR		=	./objs
 OBJS			=	$(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o) \
 					$(PARSE_SRCS:$(PARSE_DIR)/%.c=$(OBJS_DIR)/%.o) \
 					$(BUILTIN_SRCS:$(BUILTIN_DIR)/%.c=$(OBJS_DIR)/%.o) \
+					$(EXECUTE_SRCS:$(EXECUTE_DIR)/%.c=$(OBJS_DIR)/%.o) \
+					$(UTILS_SRCS:$(UTILS_DIR)/%.c=$(OBJS_DIR)/%.o) \
 					$(GNL_SRCS:$(GNL_DIR)/%.c=$(OBJS_DIR)/%.o) \
 
 LIBFT			=	./libft/libft.a
@@ -98,26 +107,34 @@ $(OBJS_DIR)/%.o	: $(BUILTIN_DIR)/%.c
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
 				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
 
+$(OBJS_DIR)/%.o	: $(EXECUTE_DIR)/%.c
+				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
+				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
+
+$(OBJS_DIR)/%.o	: $(UTILS_DIR)/%.c
+				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
+				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
+
 $(OBJS_DIR)/%.o	: $(GNL_DIR)/%.c
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
 				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
 
 $(NAME):		$(OBJS_DIR) $(OBJS)
-				@echo $(GREEN) "      Making mocha shells...\n" $(EOC)
+				@echo $(GREEN) "          Making mocha shells...\n" $(EOC)
 				@make bonus -C ./libft
 				@$(CC) $(CFLAGS) $(COMFILE_FLAGS) -o $(NAME) $(OBJS) $(LIBFT)
-				@echo $(YELLOW) "\n====================================\n" $(EOC)
-				@echo $(YELLOW) "    << MochaShell is made! >>\n" $(EOC)
+				@echo $(YELLOW) "\n===========================================\n" $(EOC)
+				@echo $(YELLOW) "        << MochaShell is made! >>\n" $(EOC)
 
 clean:
 				@make clean -C libft
 				@$(RM) $(OBJS_DIR)
-				@echo $(RED) "      Object file is removed!\n" $(EOC)
+				@echo $(RED) "        Object file is removed!\n" $(EOC)
 
 fclean: 		clean
 				@make fclean -C libft
 				@$(RM) $(NAME)
-				@echo $(RED) "      MochaShell is removed!\n\n" $(EOC)
+				@echo $(RED) "        MochaShell is removed!\n\n" $(EOC)
 
 re:
 				@make fclean

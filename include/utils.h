@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 13:24:59 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/13 13:42:46 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 14:16:12 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,5 @@ void	print_word_in_list(void *content);
 void	print_mini(void *content);
 void	ft_lstprint_env(void *content);
 void	ft_lstprint_export(void *content);
-
-// split_size.c
-int		split_size(char **split);
 
 #endif

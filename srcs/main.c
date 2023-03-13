@@ -6,34 +6,11 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/12 23:53:14 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 14:02:13 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	print_ascii(void)
-{
-	int		fd;
-	char	*line;
-
-	fd = open("./title/ascii.txt", O_RDONLY);
-	if (!fd)
-	{
-		printf("error\n");
-		return ;
-	}
-	line = get_next_line(fd);
-	while (line)
-	{
-		printf("%s", line);
-		free(line);
-		line = get_next_line(fd);
-	}
-	printf("\n");
-	free(line);
-	close(fd);
-}
 
 void	init(t_list **env, char **envp)
 {

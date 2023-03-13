@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 11:13:11 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/13 13:42:54 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 13:55:41 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define BUILTIN_H
 
 # include "utils.h"
+# include "execute.h"
 
 extern int	g_status;
 

@@ -1,43 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   print_ascii.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/28 17:08:01 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/12 23:54:58 by jihylim          ###   ########.fr       */
+/*   Created: 2023/03/13 14:02:09 by jihylim           #+#    #+#             */
+/*   Updated: 2023/03/13 14:07:27 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <fcntl.h>
 
-int	split_size(char **split)
+void	print_ascii(void)
 {
-	int	i;
+	int		fd;
+	char	*line;
 
-	i = 0;
-	while (split[i])
-		i++;
-	return (i);
-}
-
-char	**env_to_char(t_list *env)
-{
-	char	**tmp;
-	char	*tmp2;
-	int		i;
-
-	tmp = (char **)malloc(sizeof(char *) * (ft_lstsize(env) + 1));
-	i = 0;
-	while (env)
+	fd = open("./title/ascii.txt", O_RDONLY);
+	if (!fd)
 	{
-		tmp2 = ft_strjoin(((char **)env->content)[0], "=");
-		tmp[i] = ft_strjoin(tmp2, ((char **)env->content)[1]);
-		free(tmp2);
-		env = env->next;
-		i++;
+		ft_putstr_fd("error\n", 2);
+		return ;
 	}
-	tmp[i] = 0;
-	return (tmp);
+	line = get_next_line(fd);
+	while (line)
+	{
+		ft_putstr_fd(line, 1);
+		free(line);
+		line = get_next_line(fd);
+	}
+	write(1, "\n", 1);
+	free(line);
+	close(fd);
 }
