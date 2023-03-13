@@ -1,3 +1,4 @@
+# ----------------------------- ANSI CODE ----------------------------- #
 BLACK			= 	"\033[30m"
 GRAY			= 	"\033[30m"
 RED				=	"\033[31m"
@@ -9,27 +10,26 @@ WHITE			=	"\033[37m"
 EOC				=	"\033[0;0m"
 LINE_DEL		=	"\x1b[1A\x1b[M"
 
+# ------------------------------- FLAGS ------------------------------- #
 NAME			=	minishell
 
 CC				=	cc
 RM				=	rm -rf
 CFLAGS			=	-Wall -Wextra -Werror -g
-# -fsanitize=address
 
-COMFILE_FLAGS	=	-l readline -L ${HOME}/.brew/opt/readline/lib \
+LIBFT			=	./libft/libft.a
+READLIENE		=	$(shell brew --prefix readline)
+
+COMFILE_FLAGS	=	-l readline -L $(READLIENE)/lib \
 					-l ft -L libft
-OBJ_FLAGS 		=	-I ${HOME}/.brew/opt/readline/include \
+OBJ_FLAGS 		=	-I $(READLIENE)/include \
 					-I include \
 					-I libft \
 					-I gnl
 
-LIBFT			=	./libft/libft.a
-
+# ------------------------------ SOURCES ------------------------------ #
 SRCS_DIR		=	./srcs
-SRCS_FILES		=	main.c \
-					signal.c \
-					terminal.c \
-					print_ascii.c
+SRCS_FILES		=	main.c
 SRCS			=	$(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
 BUILTIN_DIR		=	./srcs/builtin
@@ -67,6 +67,12 @@ PARSE_FILES		=	parse.c \
 					token_utils.c
 PARSE_SRCS		=	$(addprefix $(PARSE_DIR)/, $(PARSE_FILES))
 
+SETTING_DIR		=	./srcs/setting
+SETTING_FILES	=	print_ascii.c \
+					signal.c \
+					terminal.c
+SETTING_SRCS	=	$(addprefix $(SETTING_DIR)/, $(SETTING_FILES))
+
 UTILS_DIR		=	./srcs/utils
 UTILS_FILES		=	env_utils.c \
 					free_env.c \
@@ -79,45 +85,54 @@ GNL_FILES		=	get_next_line.c \
 					get_next_line_utils.c
 GNL_SRCS		=	$(addprefix $(GNL_DIR)/, $(GNL_FILES))
 
+# ------------------------------- c. o ------------------------------- #
 OBJS_DIR		=	./objs
 OBJS			=	$(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o) \
-					$(PARSE_SRCS:$(PARSE_DIR)/%.c=$(OBJS_DIR)/%.o) \
 					$(BUILTIN_SRCS:$(BUILTIN_DIR)/%.c=$(OBJS_DIR)/%.o) \
 					$(EXECUTE_SRCS:$(EXECUTE_DIR)/%.c=$(OBJS_DIR)/%.o) \
+					$(PARSE_SRCS:$(PARSE_DIR)/%.c=$(OBJS_DIR)/%.o) \
+					$(SETTING_SRCS:$(SETTING_DIR)/%.c=$(OBJS_DIR)/%.o) \
 					$(UTILS_SRCS:$(UTILS_DIR)/%.c=$(OBJS_DIR)/%.o) \
 					$(GNL_SRCS:$(GNL_DIR)/%.c=$(OBJS_DIR)/%.o) \
 
-LIBFT			=	./libft/libft.a
+# ------------------------------ MAKE -------------------------------- #
 
 all:			$(NAME)
 
+# ==================================================================== #
 $(OBJS_DIR):
 				@echo "\n"
-				@mkdir $@
+				@mkdir $@ -MMD
 
 $(OBJS_DIR)/%.o	: $(SRCS_DIR)/%.c
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
-				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
-
-$(OBJS_DIR)/%.o	: $(PARSE_DIR)/%.c
-				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
-				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
+				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@ -MMD
 
 $(OBJS_DIR)/%.o	: $(BUILTIN_DIR)/%.c
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
-				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
+				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@ -MMD
 
 $(OBJS_DIR)/%.o	: $(EXECUTE_DIR)/%.c
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
-				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
+				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@ -MMD
+
+$(OBJS_DIR)/%.o	: $(PARSE_DIR)/%.c
+				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
+				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@ -MMD
+
+$(OBJS_DIR)/%.o	: $(SETTING_DIR)/%.c
+				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
+				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@ -MMD
 
 $(OBJS_DIR)/%.o	: $(UTILS_DIR)/%.c
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
-				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
+				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@ -MMD
 
 $(OBJS_DIR)/%.o	: $(GNL_DIR)/%.c
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
-				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
+				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@ -MMD
+
+# ==================================================================== #
 
 $(NAME):		$(OBJS_DIR) $(OBJS)
 				@echo $(GREEN) "          Making mocha shells...\n" $(EOC)

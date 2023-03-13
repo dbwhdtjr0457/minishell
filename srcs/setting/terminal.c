@@ -6,11 +6,11 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 21:25:57 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/13 14:08:14 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 15:46:20 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "setting.h"
 #include <termios.h>
 
 void	term_on(void)
