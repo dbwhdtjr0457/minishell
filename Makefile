@@ -18,11 +18,11 @@ RM				=	rm -rf
 CFLAGS			=	-Wall -Wextra -Werror -g
 
 LIBFT			=	./libft/libft.a
-READLIENE		=	$(shell brew --prefix readline)
+READLINE		=	$(shell brew --prefix readline)
 
-COMFILE_FLAGS	=	-l readline -L $(READLIENE)/lib \
+COMFILE_FLAGS	=	-l readline -L $(READLINE)/lib \
 					-l ft -L libft
-OBJ_FLAGS 		=	-I $(READLIENE)/include \
+OBJ_FLAGS 		=	-I $(READLINE)/include \
 					-I include \
 					-I libft \
 					-I gnl
