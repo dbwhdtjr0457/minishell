@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 16:16:28 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/12 23:54:58 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:41:20 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ t_list	*token_del(t_list *pre, t_list *cur, t_list **lst)
 		cur = cur->next;
 		*lst = cur;
 	}
-	free(((t_token *)(del->content))->token);
-	free(((t_token *)(del->content)));
-	free(del);
+	ft_free(((t_token *)(del->content))->token);
+	ft_free(((t_token *)(del->content)));
+	ft_free(del);
 	return (cur);
 }
 

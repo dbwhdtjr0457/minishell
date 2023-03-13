@@ -58,12 +58,12 @@ PARSE_FILES		=	parse.c \
 					is_type_1.c \
 					is_type_2.c \
 					lexer.c \
+					make_token_list.c \
 					print_syn_error.c \
 					quote_join.c \
 					split_env.c \
 					token_comb.c \
 					token_comb_redir.c \
-					token_list.c \
 					token_utils.c
 PARSE_SRCS		=	$(addprefix $(PARSE_DIR)/, $(PARSE_FILES))
 
@@ -77,6 +77,7 @@ UTILS_DIR		=	./srcs/utils
 UTILS_FILES		=	env_utils.c \
 					free_env.c \
 					free_parsed.c \
+					ft_free.c \
 					print_list.c
 UTILS_SRCS		=	$(addprefix $(UTILS_DIR)/, $(UTILS_FILES))
 
@@ -131,7 +132,6 @@ $(OBJS_DIR)/%.o	: $(UTILS_DIR)/%.c
 $(OBJS_DIR)/%.o	: $(GNL_DIR)/%.c
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
 				@$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@ -MMD
-
 # ==================================================================== #
 
 $(NAME):		$(OBJS_DIR) $(OBJS)
@@ -148,7 +148,7 @@ clean:
 
 fclean: 		clean
 				@make fclean -C libft
-				@$(RM) $(NAME)
+				@$(RM) $(NAME) -MMD
 				@echo $(RED) "        MochaShell is removed!\n\n" $(EOC)
 
 re:

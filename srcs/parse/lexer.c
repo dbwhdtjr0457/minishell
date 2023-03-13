@@ -6,13 +6,13 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 15:13:45 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/12 23:54:58 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:26:47 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 
-void	rexer_redir_check(const char *line, int *arr, int *i, int type)
+static void	rexer_redir_check(const char *line, int *arr, int *i, int type)
 {
 	char	t;
 

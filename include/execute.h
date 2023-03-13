@@ -6,17 +6,18 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 13:47:16 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/13 15:32:51 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:15:56 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTE_H
 # define EXECUTE_H
 
+# include <fcntl.h>
+
 # include "libft.h"
 # include "setting.h"
 # include "utils.h"
-# include <fcntl.h>
 
 extern int	g_status;
 typedef struct s_pipex

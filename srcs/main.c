@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/13 14:02:13 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:40:40 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	main_loop(char *line, t_list **env)
 
 	add_history(line);
 	mini_list = parsing(line, *env);
-	free(line);
+	ft_free(line);
 	if (!mini_list)
 		return ;
 	tmp = mini_list;
@@ -64,7 +64,7 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		}
 		else if (*line == '\0')
-			free(line);
+			ft_free(line);
 		else
 			main_loop(line, &env);
 	}

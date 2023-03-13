@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 15:00:32 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/13 13:20:15 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:41:20 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_lstremove_if(t_list **lst, void *data_ref, int (*cmp)())
 			else
 				*lst = tmp->next;
 			free_split(tmp->content);
-			free(tmp);
+			ft_free(tmp);
 			break ;
 		}
 		else

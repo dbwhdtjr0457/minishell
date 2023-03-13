@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 14:58:15 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/13 13:20:05 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:41:20 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_export_utils(char **tmp, char **res, t_list **env)
 					ft_strlen(ft_strchr(tmp[i], '=') + 1));
 			set_env(res[0], res[1], env);
 			free_split(tmp2);
-			free(res[1]);
+			ft_free(res[1]);
 		}
 		else if (ft_strncmp(tmp[i], "=", 1))
 			set_env(tmp[i], "", env);

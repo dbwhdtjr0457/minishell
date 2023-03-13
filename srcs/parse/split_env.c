@@ -6,13 +6,13 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 22:32:41 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/12 23:54:58 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:41:20 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 
-t_list	*token_add_back(t_list **lst, t_list **pre, t_list **res, t_list **new)
+static t_list	*token_add_back(t_list **lst, t_list **pre, t_list **res, t_list **new)
 {
 	t_list	*del;
 
@@ -23,7 +23,7 @@ t_list	*token_add_back(t_list **lst, t_list **pre, t_list **res, t_list **new)
 		*res = *new;
 	ft_lstlast(*new)->next = (*lst)->next;
 	free_token(del->content);
-	free(del);
+	ft_free(del);
 	return (*new);
 }
 

@@ -6,13 +6,13 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 21:15:58 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/13 13:39:21 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:41:20 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 
-char	*ft_strjoin_free(char *s1, char *s2)
+static char	*ft_strjoin_free(char *s1, char *s2)
 {
 	size_t	i;
 	size_t	j;
@@ -31,12 +31,12 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	while (s1 && s2[j])
 		tmp[i++] = s2[j++];
 	tmp[i] = '\0';
-	free(s1);
-	free(s2);
+	ft_free(s1);
+	ft_free(s2);
 	return (tmp);
 }
 
-char	*change_quote_dollar(t_token *token, t_list *env)
+static char	*change_quote_dollar(t_token *token, t_list *env)
 {
 	char	*str;
 	t_list	*token_list;
@@ -45,7 +45,7 @@ char	*change_quote_dollar(t_token *token, t_list *env)
 	if (!str || !ft_strncmp(str, "\0", ft_strlen(str) + 1))
 		return (0);
 	token_list = make_token(str, 1);
-	free(str);
+	ft_free(str);
 	token_list = change_to_env(token_list, env, 1);
 	if (!token_list)
 		return (0);
@@ -56,7 +56,7 @@ char	*change_quote_dollar(t_token *token, t_list *env)
 
 // change_dollar
 	// token type이 dollar 일 경우 달러 다음에 오는 문자만 잘라서 확인
-char	*change_dollar(t_token *token, t_list *env)
+static char	*change_dollar(t_token *token, t_list *env)
 {
 	char	*remove_d;
 	char	*res;
@@ -73,8 +73,8 @@ char	*change_dollar(t_token *token, t_list *env)
 		res = ft_strdup(get);
 	else
 		res = 0;
-	free(get);
-	free(remove_d);
+	ft_free(get);
+	ft_free(remove_d);
 	return (res);
 }
 

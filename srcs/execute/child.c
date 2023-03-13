@@ -6,13 +6,13 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:28:12 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/13 15:32:39 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:22:25 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-void	set_dup(t_pipex *pipex, int i, int list_size)
+static void	set_dup(t_pipex *pipex, int i, int list_size)
 {
 	if (i != 0)
 	{

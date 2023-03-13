@@ -6,13 +6,13 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:05:10 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/13 15:22:39 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:24:01 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-void	redir_in(t_token *token)
+static void	redir_in(t_token *token)
 {
 	int	fd;
 
@@ -26,7 +26,7 @@ void	redir_in(t_token *token)
 	close(fd);
 }
 
-void	redir_out(char *file)
+static void	redir_out(char *file)
 {
 	int	fd;
 
@@ -38,7 +38,7 @@ void	redir_out(char *file)
 	close(fd);
 }
 
-void	redir_append(char *file)
+static void	redir_append(char *file)
 {
 	int	fd;
 

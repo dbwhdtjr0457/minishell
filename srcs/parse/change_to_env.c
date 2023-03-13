@@ -6,19 +6,19 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 21:46:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/12 23:54:58 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:26:34 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 
-void	next_lst(t_list **pre, t_list **cur)
+static void	next_lst(t_list **pre, t_list **cur)
 {
 	*pre = *cur;
 	*cur = (*cur)->next;
 }
 
-int	change_env_quo(t_list **pre, t_list **cur, t_list **lst, char *str)
+static int	change_env_quo(t_list **pre, t_list **cur, t_list **lst, char *str)
 {
 	t_token	*token;
 

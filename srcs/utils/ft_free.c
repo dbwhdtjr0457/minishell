@@ -1,37 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_ascii.c                                      :+:      :+:    :+:   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/13 14:02:09 by jihylim           #+#    #+#             */
+/*   Created: 2023/03/13 16:35:03 by jihylim           #+#    #+#             */
 /*   Updated: 2023/03/13 16:41:20 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "setting.h"
-#include <fcntl.h>
+#include <stdlib.h>
 
-void	print_ascii(void)
+void	ft_free(void *ptr)
 {
-	int		fd;
-	char	*line;
-
-	fd = open("./title/ascii.txt", O_RDONLY);
-	if (!fd)
-	{
-		printf("error\n");
-		return ;
-	}
-	line = get_next_line(fd);
-	while (line)
-	{
-		printf("%s", line);
-		ft_free(line);
-		line = get_next_line(fd);
-	}
-	printf("\n");
-	ft_free(line);
-	close(fd);
+	ft_free(ptr);
+	ptr = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 14:59:34 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/13 13:22:01 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:41:33 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	save_tmp(char **tmp, char *str, t_list **env)
 
 	tmp2 = 0;
 	tmp2 = get_env(str, *env);
-	free(tmp[1]);
+	ft_free(tmp[1]);
 	tmp[1] = tmp2;
 }
 
@@ -30,7 +30,7 @@ int	operate_cd(char **tmp, t_list **env)
 	{
 		tmp2 = get_env("HOME", *env);
 		chdir(tmp2);
-		free(tmp2);
+		ft_free(tmp2);
 	}
 	else
 	{
@@ -63,8 +63,8 @@ void	cd_parent(t_mini *mini, t_list **env)
 	oldpwd = get_env("PWD", *env);
 	set_env("OLDPWD", oldpwd, env);
 	set_env("PWD", pwd, env);
-	free(pwd);
-	free(oldpwd);
+	ft_free(pwd);
+	ft_free(oldpwd);
 	g_status = 0;
 }
 

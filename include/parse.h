@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 23:12:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/13 13:43:35 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:29:32 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ t_list	*make_token(char *line, int flag);
 t_list	*parsing(char *line, t_list *env);
 
 // print_syn_error.c
-char	*put_redir(t_list *lst);
 void	print_syn_error(t_list *lst, char *str);
 
 // quote_join.c
@@ -64,7 +63,7 @@ t_token	*new_token(char *input, int type);
 void	make_token_list(t_list **split_word, char *line, int *arr, int flag);
 
 // token_utils.c
-char	*token_join(t_list *token_list);
 t_list	*token_del(t_list *pre, t_list *cur, t_list **lst);
+char	*token_join(t_list *token_list);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:50:47 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/12 23:54:58 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:41:20 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // char ** 형에 char * 추가해주는 함수
 // res = {"hello"}가 있으면 res = {"hello", "world"} 처럼 뒤에 연결
-void	append_str(char ***res, char *str)
+static void	append_str(char ***res, char *str)
 {
 	int		len;
 	int		i;
@@ -36,19 +36,19 @@ void	append_str(char ***res, char *str)
 	new[len + 1] = 0;
 	i = 0;
 	while (i < len)
-		free(tmp[i++]);
-	free(tmp);
+		ft_free(tmp[i++]);
+	ft_free(tmp);
 	*res = new;
 }
 
-void	mini_init(t_mini **mini)
+static void	mini_init(t_mini **mini)
 {
 	(*mini) = (t_mini *)malloc(sizeof(t_mini));
 	(*mini)->parsed = 0;
 	(*mini)->redir = 0;
 }
 
-t_list	*free_mini_res(t_mini *mini, t_list *res)
+static t_list	*free_mini_res(t_mini *mini, t_list *res)
 {
 	free_mini(mini);
 	ft_lstclear_mini(&res);

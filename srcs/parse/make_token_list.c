@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_list.c                                       :+:      :+:    :+:   */
+/*   make_token_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 16:55:19 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/12 23:54:58 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:29:21 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_token	*new_token(char *input, int type)
 	return (new);
 }
 
-void	lexer_quote(int *type, int start, int *i, int *arr)
+static void	lexer_quote(int *type, int start, int *i, int *arr)
 {
 	*i += 1;
 	while (arr[*i] && arr[*i] != *type)
@@ -40,7 +40,7 @@ void	lexer_quote(int *type, int start, int *i, int *arr)
 	}
 }
 
-void	lexer_dollar(int type, int *i, int *arr)
+static void	lexer_dollar(int type, int *i, int *arr)
 {
 	while (arr[*i + 1] && arr[*i + 1] != type)
 	{
@@ -53,7 +53,7 @@ void	lexer_dollar(int type, int *i, int *arr)
 	}
 }
 
-t_token	*lexer_split(char *line, int *arr, int *i, int flag)
+static t_token	*lexer_split(char *line, int *arr, int *i, int flag)
 {
 	int		start;
 	int		type;

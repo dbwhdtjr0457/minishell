@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 15:01:16 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/13 13:34:21 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:37:11 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_lstclear_env(t_list **lst)
 	{
 		tmp = (*lst)->next;
 		free_split((*lst)->content);
-		free(*lst);
+		ft_free(*lst);
 		*lst = tmp;
 	}
 	*lst = 0;

@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 15:25:29 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/13 15:46:30 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:07:28 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 
 extern int	g_status;
 
-// # include <stdio.h>
 // print_ascii.c
 void	print_ascii(void);
 

@@ -6,23 +6,23 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:21:42 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/13 15:32:37 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:41:20 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "builtin.h"
 
-int	path_check(char **split, char *cmd, char **tmp, int i)
+static int	path_check(char **split, char *cmd, char **tmp, int i)
 {
 	char	*tmp2;
 
 	tmp2 = ft_strjoin(split[i], "/");
 	*tmp = ft_strjoin(tmp2, cmd);
-	free(tmp2);
+	ft_free(tmp2);
 	if (access(*tmp, X_OK) == 0)
 		return (1);
-	free(*tmp);
+	ft_free(*tmp);
 	*tmp = 0;
 	return (0);
 }
@@ -40,7 +40,7 @@ char	*find_path(char *cmd, t_list *env)
 	if (!path)
 		return (0);
 	split = ft_split(path, ':');
-	free(path);
+	ft_free(path);
 	i = 0;
 	while (split[i] && !path_check(split, cmd, &tmp, i))
 		i++;
@@ -71,7 +71,7 @@ int	builtin(t_mini *mini, t_list **env)
 	return (1);
 }
 
-void	execute_child(t_mini *mini, char **env_char, t_list **env)
+static void	execute_child(t_mini *mini, char **env_char, t_list **env)
 {
 	char	*path;
 
@@ -86,7 +86,7 @@ void	execute_child(t_mini *mini, char **env_char, t_list **env)
 		{
 			ft_putstr_fd((mini->parsed)[0], 2);
 			ft_putstr_fd(": command not found\n", 2);
-			free(path);
+			ft_free(path);
 			free_split(env_char);
 			exit(127);
 		}
