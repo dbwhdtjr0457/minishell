@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 23:12:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/12 23:53:58 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 13:43:35 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,45 +14,15 @@
 # define PARSE_H
 
 # include "libft.h"
+# include "utils.h"
 
-enum e_token
-{
-	QUOTE_DOUBLE = 1,
-	QUOTE_SINGLE,
-	REDIR_LL,
-	REDIR_L,
-	REDIR_RR,
-	REDIR_R,
-	PIPE_T,
-	SPACE_T,
-	DOLLAR_T,
-	WORD_T
-};
-
-typedef struct s_token
-{
-	int		type;
-	char	*token;
-}	t_token;
-
-typedef struct s_mini
-{
-	t_list	*redir;
-	char	**parsed;
-}	t_mini;
+extern int	g_status;
 
 // change_to_env.c
 t_list	*change_to_env(t_list *token_list, t_list *env, int flag);
 
 // change_to_env_utils.c
 char	*remove_quote(t_list *cur, t_list *env, int flag);
-
-// free_parsed.c
-void	free_split(char **split);
-void	free_token(void	*content);
-void	ft_lstclear_token(t_list **lst);
-void	free_mini(t_mini *lst);
-void	ft_lstclear_mini(t_list **mini);
 
 // is_type.c
 int		is_double(t_list *lst);
@@ -96,6 +66,5 @@ void	make_token_list(t_list **split_word, char *line, int *arr, int flag);
 // token_utils.c
 char	*token_join(t_list *token_list);
 t_list	*token_del(t_list *pre, t_list *cur, t_list **lst);
-
 
 #endif
