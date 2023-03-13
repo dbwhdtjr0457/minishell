@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/11 14:58:47 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/13 13:19:53 by jihylim          ###   ########.fr       */
+/*   Created: 2023/03/13 11:13:11 by jihylim           #+#    #+#             */
+/*   Updated: 2023/03/13 13:42:54 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#ifndef BUILTIN_H
+# define BUILTIN_H
 
-int	ft_exit(t_mini *mini, t_list *env)
-{
-	pid_t	pid;
+# include "utils.h"
 
-	pid = fork();
-	if (pid == 0)
-	{
-		check_redir(mini->redir);
-		exit(0);
-	}
-	else
-	{
-		if (waitpid(pid, 0, 0))
-		{
-			(void)env;
-			exit(0);
-		}
-	}
-	return (0);
-}
+extern int	g_status;
+
+int		ft_echo(t_mini *mini);
+int		ft_pwd(t_mini *mini);
+int		ft_env(t_mini *mini, t_list *env, void (*print)(void*));
+int		ft_exit(t_mini *mini, t_list *env);
+int		ft_cd(t_mini *mini, t_list **env);
+int		ft_export(t_mini *mini, t_list **env);
+int		ft_unset(t_mini *mini, t_list **env);
+
+#endif
