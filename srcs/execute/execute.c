@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:21:42 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 16:06:30 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 18:54:21 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ char	*find_path(char *cmd, t_list *env)
 	char	**split;
 	int		i;
 
+	if (!ft_strncmp(cmd, "\0", ft_strlen(cmd)))
+		return (0);
 	if (access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));
 	path = get_env("PATH", env);
@@ -84,8 +86,7 @@ static void	execute_child(t_mini *mini, char **env_char, t_list **env)
 			execve(path, mini->parsed, env_char);
 		else
 		{
-			ft_putstr_fd((mini->parsed)[0], 2);
-			ft_putstr_fd(": command not found\n", 2);
+			print_error_str((mini->parsed)[0], 0, "command not found\n");
 			ft_free(path);
 			free_split(env_char);
 			exit(127);

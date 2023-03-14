@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 14:57:44 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/13 16:41:20 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 18:40:55 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,6 @@ int	ft_pwd(t_mini *mini)
 	if (pid == 0)
 	{
 		check_redir(mini->redir);
-		if (mini->parsed[1])
-		{
-			ft_putstr_fd("pwd: too many arguments\n", 2);
-			exit(1);
-		}
 		pwd = getcwd(0, 0);
 		ft_putstr_fd(pwd, 1);
 		ft_putchar_fd('\n', 1);
