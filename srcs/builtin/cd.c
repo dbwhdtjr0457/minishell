@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 14:59:34 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/13 16:41:33 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 18:37:49 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ int	operate_cd(char **tmp, t_list **env)
 			save_tmp(tmp, "OLDPWD", env);
 		if (chdir(tmp[1]) == -1)
 		{
-			ft_putstr_fd("cd: ", 2);
-			ft_putstr_fd(tmp[1], 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
+			print_error_str(tmp[0], tmp[1], ": No such file or directory\n");
 			g_status = 1;
 			return (0);
 		}

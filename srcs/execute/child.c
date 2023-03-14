@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:28:12 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/13 16:22:25 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 18:48:45 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ void	child_process(t_pipex *pipex, t_mini *curr_mini, int list_size, int i)
 			execve(path, curr_mini->parsed, pipex->envp);
 		else
 		{
-			ft_putstr_fd((curr_mini->parsed)[0], 2);
-			ft_putstr_fd(": command not found\n", 2);
+			print_error_str((curr_mini->parsed)[0], 0, "command not found\n");
 			exit(127);
 		}
 	}

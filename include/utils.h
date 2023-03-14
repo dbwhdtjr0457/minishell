@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 13:24:59 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/13 16:39:51 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 18:33:21 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ void	ft_lstclear_mini(t_list **mini);
 
 // ft_free.c
 void	ft_free(void *ptr);
+
+// print_error.c
+void	print_error_str(char *s1, char *s2, char *str);
 
 // print_list.c
 void	print_word_in_list(void *content);

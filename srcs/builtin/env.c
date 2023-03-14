@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 15:00:12 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/13 13:19:49 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 18:37:55 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ int	ft_env(t_mini *mini, t_list *env, void (*print)(void*))
 		tmp = mini->parsed;
 		if (tmp[1])
 		{
-			ft_putstr_fd("env: ", 2);
-			ft_putstr_fd(tmp[1], 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
+			print_error_str(tmp[0], tmp[1], ": No such file or directory\n");
 			exit(127);
 		}
 		ft_lstiter(env, print);

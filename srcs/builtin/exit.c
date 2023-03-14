@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 14:58:47 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 15:47:34 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 18:39:45 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,22 @@ static int	check_int(char *str)
 
 static void	exit_error(t_mini *mini)
 {
-	if (mini->parsed[1] && check_int(mini->parsed[1]))
+	char	**tmp;
+
+	tmp = mini->parsed;
+	if (tmp[1] && check_int(tmp[1]))
 	{
-		g_status = ft_atoi(mini->parsed[1]);
+		g_status = ft_atoi(tmp[1]);
 	}
-	if (mini->parsed[1] && !check_int(mini->parsed[1]))
+	if (tmp[1] && !check_int(tmp[1]))
 	{
-		ft_putstr_fd((mini->parsed)[0], 2);
-		ft_putstr_fd(": numeric argument required\n", 2);
+		print_error_str(tmp[0], tmp[1], ": numeric argument required\n");
 		g_status = 255;
 		return ;
 	}
-	if (split_size(mini->parsed) > 2)
+	if (split_size(tmp) > 2)
 	{
-		ft_putstr_fd((mini->parsed)[0], 2);
-		ft_putstr_fd(": too many arguments\n", 2);
+		print_error_str(tmp[0], tmp[1], ": too many arguments\n");
 		g_status = 1;
 		return ;
 	}

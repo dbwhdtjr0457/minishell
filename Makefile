@@ -78,6 +78,7 @@ UTILS_FILES		=	env_utils.c \
 					free_env.c \
 					free_parsed.c \
 					ft_free.c \
+					print_error.c \
 					print_list.c
 UTILS_SRCS		=	$(addprefix $(UTILS_DIR)/, $(UTILS_FILES))
 
