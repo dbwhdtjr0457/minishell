@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 13:24:59 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/14 18:59:10 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 19:12:02 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ char	**env_to_char(t_list *env);
 
 // error.c
 void	perror_exit(char *str, int status);
-void	fork_check(pid_t *pid);
-void	open_check(int fd);
-void	dup2_check(int fd1, int fd2);
+void	ft_fork(pid_t *pid);
+void	ft_open(int fd);
+void	ft_dup2(int fd1, int fd2);
 
 // free_env.c
 void	ft_lstclear_env(t_list **lst);

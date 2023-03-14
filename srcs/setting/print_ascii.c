@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_ascii.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:02:09 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/14 17:34:46 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/14 19:11:57 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	print_ascii(void)
 	char	*line;
 
 	fd = open("./title/ascii.txt", O_RDONLY);
-	open_check(fd);
+	ft_open(fd);
 	line = get_next_line(fd);
 	while (line)
 	{
