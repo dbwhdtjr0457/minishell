@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 14:59:34 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 18:37:49 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 19:00:35 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,23 @@ void	save_tmp(char **tmp, char *str, t_list **env)
 	tmp[1] = tmp2;
 }
 
+int	special_dir(char **tmp, t_list **env)
+{
+	if (!ft_strncmp(tmp[1], "~", 2) || !ft_strncmp(tmp[1], "~/", 3))
+		save_tmp(tmp, "HOME", env);
+	else if (!ft_strncmp(tmp[1], "-", 1))
+	{
+		if (!get_env("OLDPWD", *env))
+		{
+			ft_putstr_fd("MochaShell: cd: OLDPWD not set\n", 2);
+			g_status = 1;
+			return (0);
+		}
+		save_tmp(tmp, "OLDPWD", env);
+	}
+	return (1);
+}
+
 int	operate_cd(char **tmp, t_list **env)
 {
 	char	*tmp2;
@@ -34,10 +51,8 @@ int	operate_cd(char **tmp, t_list **env)
 	}
 	else
 	{
-		if (!ft_strncmp(tmp[1], "~", 2) || !ft_strncmp(tmp[1], "~/", 3))
-			save_tmp(tmp, "HOME", env);
-		else if (!ft_strncmp(tmp[1], "-", 1))
-			save_tmp(tmp, "OLDPWD", env);
+		if (!special_dir(tmp, env))
+			return (0);
 		if (chdir(tmp[1]) == -1)
 		{
 			print_error_str(tmp[0], tmp[1], ": No such file or directory\n");
@@ -55,10 +70,10 @@ void	cd_parent(t_mini *mini, t_list **env)
 	char	*oldpwd;
 
 	tmp = mini->parsed;
+	oldpwd = getcwd(0, 0);
 	if (!operate_cd(tmp, env))
 		return ;
 	pwd = getcwd(0, 0);
-	oldpwd = get_env("PWD", *env);
 	set_env("OLDPWD", oldpwd, env);
 	set_env("PWD", pwd, env);
 	ft_free(pwd);
@@ -70,7 +85,7 @@ int	ft_cd(t_mini *mini, t_list **env)
 {
 	pid_t	pid;
 
-	pid = fork();
+	fork_check(&pid);
 	if (pid == 0)
 	{
 		check_redir(mini->redir);
@@ -78,8 +93,11 @@ int	ft_cd(t_mini *mini, t_list **env)
 	}
 	else
 	{
-		waitpid(pid, 0, 0);
-		cd_parent(mini, env);
+		waitpid(pid, &g_status, 0);
+		g_status = ((g_status & 0xff00) >> 8);
+		if (g_status == 0)
+			cd_parent(mini, env);
 		return (1);
 	}
+	return (0);
 }

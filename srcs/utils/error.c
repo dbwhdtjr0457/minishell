@@ -1,36 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_ascii.c                                      :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/13 14:02:09 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/14 17:34:46 by joyoo            ###   ########.fr       */
+/*   Created: 2023/03/14 17:13:39 by joyoo             #+#    #+#             */
+/*   Updated: 2023/03/14 17:35:01 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "setting.h"
 #include "utils.h"
-#include <fcntl.h>
+#include <stdio.h>
 
-void	print_ascii(void)
+void	perror_exit(char *str, int status)
 {
-	int		fd;
-	char	*line;
+	perror(str);
+	exit(status);
+}
 
-	fd = open("./title/ascii.txt", O_RDONLY);
-	open_check(fd);
-	line = get_next_line(fd);
-	while (line)
-	{
-		printf("%s", line);
-		free(line);
-		line = 0;
-		line = get_next_line(fd);
-	}
-	printf("\n");
-	free(line);
-	line = 0;
-	close(fd);
+void	fork_check(pid_t *pid)
+{
+	*pid = fork();
+	if (*pid == -1)
+		perror_exit("fork error", 1);
+}
+
+void	open_check(int fd)
+{
+	if (fd == -1)
+		perror_exit("open error", 1);
+}
+
+void	dup2_check(int fd1, int fd2)
+{
+	if (dup2(fd1, fd2) == -1)
+		perror_exit("dup2 error", 1);
 }

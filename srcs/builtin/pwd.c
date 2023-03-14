@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 14:57:44 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 18:40:55 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 19:03:07 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_pwd(t_mini *mini)
 	char	*pwd;
 	pid_t	pid;
 
-	pid = fork();
+	fork_check(&pid);
 	if (pid == 0)
 	{
 		check_redir(mini->redir);

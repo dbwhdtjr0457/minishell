@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:21:42 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 18:54:21 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 19:03:46 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	execute(t_list *mini_list, t_list **env)
 	if (!builtin(mini, env))
 	{
 		env_char = env_to_char(*env);
-		pid = fork();
+		fork_check(&pid);
 		if (pid == 0)
 		{
 			execute_child(mini, env_char, env);

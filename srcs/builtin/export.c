@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 14:58:15 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 18:49:39 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 19:02:26 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	ft_export(t_mini *mini, t_list **env)
 	pid_t	pid;
 
 	tmp = mini->parsed;
-	pid = fork();
+	fork_check(&pid);
 	if (pid == 0)
 	{
 		check_redir(mini->redir);
@@ -67,8 +67,11 @@ int	ft_export(t_mini *mini, t_list **env)
 	}
 	else
 	{
-		waitpid(pid, 0, 0);
-		g_status = ft_export_utils(tmp, res, env);
+		waitpid(pid, &g_status, 0);
+		g_status = ((g_status & 0xff00) >> 8);
+		if (g_status == 0)
+			g_status = ft_export_utils(tmp, res, env);
 		return (1);
 	}
+	return (0);
 }

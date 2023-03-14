@@ -3,14 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 14:57:20 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/13 13:19:46 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 17:32:44 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
+#include "utils.h"
+
+int	skip_option(char **tmp)
+{
+	int		i;
+	int		j;
+	int		flag;
+
+	i = 0;
+	flag = 0;
+	while (tmp[++i])
+	{
+		if (tmp[i][0] == '-')
+		{
+			j = 0;
+			while (tmp[i][++j])
+			{
+				if (tmp[i][j] != 'n')
+					return (flag);
+			}
+			flag = i;
+		}
+		else
+			break ;
+	}
+	return (flag);
+}
 
 void	ft_echo_child(t_mini *mini)
 {
@@ -21,8 +48,7 @@ void	ft_echo_child(t_mini *mini)
 	check_redir(mini->redir);
 	flag = 0;
 	tmp = mini->parsed;
-	if (tmp[1] && ft_strncmp(tmp[1], "-n", 2) == 0)
-		flag = 1;
+	flag = skip_option(tmp);
 	i = flag;
 	while (tmp[++i])
 	{
@@ -39,7 +65,7 @@ int	ft_echo(t_mini *mini)
 {
 	pid_t	pid;
 
-	pid = fork();
+	fork_check(&pid);
 	if (pid == 0)
 		ft_echo_child(mini);
 	else
