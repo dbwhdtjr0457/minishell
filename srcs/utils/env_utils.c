@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:34:18 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/11 17:42:36 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/13 16:41:20 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "utils.h"
 
 void	make_env(t_list **env, char **envp)
 {
@@ -56,7 +56,7 @@ void	set_env(char *key, char *value, t_list **env)
 		tmp = tmp_env->content;
 		if (!ft_strncmp(tmp[0], key, ft_strlen(key) + 1))
 		{
-			free(tmp[1]);
+			ft_free(tmp[1]);
 			tmp[1] = ft_strdup(value);
 			return ;
 		}
@@ -67,4 +67,24 @@ void	set_env(char *key, char *value, t_list **env)
 	tmp[1] = ft_strdup(value);
 	tmp[2] = 0;
 	ft_lstadd_back(env, ft_lstnew(tmp));
+}
+
+char	**env_to_char(t_list *env)
+{
+	char	**tmp;
+	char	*tmp2;
+	int		i;
+
+	tmp = (char **)malloc(sizeof(char *) * (ft_lstsize(env) + 1));
+	i = 0;
+	while (env)
+	{
+		tmp2 = ft_strjoin(((char **)env->content)[0], "=");
+		tmp[i] = ft_strjoin(tmp2, ((char **)env->content)[1]);
+		ft_free(tmp2);
+		env = env->next;
+		i++;
+	}
+	tmp[i] = 0;
+	return (tmp);
 }

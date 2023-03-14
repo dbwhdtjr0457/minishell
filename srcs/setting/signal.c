@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 21:26:39 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/11 20:12:36 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/13 15:46:06 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "setting.h"
+#include <readline/readline.h>
+#include <signal.h>
+#include <sys/ioctl.h>
 
 // rl_replace_line("", 0);
 	// 현재까지 입력된 문자열을 str로 바꿔주는 함력
@@ -52,7 +55,7 @@ void	save_g_status(void)
 	else if (g_status == 3)
 	{
 		g_status = 128 + g_status;
-		ft_putstr_fd("Quit: 3\n", 1);
+		write(1, "Quit: 3\n", 8);
 	}
 	else
 		g_status = (g_status & 0xff00) >> 8;

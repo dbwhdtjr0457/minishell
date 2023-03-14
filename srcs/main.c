@@ -6,34 +6,11 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/12 15:37:21 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:40:40 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-
-void	print_ascii(void)
-{
-	int		fd;
-	char	*line;
-
-	fd = open("./title/ascii.txt", O_RDONLY);
-	if (!fd)
-	{
-		printf("error\n");
-		return ;
-	}
-	line = get_next_line(fd);
-	while (line)
-	{
-		printf("%s", line);
-		free(line);
-		line = get_next_line(fd);
-	}
-	printf("\n");
-	free(line);
-	close(fd);
-}
+#include "minishell.h"
 
 void	init(t_list **env, char **envp)
 {
@@ -50,7 +27,7 @@ void	main_loop(char *line, t_list **env)
 
 	add_history(line);
 	mini_list = parsing(line, *env);
-	free(line);
+	ft_free(line);
 	if (!mini_list)
 		return ;
 	tmp = mini_list;
@@ -87,7 +64,7 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		}
 		else if (*line == '\0')
-			free(line);
+			ft_free(line);
 		else
 			main_loop(line, &env);
 	}

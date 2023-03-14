@@ -1,27 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_type_2.c                                        :+:      :+:    :+:   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/08 21:25:39 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/12 23:54:58 by jihylim          ###   ########.fr       */
+/*   Created: 2023/03/13 16:35:03 by jihylim           #+#    #+#             */
+/*   Updated: 2023/03/13 16:45:43 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parse.h"
+#include <stdlib.h>
 
-int	is_dollar(t_list *lst)
+void	ft_free(void *ptr)
 {
-	if (((t_token *)(lst->content))->type == DOLLAR_T)
-		return (1);
-	return (0);
-}
-
-int	is_word(t_list *lst)
-{
-	if (((t_token *)(lst->content))->type == WORD_T)
-		return (1);
-	return (0);
+	free(ptr);
+	ptr = 0;
 }

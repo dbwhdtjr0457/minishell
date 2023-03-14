@@ -6,13 +6,13 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 22:32:41 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/10 19:04:08 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 20:04:24 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "parse.h"
 
-t_list	*token_add_back(t_list **lst, t_list **pre, t_list **res, t_list **new)
+static t_list	*join_to(t_list **lst, t_list **pre, t_list **res, t_list **new)
 {
 	t_list	*del;
 
@@ -23,7 +23,7 @@ t_list	*token_add_back(t_list **lst, t_list **pre, t_list **res, t_list **new)
 		*res = *new;
 	ft_lstlast(*new)->next = (*lst)->next;
 	free_token(del->content);
-	free(del);
+	ft_free(del);
 	return (*new);
 }
 
@@ -42,7 +42,7 @@ t_list	*split_env(t_list *lst)
 			&& ft_strchr(((t_token *)(lst->content))->token, ' '))
 		{
 			new = make_token(((t_token *)lst->content)->token, 0);
-			lst = token_add_back(&lst, &pre, &res, &new);
+			lst = join_to(&lst, &pre, &res, &new);
 		}
 		pre = lst;
 		lst = lst->next;

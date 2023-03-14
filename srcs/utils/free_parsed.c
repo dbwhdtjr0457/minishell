@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   free_parsed.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 20:13:21 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/11 20:13:48 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/13 16:37:36 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "utils.h"
+
+void	free_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	if (!(*split))
+		return ;
+	while (split[i])
+	{
+		ft_free(split[i]);
+		i++;
+	}
+	ft_free(split);
+}
 
 void	free_token(void	*content)
 {
@@ -19,8 +34,8 @@ void	free_token(void	*content)
 	if (!content)
 		return ;
 	tmp = (t_token *)content;
-	free(tmp->token);
-	free(tmp);
+	ft_free(tmp->token);
+	ft_free(tmp);
 }
 
 void	ft_lstclear_token(t_list **lst)
@@ -33,7 +48,7 @@ void	ft_lstclear_token(t_list **lst)
 	{
 		tmp = (*lst)->next;
 		free_token((*lst)->content);
-		free(*lst);
+		ft_free(*lst);
 		*lst = tmp;
 	}
 	*lst = 0;
@@ -49,7 +64,7 @@ void	free_mini(t_mini *lst)
 	if (mini->redir)
 		ft_lstclear_token(&(mini->redir));
 	if (mini)
-		free(mini);
+		ft_free(mini);
 }
 
 void	ft_lstclear_mini(t_list **lst)
@@ -62,7 +77,7 @@ void	ft_lstclear_mini(t_list **lst)
 	{
 		tmp = (*lst)->next;
 		free_mini((*lst)->content);
-		free(*lst);
+		ft_free(*lst);
 		*lst = tmp;
 	}
 	*lst = 0;

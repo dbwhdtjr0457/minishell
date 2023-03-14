@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   terminal.c                                         :+:      :+:    :+:   */
+/*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/09 21:25:57 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/11 20:24:49 by jihylim          ###   ########.fr       */
+/*   Created: 2023/03/13 11:13:11 by jihylim           #+#    #+#             */
+/*   Updated: 2023/03/13 13:55:41 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#ifndef BUILTIN_H
+# define BUILTIN_H
 
-void	term_on(void)
-{
-	struct termios	term;
+# include "utils.h"
+# include "execute.h"
 
-	tcgetattr(STDIN_FILENO, &term);
-	term.c_lflag = term.c_lflag | ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &term);
-}
+extern int	g_status;
 
-void	term_off(void)
-{
-	struct termios	term;
+int		ft_echo(t_mini *mini);
+int		ft_pwd(t_mini *mini);
+int		ft_env(t_mini *mini, t_list *env, void (*print)(void*));
+int		ft_exit(t_mini *mini, t_list *env);
+int		ft_cd(t_mini *mini, t_list **env);
+int		ft_export(t_mini *mini, t_list **env);
+int		ft_unset(t_mini *mini, t_list **env);
 
-	tcgetattr(STDIN_FILENO, &term);
-	term.c_lflag = term.c_lflag & ~ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &term);
-}
+#endif

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 19:11:01 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/11 17:32:32 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/13 16:41:20 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "execute.h"
+#include <stdio.h>
 
 void	perror_exit(char *str, int status)
 {
@@ -18,7 +19,7 @@ void	perror_exit(char *str, int status)
 	exit(status);
 }
 
-void	pipex_init(t_pipex *pipex, int list_size, t_list **env)
+static void	pipex_init(t_pipex *pipex, int list_size, t_list **env)
 {
 	pipex->pid = (pid_t *)malloc(sizeof(pid_t) * list_size);
 	pipex->envp = env_to_char(*env);
@@ -30,13 +31,13 @@ void	pipex_init(t_pipex *pipex, int list_size, t_list **env)
 	pipex->env = env;
 }
 
-void	free_pipex(t_pipex *pipex)
+static void	free_pipex(t_pipex *pipex)
 {
 	free_split(pipex->envp);
-	free(pipex->pid);
+	ft_free(pipex->pid);
 }
 
-void	pipe_cycle(t_pipex *pipex, t_list *curr, int list_size, int i)
+static void	pipe_cycle(t_pipex *pipex, t_list *curr, int list_size, int i)
 {
 	t_mini	*curr_mini;
 

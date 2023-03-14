@@ -1,27 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_type_2.c                                        :+:      :+:    :+:   */
+/*   print_ascii.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/08 21:25:39 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/12 23:54:58 by jihylim          ###   ########.fr       */
+/*   Created: 2023/03/13 14:02:09 by jihylim           #+#    #+#             */
+/*   Updated: 2023/03/13 16:45:30 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parse.h"
+#include "setting.h"
+#include <fcntl.h>
 
-int	is_dollar(t_list *lst)
+void	print_ascii(void)
 {
-	if (((t_token *)(lst->content))->type == DOLLAR_T)
-		return (1);
-	return (0);
-}
+	int		fd;
+	char	*line;
 
-int	is_word(t_list *lst)
-{
-	if (((t_token *)(lst->content))->type == WORD_T)
-		return (1);
-	return (0);
+	fd = open("./title/ascii.txt", O_RDONLY);
+	if (!fd)
+	{
+		printf("error\n");
+		return ;
+	}
+	line = get_next_line(fd);
+	while (line)
+	{
+		printf("%s", line);
+		free(line);
+		line = 0;
+		line = get_next_line(fd);
+	}
+	printf("\n");
+	free(line);
+	line = 0;
+	close(fd);
 }
