@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/14 19:28:24 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/14 21:23:25 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	main(int ac, char **av, char **envp)
 		line = readline(PROMPT);
 		if (!line)
 		{
-			ft_putstr_fd("\0338exit\n", 1);
+			ft_putstr_fd("\0338\033Mexit\n", 1);
 			break ;
 		}
 		else if (*line == '\0')
