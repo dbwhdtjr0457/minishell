@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 14:58:47 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 15:47:34 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 17:32:54 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
+#include "utils.h"
 
 static int	split_size(char **split)
 {
@@ -62,7 +63,7 @@ int	ft_exit(t_mini *mini, t_list *env)
 {
 	pid_t	pid;
 
-	pid = fork();
+	fork_check(&pid);
 	if (pid == 0)
 	{
 		g_status = 0;

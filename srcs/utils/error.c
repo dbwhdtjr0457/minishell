@@ -1,42 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/11 14:57:44 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 17:33:10 by joyoo            ###   ########.fr       */
+/*   Created: 2023/03/14 17:13:39 by joyoo             #+#    #+#             */
+/*   Updated: 2023/03/14 17:35:01 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
 #include "utils.h"
+#include <stdio.h>
 
-int	ft_pwd(t_mini *mini)
+void	perror_exit(char *str, int status)
 {
-	char	*pwd;
-	pid_t	pid;
+	perror(str);
+	exit(status);
+}
 
-	fork_check(&pid);
-	if (pid == 0)
-	{
-		check_redir(mini->redir);
-		if (mini->parsed[1])
-		{
-			ft_putstr_fd("pwd: too many arguments\n", 2);
-			exit(1);
-		}
-		pwd = getcwd(0, 0);
-		ft_putstr_fd(pwd, 1);
-		ft_putchar_fd('\n', 1);
-		ft_free(pwd);
-		exit(0);
-	}
-	else
-	{
-		waitpid(pid, &g_status, 0);
-		g_status = (g_status & 0xff00) >> 8;
-	}
-	return (1);
+void	fork_check(pid_t *pid)
+{
+	*pid = fork();
+	if (*pid == -1)
+		perror_exit("fork error", 1);
+}
+
+void	open_check(int fd)
+{
+	if (fd == -1)
+		perror_exit("open error", 1);
+}
+
+void	dup2_check(int fd1, int fd2)
+{
+	if (dup2(fd1, fd2) == -1)
+		perror_exit("dup2 error", 1);
 }

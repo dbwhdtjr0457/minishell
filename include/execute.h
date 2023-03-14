@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 13:47:16 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/13 16:15:56 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 17:24:20 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int		check_heredoc(t_list *redir);
 void	parent_process(t_pipex *pipex, int list_size, int i);
 
 // pipe.c
-void	perror_exit(char *str, int status);
 int		pipe_execute(t_list *mini_list, t_list **env);
 
 // redir.c

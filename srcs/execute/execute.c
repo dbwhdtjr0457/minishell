@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:21:42 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 16:06:30 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 17:33:20 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "builtin.h"
+#include "utils.h"
 
 static int	path_check(char **split, char *cmd, char **tmp, int i)
 {
@@ -104,7 +105,7 @@ int	execute(t_list *mini_list, t_list **env)
 	if (!builtin(mini, env))
 	{
 		env_char = env_to_char(*env);
-		pid = fork();
+		fork_check(&pid);
 		if (pid == 0)
 		{
 			execute_child(mini, env_char, env);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 13:24:59 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/13 16:39:51 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 17:30:21 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ void	make_env(t_list **env, char **envp);
 char	*get_env(char *key, t_list *env);
 void	set_env(char *key, char *value, t_list **env);
 char	**env_to_char(t_list *env);
+
+// error.c
+void	perror_exit(char *str, int status);
+void	fork_check(pid_t *pid);
+void	open_check(int fd);
+void	dup2_check(int fd1, int fd2);
 
 // free_env.c
 void	ft_lstclear_env(t_list **lst);
