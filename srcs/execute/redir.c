@@ -3,24 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:05:10 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/13 16:24:01 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 17:35:52 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
+#include "utils.h"
 
 static void	redir_in(t_token *token)
 {
 	int	fd;
 
 	fd = open(token->token, O_RDONLY);
-	if (fd == -1)
-		perror_exit("open error", 1);
-	if (dup2(fd, 0) == -1)
-		perror_exit("dup2 error", 1);
+	open_check(fd);
+	dup2_check(fd, 0);
 	if (token->type == REDIR_LL)
 		unlink(token->token);
 	close(fd);
@@ -31,10 +30,8 @@ static void	redir_out(char *file)
 	int	fd;
 
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-		perror_exit("open error", 1);
-	if (dup2(fd, 1) == -1)
-		perror_exit("dup2 error", 1);
+	open_check(fd);
+	dup2_check(fd, 1);
 	close(fd);
 }
 
@@ -43,10 +40,8 @@ static void	redir_append(char *file)
 	int	fd;
 
 	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd == -1)
-		perror_exit("open error", 1);
-	if (dup2(fd, 1) == -1)
-		perror_exit("dup2 error", 1);
+	open_check(fd);
+	dup2_check(fd, 1);
 	close(fd);
 }
 

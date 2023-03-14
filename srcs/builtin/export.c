@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 14:58:15 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/13 16:41:20 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 17:33:03 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
+#include "utils.h"
 
 int	print_export_error(char *s1, char *s2)
 {
@@ -56,7 +57,7 @@ int	ft_export(t_mini *mini, t_list **env)
 	pid_t	pid;
 
 	tmp = mini->parsed;
-	pid = fork();
+	fork_check(&pid);
 	if (pid == 0)
 	{
 		check_redir(mini->redir);
@@ -66,8 +67,11 @@ int	ft_export(t_mini *mini, t_list **env)
 	}
 	else
 	{
-		waitpid(pid, 0, 0);
-		g_status = ft_export_utils(tmp, res, env);
+		waitpid(pid, &g_status, 0);
+		g_status = ((g_status & 0xff00) >> 8);
+		if (g_status == 0)
+			g_status = ft_export_utils(tmp, res, env);
 		return (1);
 	}
+	return (0);
 }

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 15:00:32 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/13 16:41:20 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 17:33:07 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
+#include "utils.h"
 
 void	ft_lstremove_if(t_list **lst, void *data_ref, int (*cmp)())
 {
@@ -45,7 +46,7 @@ int	ft_unset(t_mini *mini, t_list **env)
 	int		i;
 	pid_t	pid;
 
-	pid = fork();
+	fork_check(&pid);
 	if (pid == 0)
 	{
 		check_redir(mini->redir);
@@ -53,12 +54,15 @@ int	ft_unset(t_mini *mini, t_list **env)
 	}
 	else
 	{
-		waitpid(pid, 0, 0);
+		waitpid(pid, &g_status, 0);
+		g_status = ((g_status & 0xff00) >> 8);
+		if (g_status != 0)
+			return (1);
 		tmp = mini->parsed;
 		i = 0;
 		while (tmp[++i])
 			ft_lstremove_if(env, tmp[i], ft_strncmp);
-		g_status = 0;
 		return (1);
 	}
+	return (0);
 }

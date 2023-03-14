@@ -3,21 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 19:11:01 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/13 16:41:20 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 17:33:15 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
+#include "utils.h"
 #include <stdio.h>
-
-void	perror_exit(char *str, int status)
-{
-	perror(str);
-	exit(status);
-}
 
 static void	pipex_init(t_pipex *pipex, int list_size, t_list **env)
 {
@@ -45,10 +40,8 @@ static void	pipe_cycle(t_pipex *pipex, t_list *curr, int list_size, int i)
 	set_signal(SIG_IGN, SIG_IGN);
 	if (pipe(pipex->new_pipe) == -1)
 		perror_exit("pipe error", 1);
-	pipex->pid[i] = fork();
-	if (pipex->pid[i] == -1)
-		perror_exit("fork error", 1);
-	else if (pipex->pid[i] == 0)
+	fork_check(&pipex->pid[i]);
+	if (pipex->pid[i] == 0)
 		child_process(pipex, curr_mini, list_size, i);
 	else
 		parent_process(pipex, list_size, i);

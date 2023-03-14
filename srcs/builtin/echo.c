@@ -6,11 +6,12 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 14:57:20 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 15:45:27 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/14 17:32:44 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
+#include "utils.h"
 
 int	skip_option(char **tmp)
 {
@@ -64,7 +65,7 @@ int	ft_echo(t_mini *mini)
 {
 	pid_t	pid;
 
-	pid = fork();
+	fork_check(&pid);
 	if (pid == 0)
 		ft_echo_child(mini);
 	else

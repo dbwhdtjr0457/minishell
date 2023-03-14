@@ -3,26 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:28:12 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/13 16:22:25 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 17:35:27 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
+#include "utils.h"
 
 static void	set_dup(t_pipex *pipex, int i, int list_size)
 {
 	if (i != 0)
 	{
-		dup2(pipex->old_pipe[0], 0);
+		dup2_check(pipex->old_pipe[0], 0);
 		close(pipex->old_pipe[0]);
 		close(pipex->old_pipe[1]);
 	}
 	if (i != list_size - 1)
 	{
-		dup2(pipex->new_pipe[1], 1);
+		dup2_check(pipex->new_pipe[1], 1);
 		close(pipex->new_pipe[0]);
 		close(pipex->new_pipe[1]);
 	}
