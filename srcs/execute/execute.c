@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:21:42 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/13 16:41:20 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 16:06:30 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	execute(t_list *mini_list, t_list **env)
 			save_g_status();
 			free_split(env_char);
 		}
-		set_signal(signal_prompt, SIG_IGN);
 	}
+	set_signal(signal_prompt, SIG_IGN);
 	return (1);
 }
