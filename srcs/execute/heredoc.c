@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 20:08:52 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 17:34:08 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/14 19:11:57 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
-#include "utils.h"
 #include <stdio.h>
 #include <readline/readline.h>
 
@@ -68,7 +67,7 @@ static int	change_heredoc(t_token *token)
 
 	make_tmpfile(&tmpfile);
 	fd = open(tmpfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	open_check(fd);
+	ft_open(fd);
 	set_signal(signal_heredoc, SIG_IGN);
 	line = 0;
 	while (1)

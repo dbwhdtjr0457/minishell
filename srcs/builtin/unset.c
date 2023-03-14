@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 15:00:32 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 17:33:07 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/14 19:11:40 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
-#include "utils.h"
 
 void	ft_lstremove_if(t_list **lst, void *data_ref, int (*cmp)())
 {
@@ -46,7 +45,7 @@ int	ft_unset(t_mini *mini, t_list **env)
 	int		i;
 	pid_t	pid;
 
-	fork_check(&pid);
+	ft_fork(&pid);
 	if (pid == 0)
 	{
 		check_redir(mini->redir);

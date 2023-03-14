@@ -1,36 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/11 14:57:44 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 19:11:40 by jihylim          ###   ########.fr       */
+/*   Created: 2023/03/14 18:19:07 by jihylim           #+#    #+#             */
+/*   Updated: 2023/03/14 18:54:36 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "utils.h"
 
-int	ft_pwd(t_mini *mini)
+void	print_error_str(char *s1, char *s2, char *str)
 {
-	char	*pwd;
-	pid_t	pid;
-
-	ft_fork(&pid);
-	if (pid == 0)
-	{
-		check_redir(mini->redir);
-		pwd = getcwd(0, 0);
-		ft_putstr_fd(pwd, 1);
-		ft_putchar_fd('\n', 1);
-		ft_free(pwd);
-		exit(0);
-	}
-	else
-	{
-		waitpid(pid, &g_status, 0);
-		g_status = (g_status & 0xff00) >> 8;
-	}
-	return (1);
+	ft_putstr_fd("MochaShell: ", 2);
+	if (s1)
+		ft_putstr_fd(s1, 2);
+	ft_putstr_fd(": ", 2);
+	if (s2)
+		ft_putstr_fd(s2, 2);
+	if (str)
+		ft_putstr_fd(str, 2);
 }

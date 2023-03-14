@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 13:24:59 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/14 17:30:21 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/14 19:12:02 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ char	**env_to_char(t_list *env);
 
 // error.c
 void	perror_exit(char *str, int status);
-void	fork_check(pid_t *pid);
-void	open_check(int fd);
-void	dup2_check(int fd1, int fd2);
+void	ft_fork(pid_t *pid);
+void	ft_open(int fd);
+void	ft_dup2(int fd1, int fd2);
 
 // free_env.c
 void	ft_lstclear_env(t_list **lst);
@@ -65,6 +65,9 @@ void	ft_lstclear_mini(t_list **mini);
 
 // ft_free.c
 void	ft_free(void *ptr);
+
+// print_error.c
+void	print_error_str(char *s1, char *s2, char *str);
 
 // print_list.c
 void	print_word_in_list(void *content);

@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 21:23:39 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/13 16:27:30 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/14 18:17:56 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*put_redir(t_list *lst)
 
 void	print_syn_error(t_list *lst, char *str)
 {
-	ft_putstr_fd("MochaShell : syntax error near unexpected token ", 2);
+	ft_putstr_fd("MochaShell: syntax error near unexpected token ", 2);
 	if (lst)
 		ft_putstr_fd(put_redir(lst), 2);
 	else if (str)

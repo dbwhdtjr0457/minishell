@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 14:58:15 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 17:33:03 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/14 19:11:40 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
-#include "utils.h"
 
-int	print_export_error(char *s1, char *s2)
+static int	print_export_error(char *s1, char *s2)
 {
+	ft_putstr_fd("MochaShell: ", 2);
 	ft_putstr_fd(s1, 2);
 	ft_putstr_fd(": '", 2);
 	ft_putstr_fd(s2, 2);
@@ -22,7 +22,7 @@ int	print_export_error(char *s1, char *s2)
 	return (1);
 }
 
-int	ft_export_utils(char **tmp, char **res, t_list **env)
+static int	ft_export_utils(char **tmp, char **res, t_list **env)
 {
 	int		i;
 	char	**tmp2;
@@ -57,7 +57,7 @@ int	ft_export(t_mini *mini, t_list **env)
 	pid_t	pid;
 
 	tmp = mini->parsed;
-	fork_check(&pid);
+	ft_fork(&pid);
 	if (pid == 0)
 	{
 		check_redir(mini->redir);
