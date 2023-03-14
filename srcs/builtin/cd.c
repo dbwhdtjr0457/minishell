@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 14:59:34 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 17:32:49 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/14 18:34:07 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,23 @@ void	save_tmp(char **tmp, char *str, t_list **env)
 	tmp[1] = tmp2;
 }
 
+int	special_dir(char **tmp, t_list **env)
+{
+	if (!ft_strncmp(tmp[1], "~", 2) || !ft_strncmp(tmp[1], "~/", 3))
+		save_tmp(tmp, "HOME", env);
+	else if (!ft_strncmp(tmp[1], "-", 1))
+	{
+		if (!get_env("OLDPWD", *env))
+		{
+			ft_putstr_fd("MochaShell: cd: OLDPWD not set\n", 2);
+			g_status = 1;
+			return (0);
+		}
+		save_tmp(tmp, "OLDPWD", env);
+	}
+	return (1);
+}
+
 int	operate_cd(char **tmp, t_list **env)
 {
 	char	*tmp2;
@@ -35,10 +52,8 @@ int	operate_cd(char **tmp, t_list **env)
 	}
 	else
 	{
-		if (!ft_strncmp(tmp[1], "~", 2) || !ft_strncmp(tmp[1], "~/", 3))
-			save_tmp(tmp, "HOME", env);
-		else if (!ft_strncmp(tmp[1], "-", 1))
-			save_tmp(tmp, "OLDPWD", env);
+		if (!special_dir(tmp, env))
+			return (0);
 		if (chdir(tmp[1]) == -1)
 		{
 			ft_putstr_fd("cd: ", 2);
@@ -58,10 +73,10 @@ void	cd_parent(t_mini *mini, t_list **env)
 	char	*oldpwd;
 
 	tmp = mini->parsed;
+	oldpwd = getcwd(0, 0);
 	if (!operate_cd(tmp, env))
 		return ;
 	pwd = getcwd(0, 0);
-	oldpwd = get_env("PWD", *env);
 	set_env("OLDPWD", oldpwd, env);
 	set_env("PWD", pwd, env);
 	ft_free(pwd);
