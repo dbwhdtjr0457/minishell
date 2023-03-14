@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 19:11:01 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 17:33:15 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/14 19:11:40 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	pipe_cycle(t_pipex *pipex, t_list *curr, int list_size, int i)
 	set_signal(SIG_IGN, SIG_IGN);
 	if (pipe(pipex->new_pipe) == -1)
 		perror_exit("pipe error", 1);
-	fork_check(&pipex->pid[i]);
+	ft_fork(&pipex->pid[i]);
 	if (pipex->pid[i] == 0)
 		child_process(pipex, curr_mini, list_size, i);
 	else

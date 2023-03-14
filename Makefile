@@ -75,10 +75,11 @@ SETTING_SRCS	=	$(addprefix $(SETTING_DIR)/, $(SETTING_FILES))
 
 UTILS_DIR		=	./srcs/utils
 UTILS_FILES		=	env_utils.c \
-					error.c \
+					print_error_exe.c \
 					free_env.c \
 					free_parsed.c \
 					ft_free.c \
+					print_error.c \
 					print_list.c
 UTILS_SRCS		=	$(addprefix $(UTILS_DIR)/, $(UTILS_FILES))
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 15:00:12 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 17:32:59 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/14 19:11:40 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,14 @@ int	ft_env(t_mini *mini, t_list *env, void (*print)(void*))
 	char	**tmp;
 	pid_t	pid;
 
-	fork_check(&pid);
+	ft_fork(&pid);
 	if (pid == 0)
 	{
 		check_redir(mini->redir);
 		tmp = mini->parsed;
 		if (tmp[1])
 		{
-			ft_putstr_fd("env: ", 2);
-			ft_putstr_fd(tmp[1], 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
+			print_error_str(tmp[0], tmp[1], ": No such file or directory\n");
 			exit(127);
 		}
 		ft_lstiter(env, print);

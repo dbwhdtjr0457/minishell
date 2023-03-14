@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 14:59:34 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 18:34:07 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/14 19:11:40 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
-#include "utils.h"
 
 void	save_tmp(char **tmp, char *str, t_list **env)
 {
@@ -56,9 +55,7 @@ int	operate_cd(char **tmp, t_list **env)
 			return (0);
 		if (chdir(tmp[1]) == -1)
 		{
-			ft_putstr_fd("cd: ", 2);
-			ft_putstr_fd(tmp[1], 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
+			print_error_str(tmp[0], tmp[1], ": No such file or directory\n");
 			g_status = 1;
 			return (0);
 		}
@@ -88,7 +85,7 @@ int	ft_cd(t_mini *mini, t_list **env)
 {
 	pid_t	pid;
 
-	fork_check(&pid);
+	ft_fork(&pid);
 	if (pid == 0)
 	{
 		check_redir(mini->redir);
