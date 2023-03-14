@@ -6,12 +6,11 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 19:10:49 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/08 22:26:45 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/12 23:54:58 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
-// #include "../minishell.h"
+#include "parse.h"
 
 int	is_double(t_list *lst)
 {

@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 14:58:47 by joyoo             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/03/13 13:14:08 by joyoo            ###   ########.fr       */
+=======
+/*   Updated: 2023/03/13 13:19:53 by jihylim          ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "builtin.h"
 
 int	ft_exit(t_mini *mini, t_list *env)
 {

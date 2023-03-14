@@ -6,13 +6,13 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 22:46:55 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/11 14:46:59 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/13 16:27:59 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "parse.h"
 
-int	save_after_redir(t_list **lst, t_list **res, t_list *cur)
+static int	save_after_redir(t_list **lst, t_list **res, t_list *cur)
 {
 	char	*tmp;
 	t_token	*token;

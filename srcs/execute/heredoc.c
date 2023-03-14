@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 20:08:52 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/11 20:09:32 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/13 16:41:20 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "execute.h"
+#include <stdio.h>
+#include <readline/readline.h>
 
-void	make_tmpfile(char **tmpfile)
+static void	make_tmpfile(char **tmpfile)
 {
 	int		num;
 	char	*numstr;
@@ -20,18 +22,18 @@ void	make_tmpfile(char **tmpfile)
 	num = 0;
 	numstr = ft_itoa(num);
 	*tmpfile = ft_strjoin(".tmp", numstr);
-	free(numstr);
+	ft_free(numstr);
 	while (access(*tmpfile, F_OK) == 0)
 	{
 		num++;
-		free(*tmpfile);
+		ft_free(*tmpfile);
 		numstr = ft_itoa(num);
 		*tmpfile = ft_strjoin(".tmp", numstr);
-		free(numstr);
+		ft_free(numstr);
 	}
 }
 
-int	read_heredoc(char **line, t_token *token, char *tmpfile, int fd)
+static int	read_heredoc(char **line, t_token *token, char *tmpfile, int fd)
 {
 	*line = readline("> \0337");
 	if (!*line)
@@ -43,20 +45,20 @@ int	read_heredoc(char **line, t_token *token, char *tmpfile, int fd)
 		return (0);
 	if (g_status < 0)
 	{
-		free(*line);
+		ft_free(*line);
 		close(fd);
 		unlink(tmpfile);
-		free(tmpfile);
+		ft_free(tmpfile);
 		g_status = -g_status;
 		return (2);
 	}
 	ft_putstr_fd(*line, fd);
 	ft_putstr_fd("\n", fd);
-	free(*line);
+	ft_free(*line);
 	return (1);
 }
 
-int	change_heredoc(t_token *token)
+static int	change_heredoc(t_token *token)
 {
 	char	*line;
 	char	*tmpfile;
@@ -75,9 +77,9 @@ int	change_heredoc(t_token *token)
 		else if (tmp == 2)
 			return (0);
 	}
-	free(line);
+	ft_free(line);
 	close(fd);
-	free(token->token);
+	ft_free(token->token);
 	token->token = tmpfile;
 	return (1);
 }

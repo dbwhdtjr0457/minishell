@@ -6,7 +6,7 @@
 #    By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/07 16:03:53 by jihylim           #+#    #+#              #
-#    Updated: 2023/02/22 15:13:13 by jihylim          ###   ########.fr        #
+#    Updated: 2023/03/13 14:14:49 by jihylim          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,13 +82,13 @@ all 		:	$(NAME)
 
 $(NAME)		:	$(OBJ_ALL)
 				@ar rcs ${NAME} $(OBJ_ALL)
-				@echo $(CYAN) "       << libft is made! >>" $(EOC)
+				@echo $(CYAN) "          << libft is made! >>" $(EOC)
 
 bonus		:
 				@make WITH_BONUS=1 all
 
 .c.o		:
-				@echo $(CYAN) "Libft Compiling... " $< $(EOC) $(LINE_DEL)
+				@echo $(CYAN) "Libft Compiling...        " $< $(EOC) $(LINE_DEL)
 				@$(CC) $(CFLAGS) -c $< -o ${<:.c=.o}
 
 clean		:

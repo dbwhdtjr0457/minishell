@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_type_2.c                                        :+:      :+:    :+:   */
+/*   terminal.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/08 21:25:39 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/12 23:54:58 by jihylim          ###   ########.fr       */
+/*   Created: 2023/03/09 21:25:57 by jihylim           #+#    #+#             */
+/*   Updated: 2023/03/13 15:46:20 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parse.h"
+#include "setting.h"
+#include <termios.h>
 
-int	is_dollar(t_list *lst)
+void	term_on(void)
 {
-	if (((t_token *)(lst->content))->type == DOLLAR_T)
-		return (1);
-	return (0);
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag = term.c_lflag | ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
-int	is_word(t_list *lst)
+void	term_off(void)
 {
-	if (((t_token *)(lst->content))->type == WORD_T)
-		return (1);
-	return (0);
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag = term.c_lflag & ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }

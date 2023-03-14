@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 14:57:44 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/11 14:57:57 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/13 16:41:20 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "builtin.h"
 
 int	ft_pwd(t_mini *mini)
 {
@@ -29,7 +29,7 @@ int	ft_pwd(t_mini *mini)
 		pwd = getcwd(0, 0);
 		ft_putstr_fd(pwd, 1);
 		ft_putchar_fd('\n', 1);
-		free(pwd);
+		ft_free(pwd);
 		exit(0);
 	}
 	else
