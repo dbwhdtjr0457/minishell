@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 13:24:59 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/14 19:12:02 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/16 14:42:30 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	make_env(t_list **env, char **envp);
 char	*get_env(char *key, t_list *env);
 void	set_env(char *key, char *value, t_list **env);
 char	**env_to_char(t_list *env);
+void	ft_lstremove_if(t_list **lst, void *data_ref, int (*cmp)());
 
 // error.c
 void	perror_exit(char *str, int status);

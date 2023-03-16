@@ -5,7 +5,8 @@
     "termios.h": "c",
     "libft.h": "c",
     "minishell.h": "c",
-    "utils.h": "c"
+    "utils.h": "c",
+    "builtin.h": "c"
   },
   "editor.tabSize": 4,
   "editor.insertSpaces": false,

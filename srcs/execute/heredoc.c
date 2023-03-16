@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 20:08:52 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 22:12:52 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/16 14:56:32 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,12 @@ static void	make_tmpfile(char **tmpfile)
 
 static int	read_heredoc(char **line, t_token *token, char *tmpfile, int fd)
 {
-	*line = readline("> ");
+	*line = readline("> \0337");
 	if (!*line)
+	{
+		ft_putstr_fd("\0338", 1);
 		return (0);
+	}
 	if (ft_strncmp(*line, token->token, ft_strlen(*line) + 1) == 0)
 		return (0);
 	if (g_status < 0)
