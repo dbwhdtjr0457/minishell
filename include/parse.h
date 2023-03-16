@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 23:12:06 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/13 16:29:32 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/16 21:01:46 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char	*remove_quote(t_list *cur, t_list *env, int flag);
 // is_type.c
 int		is_double(t_list *lst);
 int		is_single(t_list *lst);
+int		is_quote(t_list *lst);
 int		is_redir(t_list *lst);
 int		is_pipe(t_list *lst);
 int		is_space(t_list *lst);

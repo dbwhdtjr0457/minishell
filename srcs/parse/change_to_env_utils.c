@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 21:15:58 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/14 18:11:34 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/16 20:56:20 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static char	*change_quote_dollar(t_token *token, t_list *env)
 
 // change_dollar
 	// token type이 dollar 일 경우 달러 다음에 오는 문자만 잘라서 확인
-static char	*change_dollar(t_token *token, t_list *env)
+static char	*change_dollar(t_token *token, t_list *env, int flag)
 {
 	char	*remove_d;
 	char	*res;
@@ -73,6 +73,8 @@ static char	*change_dollar(t_token *token, t_list *env)
 		res = ft_strdup(ft_itoa(g_status));
 	else if (get)
 		res = ft_strdup(get);
+	else if (flag)
+		res = ft_strdup("");
 	else
 		res = 0;
 	ft_free(get);
@@ -100,11 +102,8 @@ char	*remove_quote(t_list *cur, t_list *env, int flag)
 		}
 	}
 	else if (token->type == DOLLAR_T)
-		str = change_dollar(token, env);
+		str = change_dollar(token, env, flag);
 	else if (token->type == QUOTE_SINGLE)
-	{
 		str = ft_substr(token->token, 1, ft_strlen(token->token) - 2);
-		token->type = WORD_T;
-	}
 	return (str);
 }

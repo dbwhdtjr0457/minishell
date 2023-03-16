@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 15:13:45 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/13 16:26:47 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/16 19:56:59 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	lexer(const char *line, int *arr)
 			rexer_redir_check(line, arr, &i, REDIR_R);
 		else if (line[i] == '|')
 			arr[i] = PIPE_T;
-		else if (line[i] == ' ')
+		else if (line[i] == ' ' || line[i] == '	')
 			arr[i] = SPACE_T;
 		else if (line[i] == '$')
 			arr[i] = DOLLAR_T;
