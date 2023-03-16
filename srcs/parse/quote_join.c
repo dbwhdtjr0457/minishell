@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 22:28:04 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/13 16:27:40 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/16 21:10:13 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,14 @@ static t_list	*quote_join_if(t_list *cur, t_list **res, t_list **new)
 	return (cur);
 }
 
+void	ft_lstadd_back_token(t_list **lst, t_list **new)
+{
+	ft_lstadd_back(lst, ft_lstnew(
+			new_token(ft_strdup(((t_token *)((*new)->content))->token),
+				((t_token *)((*new)->content))->type)));
+	*new = (*new)->next;
+}
+
 // 리스트 하나씩 돌기
 // 스페이스 아니면 새로운 토큰 만들어서 추가 => 이 새로운 토큰은 기존 토큰 재사용 X 아예 새로운 친구
 // 추가하면서 원래 있던 토큰 지우기
@@ -55,10 +63,12 @@ t_list	*quote_join(t_list *lst)
 		new = 0;
 		while (cur && !is_space(cur) && !is_redir(cur) && !is_pipe(cur))
 		{
-			ft_lstadd_back(&new, ft_lstnew(
-					new_token(ft_strdup(((t_token *)(cur->content))->token),
-						((t_token *)(cur->content))->type)));
-			cur = cur->next;
+			if (is_dollar(cur) && cur->next && is_quote(cur->next))
+			{
+				cur = cur->next;
+				continue ;
+			}
+			ft_lstadd_back_token(&new, &cur);
 		}
 		cur = quote_join_if(cur, &res, &new);
 	}
