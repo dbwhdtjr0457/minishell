@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:34:18 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 19:04:46 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/16 14:43:41 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	make_env(t_list **env, char **envp)
 {
 	int		i;
 	char	**tmp;
+	int		shlvl;
+	char	*tmp_shlvl;
 
 	i = 0;
 	*env = 0;
@@ -25,6 +27,13 @@ void	make_env(t_list **env, char **envp)
 		ft_lstadd_back(env, ft_lstnew(tmp));
 		i++;
 	}
+	tmp_shlvl = get_env("SHLVL", *env);
+	shlvl = ft_atoi(tmp_shlvl) + 1;
+	free(tmp_shlvl);
+	tmp_shlvl = ft_itoa(shlvl);
+	set_env("SHLVL", tmp_shlvl, env);
+	free(tmp_shlvl);
+	ft_lstremove_if(env, "OLDPWD", ft_strncmp);
 }
 
 char	*get_env(char *key, t_list *env)
@@ -87,4 +96,31 @@ char	**env_to_char(t_list *env)
 	}
 	tmp[i] = 0;
 	return (tmp);
+}
+
+void	ft_lstremove_if(t_list **lst, void *data_ref, int (*cmp)())
+{
+	t_list	*tmp;
+	t_list	*prev;
+
+	tmp = *lst;
+	prev = 0;
+	while (tmp)
+	{
+		if (!cmp(((char **)tmp->content)[0], data_ref, ft_strlen(data_ref) + 1))
+		{
+			if (prev)
+				prev->next = tmp->next;
+			else
+				*lst = tmp->next;
+			free_split(tmp->content);
+			ft_free(tmp);
+			break ;
+		}
+		else
+		{
+			prev = tmp;
+			tmp = tmp->next;
+		}
+	}
 }

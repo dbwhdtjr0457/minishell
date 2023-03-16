@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 14:58:47 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 19:11:40 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/16 14:58:44 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	ft_exit(t_mini *mini, t_list *env)
 	{
 		g_status = 0;
 		check_redir(mini->redir);
-		write(1, "exit\n", 5);
+		write(2, "exit\n", 5);
 		exit_error(mini);
 		exit(g_status);
 	}

@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/14 21:23:25 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/16 14:54:07 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,10 @@ void	init(t_list **env, char **envp)
 	term_off();
 }
 
-void	main_loop(char *line, t_list **env)
+void	main_loop_execute(t_list *mini_list, t_list **env)
 {
 	t_list	*tmp;
-	t_list	*mini_list;
 
-	add_history(line);
-	mini_list = parsing(line, *env);
-	ft_free(line);
-	if (!mini_list)
-		return ;
 	tmp = mini_list;
 	while (tmp)
 	{
@@ -46,6 +40,41 @@ void	main_loop(char *line, t_list **env)
 			execute(mini_list, env);
 		term_off();
 	}
+}
+
+void	unlink_tmpfile(t_list *mini_list)
+{
+	t_list	*tmp;
+	t_list	*tmp2;
+	t_mini	*mini;
+
+	tmp = mini_list;
+	while (tmp)
+	{
+		mini = tmp->content;
+		tmp2 = mini->redir;
+		while (tmp2)
+		{
+			if (((t_token *)tmp2->content)->type == REDIR_LL && \
+				access(((t_token *)tmp2->content)->token, F_OK) == 0)
+				unlink(((t_token *)tmp2->content)->token);
+			tmp2 = tmp2->next;
+		}
+		tmp = tmp->next;
+	}
+}
+
+void	main_loop(char *line, t_list **env)
+{
+	t_list	*mini_list;
+
+	add_history(line);
+	mini_list = parsing(line, *env);
+	ft_free(line);
+	if (!mini_list)
+		return ;
+	main_loop_execute(mini_list, env);
+	unlink_tmpfile(mini_list);
 	ft_lstclear_mini(&mini_list);
 }
 
@@ -60,7 +89,7 @@ int	main(int ac, char **av, char **envp)
 		line = readline(PROMPT);
 		if (!line)
 		{
-			ft_putstr_fd("\0338\033Mexit\n", 1);
+			ft_putstr_fd("\033[A\033[12Cexit\n", 1);
 			break ;
 		}
 		else if (*line == '\0')

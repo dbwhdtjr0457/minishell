@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:20:14 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/14 19:29:08 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/16 13:40:16 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include "parse.h"
 # include "setting.h"
 
-# define PROMPT "\033[1;33mMochaShell$ \033[0;0m\0337"
+# define PROMPT "\033[1;33mMochaShell$ \033[0;0m"
 
 int	g_status;
 
