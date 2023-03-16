@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:46 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/16 14:54:07 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/16 15:17:24 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init(t_list **env, char **envp)
+static void	init(t_list **env, char **envp)
 {
 	print_ascii();
 	make_env(env, envp);
@@ -20,7 +20,7 @@ void	init(t_list **env, char **envp)
 	term_off();
 }
 
-void	main_loop_execute(t_list *mini_list, t_list **env)
+static void	main_loop_execute(t_list *mini_list, t_list **env)
 {
 	t_list	*tmp;
 
@@ -42,7 +42,7 @@ void	main_loop_execute(t_list *mini_list, t_list **env)
 	}
 }
 
-void	unlink_tmpfile(t_list *mini_list)
+static void	unlink_tmpfile(t_list *mini_list)
 {
 	t_list	*tmp;
 	t_list	*tmp2;
@@ -64,7 +64,7 @@ void	unlink_tmpfile(t_list *mini_list)
 	}
 }
 
-void	main_loop(char *line, t_list **env)
+static void	main_loop(char *line, t_list **env)
 {
 	t_list	*mini_list;
 
