@@ -15,7 +15,7 @@ NAME			=	minishell
 
 CC				=	cc
 RM				=	rm -rf
-CFLAGS			=	-Wall -Wextra -Werror -g
+CFLAGS			=	-Wall -Wextra -Werror
 
 LIBFT			=	./libft/libft.a
 READLINE		=	$(shell brew --prefix readline)
@@ -29,7 +29,8 @@ OBJ_FLAGS 		=	-I $(READLINE)/include \
 
 # ------------------------------ SOURCES ------------------------------ #
 SRCS_DIR		=	./srcs
-SRCS_FILES		=	main.c
+SRCS_FILES		=	main.c \
+					main_loop.c
 SRCS			=	$(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
 BUILTIN_DIR		=	./srcs/builtin
@@ -105,7 +106,7 @@ all:			$(NAME)
 # ==================================================================== #
 $(OBJS_DIR):
 				@echo "\n"
-				@mkdir $@ -MMD
+				@mkdir $@
 
 $(OBJS_DIR)/%.o	: $(SRCS_DIR)/%.c
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)

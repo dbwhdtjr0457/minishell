@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 21:15:58 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/16 20:56:20 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/18 16:57:45 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static char	*change_dollar(t_token *token, t_list *env, int flag)
 	char	*remove_d;
 	char	*res;
 	char	*get;
+	char	*tmp;
 
 	res = 0;
 	remove_d = ft_substr(token->token, 1, ft_strlen(token->token) - 1);
@@ -70,7 +71,11 @@ static char	*change_dollar(t_token *token, t_list *env, int flag)
 	if (!remove_d || !ft_strncmp(remove_d, "\0", ft_strlen(remove_d) + 1))
 		res = ft_strdup("$");
 	else if (!ft_strncmp(remove_d, "?", ft_strlen(remove_d) + 1))
-		res = ft_strdup(ft_itoa(g_status));
+	{
+		tmp = ft_itoa(g_status);
+		res = ft_strdup(tmp);
+		ft_free(tmp);
+	}
 	else if (get)
 		res = ft_strdup(get);
 	else if (flag)
