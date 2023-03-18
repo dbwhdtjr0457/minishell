@@ -29,7 +29,8 @@ OBJ_FLAGS 		=	-I $(READLINE)/include \
 
 # ------------------------------ SOURCES ------------------------------ #
 SRCS_DIR		=	./srcs
-SRCS_FILES		=	main.c
+SRCS_FILES		=	main.c \
+					main_loop.c
 SRCS			=	$(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
 BUILTIN_DIR		=	./srcs/builtin
