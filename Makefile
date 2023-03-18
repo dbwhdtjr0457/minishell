@@ -15,7 +15,7 @@ NAME			=	minishell
 
 CC				=	cc
 RM				=	rm -rf
-CFLAGS			=	-Wall -Wextra -Werror -g
+CFLAGS			=	-Wall -Wextra -Werror
 
 LIBFT			=	./libft/libft.a
 READLINE		=	$(shell brew --prefix readline)
