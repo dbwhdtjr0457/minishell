@@ -105,7 +105,7 @@ all:			$(NAME)
 # ==================================================================== #
 $(OBJS_DIR):
 				@echo "\n"
-				@mkdir $@ -MMD
+				@mkdir $@
 
 $(OBJS_DIR)/%.o	: $(SRCS_DIR)/%.c
 				@echo $(GREEN) "Compiling... " $< $(EOC) $(LINE_DEL)
