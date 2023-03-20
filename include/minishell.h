@@ -26,4 +26,6 @@
 
 int	g_status;
 
+void	main_loop(char *line, t_list **env);
+
 #endif

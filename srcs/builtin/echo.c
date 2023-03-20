@@ -6,13 +6,13 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 14:57:20 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 19:11:40 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/16 15:12:10 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-int	skip_option(char **tmp)
+static int	skip_option(char **tmp)
 {
 	int		i;
 	int		j;
@@ -38,7 +38,7 @@ int	skip_option(char **tmp)
 	return (flag);
 }
 
-void	ft_echo_child(t_mini *mini)
+static void	ft_echo_child(t_mini *mini)
 {
 	int		i;
 	char	**tmp;

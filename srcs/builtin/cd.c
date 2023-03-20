@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 14:59:34 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/16 14:52:11 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/16 15:11:19 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-void	save_tmp(char **tmp, char *str, t_list **env)
+static void	save_tmp(char **tmp, char *str, t_list **env)
 {
 	char	*tmp2;
 
@@ -22,7 +22,7 @@ void	save_tmp(char **tmp, char *str, t_list **env)
 	tmp[1] = tmp2;
 }
 
-int	special_dir(char **tmp, t_list **env)
+static int	special_dir(char **tmp, t_list **env)
 {
 	char	*tmp_oldpwd;
 
@@ -43,7 +43,7 @@ int	special_dir(char **tmp, t_list **env)
 	return (1);
 }
 
-int	operate_cd(char **tmp, t_list **env)
+static int	operate_cd(char **tmp, t_list **env)
 {
 	char	*tmp2;
 
@@ -67,7 +67,7 @@ int	operate_cd(char **tmp, t_list **env)
 	return (1);
 }
 
-void	cd_parent(t_mini *mini, t_list **env)
+static void	cd_parent(t_mini *mini, t_list **env)
 {
 	char	**tmp;
 	char	*pwd;
