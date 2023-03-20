@@ -6,11 +6,12 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:34:18 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/16 14:43:41 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/18 22:41:24 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+#include <stdio.h>
 
 void	make_env(t_list **env, char **envp)
 {
