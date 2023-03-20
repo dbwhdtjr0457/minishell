@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 13:47:16 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/14 17:24:20 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/20 23:23:38 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	child_process(t_pipex *pipex, t_mini *curr_mini, int list_size, int i);
 
 // execute.c
 char	*find_path(char *cmd, t_list *env);
-int		builtin(t_mini *mini, t_list **env);
+int		builtin(t_mini *mini, t_list **env, int flag);
 int		execute(t_list *mini_list, t_list **env);
 
 // heredoc.c

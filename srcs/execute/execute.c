@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:21:42 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 19:11:40 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/20 23:23:29 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*find_path(char *cmd, t_list *env)
 	return (tmp);
 }
 
-int	builtin(t_mini *mini, t_list **env)
+int	builtin(t_mini *mini, t_list **env, int flag)
 {
 	if (!mini->parsed)
 		return (0);
@@ -67,7 +67,7 @@ int	builtin(t_mini *mini, t_list **env)
 	else if (ft_strncmp((mini->parsed)[0], "env", 4) == 0)
 		ft_env(mini, *env, ft_lstprint_env);
 	else if (ft_strncmp((mini->parsed)[0], "exit", 5) == 0)
-		ft_exit(mini, *env);
+		ft_exit(mini, *env, flag);
 	else
 		return (0);
 	return (1);
@@ -102,7 +102,7 @@ int	execute(t_list *mini_list, t_list **env)
 
 	mini = (t_mini *)mini_list->content;
 	set_signal(SIG_IGN, SIG_IGN);
-	if (!builtin(mini, env))
+	if (!builtin(mini, env, 1))
 	{
 		env_char = env_to_char(*env);
 		ft_fork(&pid);

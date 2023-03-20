@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 18:28:12 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/14 19:12:02 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/20 23:23:21 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	child_process(t_pipex *pipex, t_mini *curr_mini, int list_size, int i)
 	set_signal(SIG_DFL, SIG_DFL);
 	set_dup(pipex, i, list_size);
 	check_redir(curr_mini->redir);
-	if (!builtin(curr_mini, pipex->env) && curr_mini->parsed)
+	if (!builtin(curr_mini, pipex->env, 0) && curr_mini->parsed)
 	{
 		path = find_path((curr_mini->parsed)[0], *(pipex->env));
 		if (path)
