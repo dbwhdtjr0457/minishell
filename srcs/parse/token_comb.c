@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_comb.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:50:47 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/13 16:41:20 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/21 14:18:25 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // char ** 형에 char * 추가해주는 함수
 // res = {"hello"}가 있으면 res = {"hello", "world"} 처럼 뒤에 연결
-static void	append_str(char ***res, char *str)
+void	append_str(char ***res, char *str)
 {
 	int		len;
 	int		i;

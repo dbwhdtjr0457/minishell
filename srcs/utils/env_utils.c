@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:34:18 by joyoo             #+#    #+#             */
-/*   Updated: 2023/03/16 14:43:41 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/21 14:17:57 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	make_env(t_list **env, char **envp)
 	while (envp[i])
 	{
 		tmp = ft_split(envp[i], '=');
+		if (!tmp[1])
+			append_str(&tmp, "");
 		ft_lstadd_back(env, ft_lstnew(tmp));
 		i++;
 	}
