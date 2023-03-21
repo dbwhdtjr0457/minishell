@@ -6,7 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 13:24:59 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/16 14:42:30 by joyoo            ###   ########.fr       */
+/*   Updated: 2023/03/21 14:15:40 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,8 @@ void	print_word_in_list(void *content);
 void	print_mini(void *content);
 void	ft_lstprint_env(void *content);
 void	ft_lstprint_export(void *content);
+
+// token_comb.c
+void	append_str(char ***res, char *str);
 
 #endif
