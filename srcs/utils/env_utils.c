@@ -6,11 +6,7 @@
 /*   By: joyoo <joyoo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:34:18 by joyoo             #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/03/18 22:41:24 by joyoo            ###   ########.fr       */
-=======
-/*   Updated: 2023/03/21 12:56:42 by joyoo            ###   ########.fr       */
->>>>>>> b31ae70181e424e1d3e8cb8c34b0c87d0ef12cea
+/*   Updated: 2023/03/21 14:17:57 by joyoo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +25,9 @@ void	make_env(t_list **env, char **envp)
 	while (envp[i])
 	{
 		tmp = ft_split(envp[i], '=');
-		if (tmp[1])
-			ft_lstadd_back(env, ft_lstnew(tmp));
+		if (!tmp[1])
+			append_str(&tmp, "");
+		ft_lstadd_back(env, ft_lstnew(tmp));
 		i++;
 	}
 	tmp_shlvl = get_env("SHLVL", *env);
