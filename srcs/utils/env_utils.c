@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "utils.h"
-#include <stdio.h>
 
 void	make_env(t_list **env, char **envp)
 {
