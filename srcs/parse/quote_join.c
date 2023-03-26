@@ -6,7 +6,7 @@
 /*   By: jihylim <jihylim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 22:28:04 by jihylim           #+#    #+#             */
-/*   Updated: 2023/03/16 21:10:13 by jihylim          ###   ########.fr       */
+/*   Updated: 2023/03/22 12:26:43 by jihylim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,13 @@ void	ft_lstadd_back_token(t_list **lst, t_list **new)
 	*new = (*new)->next;
 }
 
+int	is_del_dollar(t_list *cur)
+{
+	if (is_dollar(cur) && ft_strchr(((t_token *)cur->content)->token, '$'))
+		return (1);
+	return (0);
+}
+
 // 리스트 하나씩 돌기
 // 스페이스 아니면 새로운 토큰 만들어서 추가 => 이 새로운 토큰은 기존 토큰 재사용 X 아예 새로운 친구
 // 추가하면서 원래 있던 토큰 지우기
@@ -63,7 +70,7 @@ t_list	*quote_join(t_list *lst)
 		new = 0;
 		while (cur && !is_space(cur) && !is_redir(cur) && !is_pipe(cur))
 		{
-			if (is_dollar(cur) && cur->next && is_quote(cur->next))
+			if (is_del_dollar(cur) && cur->next && is_quote(cur->next))
 			{
 				cur = cur->next;
 				continue ;
